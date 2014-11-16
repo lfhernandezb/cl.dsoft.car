@@ -355,9 +355,6 @@ public class Recordatorio {
                 else if (p.getKey().equals("id_usuario")) {
                     array_clauses.add("re.id_usuario = " + p.getValue());
                 }
-                else if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("re.id_usuario = " + p.getValue());
-                }
                 else if (p.getKey().equals("id_vehiculo")) {
                     array_clauses.add("re.id_vehiculo = " + p.getValue());
                 }

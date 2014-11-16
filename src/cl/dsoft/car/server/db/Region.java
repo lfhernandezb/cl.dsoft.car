@@ -185,6 +185,22 @@ public class Region {
                 else if (p.getKey().equals("id_pais")) {
                     array_clauses.add("re.id_pais = " + p.getValue());
                 }
+                else if (p.getKey().equals("id_usuario")) {
+                	str_sql +=
+                		"    JOIN comuna c ON c.id_region = re.id_region" +
+                		"    JOIN usuario u ON u.id_comuna = c.id_comuna";
+                    array_clauses.add("u.id_usuario = " + p.getValue());
+                }
+                else if (p.getKey().equals("id_red_social")) {
+                	str_sql +=
+                		"    JOIN comuna c ON c.id_region = re.id_region" +
+                		"    JOIN usuario u ON u.id_comuna = c.id_comuna" +
+                		"    JOIN autenticacion a ON a.id_usuario = u.id_usuario";
+                    array_clauses.add("a.id_red_social = " + p.getValue());
+                }
+                else if (p.getKey().equals("token")) {
+                    array_clauses.add("a.token = '" + p.getValue() + "'");
+                }
                 else if (p.getKey().equals("mas reciente")) {
                     array_clauses.add("re.fecha_modificacion > STR_TO_DATE('" + p.getValue() + "', '%Y-%m-%d %H:%i:%s')");
                 }

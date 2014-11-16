@@ -311,9 +311,6 @@ public class MantencionUsuario {
                 else if (p.getKey().equals("id_mantencion_usuario")) {
                     array_clauses.add("ma.id_mantencion_usuario = " + p.getValue());
                 }
-                else if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("ma.id_usuario = " + p.getValue());
-                }
                 else if (p.getKey().equals("mas reciente")) {
                     array_clauses.add("ma.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
                 }

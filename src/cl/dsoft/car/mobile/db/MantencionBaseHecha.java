@@ -321,9 +321,6 @@ public class MantencionBaseHecha {
                 else if (p.getKey().equals("id_mantencion_base_hecha")) {
                     array_clauses.add("ma.id_mantencion_base_hecha = " + p.getValue());
                 }
-                else if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("ma.id_usuario = " + p.getValue());
-                }
                 else if (p.getKey().equals("id_mantencion_base")) {
                     array_clauses.add("ma.id_mantencion_base = " + p.getValue());
                 }

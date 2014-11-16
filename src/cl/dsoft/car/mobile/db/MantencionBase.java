@@ -328,8 +328,21 @@ public class MantencionBase {
                 if (p.getKey().equals("id_mantencion_base")) {
                     array_clauses.add("ma.id_mantencion_base = " + p.getValue());
                 }
-                else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("ma.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
+                else if (p.getKey().equals("traccion")) {
+                    array_clauses.add("(ma.traccion = '" + p.getValue() + "' OR ma.traccion = 'ALL')");
+                }
+                else if (p.getKey().equals("combustible")) {
+                    array_clauses.add("(ma.combustible = '" + p.getValue() + "' OR ma.combustible = 'ALL')");
+                }
+                else if (p.getKey().equals("cambio")) {
+                	str_sql +=
+                		"    JOIN cambio_revision cr ON cr.id_cambio = ma.id_mantencion_base";
+                    array_clauses.add("cr.id_cambio IS NOT NULL");
+                }
+                else if (p.getKey().equals("solo revision")) {
+                	str_sql +=
+                		"    JOIN cambio_revision cr ON cr.id_revision = ma.id_mantencion_base";
+                    array_clauses.add("cr.id_cambio IS NULL");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());

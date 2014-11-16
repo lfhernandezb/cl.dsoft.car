@@ -37,7 +37,7 @@ public class CargaCombustible {
     @Element(name = "borrado")
     private Boolean _borrado;
     @Element(name = "latitud", required = false)
-    private Integer _latitud;
+    private Double _latitud;
     @Element(name = "costo", required = false)
     private Integer _costo;
     @Element(name = "longitud", required = false)
@@ -119,7 +119,7 @@ public class CargaCombustible {
     /**
      * @return the _latitud
      */
-    public Integer getLatitud() {
+    public Double getLatitud() {
         return _latitud;
     }
     /**
@@ -213,7 +213,7 @@ public class CargaCombustible {
     /**
      * @param _latitud the _latitud to set
      */
-    public void setLatitud(Integer _latitud) {
+    public void setLatitud(Double _latitud) {
         this._latitud = _latitud;
     }
     /**
@@ -278,7 +278,7 @@ public class CargaCombustible {
         ret.setIdUsuario(p_rs.getLong("id_usuario"));
         ret.setIdVehiculo(p_rs.getLong("id_vehiculo"));
         ret.setBorrado(p_rs.getString("borrado") != null ? p_rs.getString("borrado").equals("true") : null);
-        ret.setLatitud(p_rs.getInt("latitud"));
+        ret.setLatitud(p_rs.getDouble("latitud"));
         ret.setCosto(p_rs.getInt("costo"));
         ret.setLongitud(p_rs.getInt("longitud"));
         ret.setIdCargaCombustible(p_rs.getLong("id_carga_combustible"));
@@ -371,9 +371,6 @@ public class CargaCombustible {
                 }
                 else if (p.getKey().equals("id_carga_combustible")) {
                     array_clauses.add("ca.id_carga_combustible = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("ca.id_usuario = " + p.getValue());
                 }
                 else if (p.getKey().equals("id_vehiculo")) {
                     array_clauses.add("ca.id_vehiculo = " + p.getValue());
@@ -889,7 +886,7 @@ public class CargaCombustible {
         ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
         ret.setIdVehiculo(Long.decode(element.getElementsByTagName("id_vehiculo").item(0).getTextContent()));
         ret.setBorrado(element.getElementsByTagName("borrado").item(0).getTextContent());
-        ret.setLatitud(Integer.decode(element.getElementsByTagName("latitud").item(0).getTextContent()));
+        ret.setLatitud(Double.decode(element.getElementsByTagName("latitud").item(0).getTextContent()));
         ret.setCosto(Integer.decode(element.getElementsByTagName("costo").item(0).getTextContent()));
         ret.setLongitud(Integer.decode(element.getElementsByTagName("longitud").item(0).getTextContent()));
         ret.setIdCargaCombustible(Long.decode(element.getElementsByTagName("id_carga_combustible").item(0).getTextContent()));

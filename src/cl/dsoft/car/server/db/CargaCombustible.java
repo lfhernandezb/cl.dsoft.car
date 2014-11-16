@@ -24,7 +24,7 @@ public class CargaCombustible {
     protected Long _idUsuario;
     protected Long _idVehiculo;
     protected Boolean _borrado;
-    protected Integer _latitud;
+    protected Double _latitud;
     protected Integer _costo;
     protected Integer _longitud;
     protected Long _idCargaCombustible;
@@ -101,7 +101,7 @@ public class CargaCombustible {
     /**
      * @return the _latitud
      */
-    public Integer getLatitud() {
+    public Double getLatitud() {
         return _latitud;
     }
     /**
@@ -173,7 +173,7 @@ public class CargaCombustible {
     /**
      * @param _latitud the _latitud to set
      */
-    public void setLatitud(Integer _latitud) {
+    public void setLatitud(Double _latitud) {
         this._latitud = _latitud;
     }
     /**
@@ -216,7 +216,7 @@ public class CargaCombustible {
         ret.setIdUsuario(p_rs.getLong("id_usuario"));
         ret.setIdVehiculo(p_rs.getLong("id_vehiculo"));
         ret.setBorrado(p_rs.getBoolean("borrado"));
-        ret.setLatitud(p_rs.getInt("latitud"));
+        ret.setLatitud(p_rs.getDouble("latitud"));
         ret.setCosto(p_rs.getInt("costo"));
         ret.setLongitud(p_rs.getInt("longitud"));
         ret.setIdCargaCombustible(p_rs.getLong("id_carga_combustible"));
@@ -790,7 +790,7 @@ public class CargaCombustible {
         ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
         ret.setIdVehiculo(Long.decode(element.getElementsByTagName("id_vehiculo").item(0).getTextContent()));
         ret.setBorrado(Boolean.valueOf(element.getElementsByTagName("borrado").item(0).getTextContent()));
-        ret.setLatitud(Integer.decode(element.getElementsByTagName("latitud").item(0).getTextContent()));
+        ret.setLatitud(Double.valueOf(element.getElementsByTagName("latitud").item(0).getTextContent()));
         ret.setCosto(Integer.decode(element.getElementsByTagName("costo").item(0).getTextContent()));
         ret.setLongitud(Integer.decode(element.getElementsByTagName("longitud").item(0).getTextContent()));
         ret.setIdCargaCombustible(Long.decode(element.getElementsByTagName("id_carga_combustible").item(0).getTextContent()));

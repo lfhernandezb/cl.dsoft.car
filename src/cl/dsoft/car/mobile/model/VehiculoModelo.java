@@ -213,7 +213,7 @@ public class VehiculoModelo extends Vehiculo {
     	ret = new ArrayList<MantencionUsuarioHecha>();
     	
     	parametros.add(new AbstractMap.SimpleEntry<String, String>("id_usuario", getIdUsuario().toString()));
-    	parametros.add(new AbstractMap.SimpleEntry<String, String>("id_vehiculo", getIdVehiculo().toString()));
+    	//parametros.add(new AbstractMap.SimpleEntry<String, String>("id_vehiculo", getIdVehiculo().toString()));
     	
     	list_mu = MantencionUsuario.seek(p_conn, parametros, null, null, 0, 10000);
     	

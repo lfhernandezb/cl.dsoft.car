@@ -351,11 +351,11 @@ public class Vehiculo {
                 else if (p.getKey().equals("id_traccion")) {
                     array_clauses.add("ve.id_traccion = " + p.getValue());
                 }
-                else if (p.getKey().equals("id_tipo_transmision")) {
-                    array_clauses.add("ve.id_tipo_transmision = " + p.getValue());
-                }
                 else if (p.getKey().equals("id_combustible")) {
                     array_clauses.add("ve.id_combustible = " + p.getValue());
+                }
+                else if (p.getKey().equals("id_tipo_transmision")) {
+                    array_clauses.add("ve.id_tipo_transmision = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
                     array_clauses.add("ve.fecha_modificacion > STR_TO_DATE('" + p.getValue() + "', '%Y-%m-%d %H:%i:%s')");

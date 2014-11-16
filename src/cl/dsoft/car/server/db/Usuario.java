@@ -281,6 +281,14 @@ public class Usuario {
                 else if (p.getKey().equals("id_comuna")) {
                     array_clauses.add("us.id_comuna = " + p.getValue());
                 }
+                else if (p.getKey().equals("id_red_social")) {
+                	str_sql +=
+                		"    JOIN autenticacion a ON a.id_usuario = us.id_usuario";
+                    array_clauses.add("a.id_red_social = " + p.getValue());
+                }
+                else if (p.getKey().equals("token")) {
+                    array_clauses.add("a.token = '" + p.getValue() + "'");
+                }
                 else if (p.getKey().equals("mas reciente")) {
                     array_clauses.add("us.fecha_modificacion > STR_TO_DATE('" + p.getValue() + "', '%Y-%m-%d %H:%i:%s')");
                 }

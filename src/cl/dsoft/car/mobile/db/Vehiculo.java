@@ -362,9 +362,6 @@ public class Vehiculo {
                 else if (p.getKey().equals("id_vehiculo")) {
                     array_clauses.add("ve.id_vehiculo = " + p.getValue());
                 }
-                else if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("ve.id_usuario = " + p.getValue());
-                }
                 else if (p.getKey().equals("id_modelo")) {
                     array_clauses.add("ve.id_modelo = " + p.getValue());
                 }
