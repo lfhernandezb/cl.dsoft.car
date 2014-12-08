@@ -1,11 +1,16 @@
 package cl.dsoft.car.server.model;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.simpleframework.xml.ElementList;
+
+import cl.dsoft.car.server.db.CiaSeguros;
+import cl.dsoft.car.server.db.SeguroVehiculo;
 import cl.dsoft.car.server.db.Log;
 import cl.dsoft.car.server.db.MantencionBaseHecha;
 import cl.dsoft.car.server.db.MantencionUsuario;
@@ -20,7 +25,7 @@ import cl.dsoft.car.server.db.Vehiculo;
 @XmlRootElement(name = "CarData")
 //If you want you can define the order in which the fields are written
 //Optional
-@XmlType(propOrder = { "paises", "regiones", "comunas", "usuarios", "autenticaciones", "vehiculos", "mantencionBaseHechas", "mantencionUsuarios", "mantencionUsuarioHechas", "recordatorios", "cargaCombustibles", "reparaciones", "logs" })
+@XmlType(propOrder = { "paises", "regiones", "comunas", "usuarios", "autenticaciones", "vehiculos", "mantencionBaseHechas", "mantencionUsuarios", "mantencionUsuarioHechas", "recordatorios", "cargaCombustibles", "reparaciones", "ciaSeguross", "seguroVehiculos", "logs" })
 public class CarData {
 
 	//@XmlElement(nillable=true, required=false)
@@ -48,6 +53,10 @@ public class CarData {
 	//@XmlElement(nillable=true, required=false)
 	protected Reparaciones reparaciones;
 	//@XmlElement(nillable=true, required=false)
+	protected CiaSeguross ciaSeguross;
+	//@XmlElement(nillable=true, required=false)
+	protected SeguroVehiculos seguroVehiculos;
+	//@XmlElement(nillable=true, required=false)
 	protected Logs logs;
 	
 	public CarData() {
@@ -64,6 +73,8 @@ public class CarData {
 		this.recordatorios = null;
 		this.cargaCombustibles = null;
 		this.reparaciones = null;
+		this.ciaSeguross = null;
+		this.seguroVehiculos = null;
 		this.logs = null;
 	}
 
@@ -81,6 +92,8 @@ public class CarData {
 		this.recordatorios = new Recordatorios(conn, idUsuario, fechaModificacion);
 		this.cargaCombustibles = new CargaCombustibles(conn, idUsuario, fechaModificacion);
 		this.reparaciones = new Reparaciones(conn, idUsuario, fechaModificacion);
+		this.ciaSeguross = new CiaSeguross(conn, idUsuario, fechaModificacion);
+		this.seguroVehiculos = new SeguroVehiculos(conn, idUsuario, fechaModificacion);
 		this.logs = new Logs(conn, idUsuario, fechaModificacion);
 	}
 
@@ -102,6 +115,8 @@ public class CarData {
 			this.recordatorios = new Recordatorios(conn, u.getId(), "1900-01-01");
 			this.cargaCombustibles = new CargaCombustibles(conn, u.getId(), "1900-01-01");
 			this.reparaciones = new Reparaciones(conn, u.getId(), "1900-01-01");
+			this.ciaSeguross = new CiaSeguross(conn, u.getId(), "1900-01-01");
+			this.seguroVehiculos = new SeguroVehiculos(conn, u.getId(), "1900-01-01");
 			this.logs = new Logs(conn, u.getId(), "1900-01-01");
 		}
 		/*
@@ -299,6 +314,34 @@ public class CarData {
 	}
 
 	/**
+	 * @return the ciaSeguross
+	 */
+	public CiaSeguross getCiaSeguross() {
+		return ciaSeguross;
+	}
+
+	/**
+	 * @param ciaSeguross the ciaSeguross to set
+	 */
+	public void setCiaSeguross(CiaSeguross ciaSeguross) {
+		this.ciaSeguross = ciaSeguross;
+	}
+
+	/**
+	 * @return the seguroVehiculos
+	 */
+	public SeguroVehiculos getSeguroVehiculos() {
+		return seguroVehiculos;
+	}
+
+	/**
+	 * @param seguroVehiculos the seguroVehiculos to set
+	 */
+	public void setSeguroVehiculos(SeguroVehiculos seguroVehiculos) {
+		this.seguroVehiculos = seguroVehiculos;
+	}
+
+	/**
 	 * @param logs the logs to set
 	 */
 	public void setLogs(Logs logs) {
@@ -352,6 +395,11 @@ public class CarData {
 			reparacion.save(conn);
 		}
 		
+		for (SeguroVehiculo seguroVehiculo : this.seguroVehiculos.getSeguroVehiculos()) {
+			
+			seguroVehiculo.save(conn);
+		}
+
 		for (Log log : this.logs.getLogs()) {
 			
 			log.save(conn);

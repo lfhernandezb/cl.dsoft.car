@@ -12,6 +12,7 @@ import org.simpleframework.xml.Root;
 
 import cl.dsoft.car.mobile.db.Autenticacion;
 import cl.dsoft.car.mobile.db.CargaCombustible;
+import cl.dsoft.car.mobile.db.CiaSeguros;
 import cl.dsoft.car.mobile.db.Comuna;
 import cl.dsoft.car.mobile.db.Log;
 import cl.dsoft.car.mobile.db.MantencionBaseHecha;
@@ -22,11 +23,12 @@ import cl.dsoft.car.mobile.db.Recordatorio;
 import cl.dsoft.car.mobile.db.CargaCombustible;
 import cl.dsoft.car.mobile.db.Region;
 import cl.dsoft.car.mobile.db.Reparacion;
+import cl.dsoft.car.mobile.db.SeguroVehiculo;
 import cl.dsoft.car.mobile.db.Usuario;
 import cl.dsoft.car.mobile.db.Vehiculo;
 
 @Root(name = "CarData")
-@Order(elements={"paises", "regiones", "comunas", "usuarios", "autenticaciones", "vehiculos", "mantencionBaseHechas", "mantencionUsuarios", "mantencionUsuarioHechas", "recordatorios", "cargaCombustibles", "reparaciones", "logs"})
+@Order(elements={"paises", "regiones", "comunas", "usuarios", "autenticaciones", "vehiculos", "mantencionBaseHechas", "mantencionUsuarios", "mantencionUsuarioHechas", "recordatorios", "cargaCombustibles", "reparaciones", "ciaSeguross", "seguroVehiculos", "logs"})
 //If you want you can define the order in which the fields are written
 //Optional
 //@Order(elements = { "usuarios", "vehiculos", "mantencionUsuarios", "mantencionUsuarioHechas", "recordatorios", "rendimientos", "reparaciones" })
@@ -57,6 +59,10 @@ public class CarData {
 	@ElementList(required=false)
 	protected ArrayList<Reparacion> reparaciones;
 	@ElementList(required=false)
+	protected ArrayList<CiaSeguros> ciaSeguross;
+	@ElementList(required=false)
+	protected ArrayList<SeguroVehiculo> seguroVehiculos;
+	@ElementList(required=false)
 	protected ArrayList<Log> logs;
 	
 	public CarData() {
@@ -73,9 +79,39 @@ public class CarData {
 		this.recordatorios = null;
 		this.cargaCombustibles = null;
 		this.reparaciones = null;
+		this.ciaSeguross = null;
+		this.seguroVehiculos = null;
 		this.logs = null;
 	}
 	
+	/**
+	 * @return the ciaSeguross
+	 */
+	public ArrayList<CiaSeguros> getCiaSeguross() {
+		return ciaSeguross;
+	}
+
+	/**
+	 * @param ciaSeguross the ciaSeguross to set
+	 */
+	public void setCiaSeguross(ArrayList<CiaSeguros> ciaSeguross) {
+		this.ciaSeguross = ciaSeguross;
+	}
+
+	/**
+	 * @return the seguroVehiculos
+	 */
+	public ArrayList<SeguroVehiculo> getSeguroVehiculos() {
+		return seguroVehiculos;
+	}
+
+	/**
+	 * @param seguroVehiculos the seguroVehiculos to set
+	 */
+	public void setSeguroVehiculos(ArrayList<SeguroVehiculo> seguroVehiculos) {
+		this.seguroVehiculos = seguroVehiculos;
+	}
+
 	public CarData(java.sql.Connection conn, Long idUsuario, String fechaModificacion) {
 
     	ArrayList<AbstractMap.SimpleEntry<String, String>> listParameters;
@@ -109,6 +145,10 @@ public class CarData {
 			this.autenticaciones = Autenticacion.seek(conn, listParameters, null, null, 0, 1);
 			
 			this.vehiculos = Vehiculo.seek(conn, listParameters, null, null, 0, 1);
+			
+			//this.ciaSeguross = CiaSeguros.seek(conn, listParameters, null, null, 0, 1);
+			
+			this.seguroVehiculos = SeguroVehiculo.seek(conn, listParameters, null, null, 0, 1);
 			
 			this.logs = Log.seek(conn, listParameters, null, null, 0, 1);
 			
@@ -376,6 +416,18 @@ public class CarData {
 			for (Reparacion reparacion : this.getReparaciones()) {
 				
 				reparacion.save(conn);
+			}
+		}
+		if (this.getCiaSeguross() != null) {
+			for (CiaSeguros ciaSeguros : this.getCiaSeguross()) {
+				
+				ciaSeguros.save(conn);
+			}
+		}
+		if (this.getSeguroVehiculos() != null) {
+			for (SeguroVehiculo seguroVehiculo : this.getSeguroVehiculos()) {
+				
+				seguroVehiculo.save(conn);
 			}
 		}
 		if (this.getLogs() != null) {

@@ -26,7 +26,7 @@ public class CargaCombustible {
     protected Boolean _borrado;
     protected Double _latitud;
     protected Integer _costo;
-    protected Integer _longitud;
+    protected Double _longitud;
     protected Long _idCargaCombustible;
     protected Integer _km;
     protected Integer _litros;
@@ -113,7 +113,7 @@ public class CargaCombustible {
     /**
      * @return the _longitud
      */
-    public Integer getLongitud() {
+    public Double getLongitud() {
         return _longitud;
     }
     /**
@@ -185,7 +185,7 @@ public class CargaCombustible {
     /**
      * @param _longitud the _longitud to set
      */
-    public void setLongitud(Integer _longitud) {
+    public void setLongitud(Double _longitud) {
         this._longitud = _longitud;
     }
     /**
@@ -218,7 +218,7 @@ public class CargaCombustible {
         ret.setBorrado(p_rs.getBoolean("borrado"));
         ret.setLatitud(p_rs.getDouble("latitud"));
         ret.setCosto(p_rs.getInt("costo"));
-        ret.setLongitud(p_rs.getInt("longitud"));
+        ret.setLongitud(p_rs.getDouble("longitud"));
         ret.setIdCargaCombustible(p_rs.getLong("id_carga_combustible"));
         ret.setKm(p_rs.getInt("km"));
         ret.setLitros(p_rs.getInt("litros"));
@@ -792,7 +792,7 @@ public class CargaCombustible {
         ret.setBorrado(Boolean.valueOf(element.getElementsByTagName("borrado").item(0).getTextContent()));
         ret.setLatitud(Double.valueOf(element.getElementsByTagName("latitud").item(0).getTextContent()));
         ret.setCosto(Integer.decode(element.getElementsByTagName("costo").item(0).getTextContent()));
-        ret.setLongitud(Integer.decode(element.getElementsByTagName("longitud").item(0).getTextContent()));
+        ret.setLongitud(Double.valueOf(element.getElementsByTagName("longitud").item(0).getTextContent()));
         ret.setIdCargaCombustible(Long.decode(element.getElementsByTagName("id_carga_combustible").item(0).getTextContent()));
         ret.setKm(Integer.decode(element.getElementsByTagName("km").item(0).getTextContent()));
         ret.setLitros(Integer.decode(element.getElementsByTagName("litros").item(0).getTextContent()));

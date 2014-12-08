@@ -17,35 +17,38 @@ import cl.dsoft.car.misc.UnsupportedParameterException;
  * @author petete-ntbk
  *
  */
-public class Log {
+public class CiaSeguros {
+    protected String _nombre;
+    protected Integer _id;
     protected String _fechaModificacion;
-    protected Long _idUsuario;
-    protected Boolean _borrado;
-    protected String _data;
-    protected Double _latitud;
-    protected Long _idLog;
-    protected Double _longitud;
+    protected String _datosAnexos;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    DATE_FORMAT(lo.fecha_modificacion, '%Y-%m-%d %H:%i:%s') AS fecha_modificacion," +
-        "    lo.id_usuario AS id_usuario," +
-        "    0+lo.borrado AS borrado," +
-        "    lo.data AS data," +
-        "    lo.latitud AS latitud," +
-        "    lo.id_log AS id_log," +
-        "    lo.longitud AS longitud" +
-        "    FROM log lo";
+        "    ci.nombre AS nombre," +
+        "    ci.id_cia_seguros AS id," +
+        "    DATE_FORMAT(ci.fecha_modificacion, '%Y-%m-%d %H:%i:%s') AS fecha_modificacion," +
+        "    ci.datos_anexos AS datos_anexos" +
+        "    FROM cia_seguros ci";
 
-    public Log() {
+    public CiaSeguros() {
+        _nombre = null;
+        _id = null;
         _fechaModificacion = null;
-        _idUsuario = null;
-        _borrado = null;
-        _data = null;
-        _latitud = null;
-        _idLog = null;
-        _longitud = null;
+        _datosAnexos = null;
 
+    }
+    /**
+     * @return the _nombre
+     */
+    public String getNombre() {
+        return _nombre;
+    }
+    /**
+     * @return the _id
+     */
+    public Integer getId() {
+        return _id;
     }
     /**
      * @return the _fechaModificacion
@@ -54,40 +57,22 @@ public class Log {
         return _fechaModificacion;
     }
     /**
-     * @return the _idUsuario
+     * @return the _datosAnexos
      */
-    public Long getIdUsuario() {
-        return _idUsuario;
+    public String getDatosAnexos() {
+        return _datosAnexos;
     }
     /**
-     * @return the _borrado
+     * @param _nombre the _nombre to set
      */
-    public Boolean getBorrado() {
-        return _borrado;
+    public void setNombre(String _nombre) {
+        this._nombre = _nombre;
     }
     /**
-     * @return the _data
+     * @param _id the _id to set
      */
-    public String getData() {
-        return _data;
-    }
-    /**
-     * @return the _latitud
-     */
-    public Double getLatitud() {
-        return _latitud;
-    }
-    /**
-     * @return the _idLog
-     */
-    public Long getIdLog() {
-        return _idLog;
-    }
-    /**
-     * @return the _longitud
-     */
-    public Double getLongitud() {
-        return _longitud;
+    public void setId(Integer _id) {
+        this._id = _id;
     }
     /**
      * @param _fechaModificacion the _fechaModificacion to set
@@ -96,61 +81,28 @@ public class Log {
         this._fechaModificacion = _fechaModificacion;
     }
     /**
-     * @param _idUsuario the _idUsuario to set
+     * @param _datosAnexos the _datosAnexos to set
      */
-    public void setIdUsuario(Long _idUsuario) {
-        this._idUsuario = _idUsuario;
-    }
-    /**
-     * @param _borrado the _borrado to set
-     */
-    public void setBorrado(Boolean _borrado) {
-        this._borrado = _borrado;
-    }
-    /**
-     * @param _data the _data to set
-     */
-    public void setData(String _data) {
-        this._data = _data;
-    }
-    /**
-     * @param _latitud the _latitud to set
-     */
-    public void setLatitud(Double _latitud) {
-        this._latitud = _latitud;
-    }
-    /**
-     * @param _idLog the _idLog to set
-     */
-    public void setIdLog(Long _idLog) {
-        this._idLog = _idLog;
-    }
-    /**
-     * @param _longitud the _longitud to set
-     */
-    public void setLongitud(Double _longitud) {
-        this._longitud = _longitud;
+    public void setDatosAnexos(String _datosAnexos) {
+        this._datosAnexos = _datosAnexos;
     }
 
-    public static Log fromRS(ResultSet p_rs) throws SQLException {
-        Log ret = new Log();
+    public static CiaSeguros fromRS(ResultSet p_rs) throws SQLException {
+        CiaSeguros ret = new CiaSeguros();
 
+        ret.setNombre(p_rs.getString("nombre"));
+        ret.setId(p_rs.getInt("id"));
         ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setIdUsuario(p_rs.getLong("id_usuario"));
-        ret.setBorrado(p_rs.getBoolean("borrado"));
-        ret.setData(p_rs.getString("data"));
-        ret.setLatitud(p_rs.getDouble("latitud"));
-        ret.setIdLog(p_rs.getLong("id_log"));
-        ret.setLongitud(p_rs.getDouble("longitud"));
+        ret.setDatosAnexos(p_rs.getString("datos_anexos"));
 
         return ret;
     }
 
-    public static Log getByParameter(Connection p_conn, String p_key, String p_value) throws SQLException {
-        Log ret = null;
+    public static CiaSeguros getByParameter(Connection p_conn, String p_key, String p_value) throws SQLException {
+        CiaSeguros ret = null;
         
         String str_sql = _str_sql +
-            "  WHERE lo." + p_key + " = " + p_value +
+            "  WHERE ci." + p_key + " = " + p_value +
             "  LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -207,40 +159,45 @@ public class Log {
         return ret;        
     }
 
+    public static CiaSeguros getById(Connection p_conn, String p_id) throws SQLException {
+        return getByParameter(p_conn, "id_cia_seguros", p_id);
+    }
     
-    public static ArrayList<Log> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
+    public static ArrayList<CiaSeguros> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
         Statement stmt = null;
         ResultSet rs = null;
         String str_sql;
-        ArrayList<Log> ret;
+        ArrayList<CiaSeguros> ret;
         
         str_sql = "";
         
         try {
             ArrayList<String> array_clauses = new ArrayList<String>();
             
-            ret = new ArrayList<Log>();
+            ret = new ArrayList<CiaSeguros>();
             
             str_sql = _str_sql;
             
             for (AbstractMap.SimpleEntry<String, String> p : p_parameters) {
-                if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("lo.id_usuario = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_log")) {
-                    array_clauses.add("lo.id_log = " + p.getValue());
+                if (p.getKey().equals("id_cia_seguros")) {
+                    array_clauses.add("ci.id_cia_seguros = " + p.getValue());
                 }
                 else if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("lo.id_usuario = " + p.getValue());
+                	str_sql +=
+                		"    JOIN seguro_vehiculo sv ON sv.id_cia_seguros = ci.id_cia_seguros";
+                    array_clauses.add("sv.id_usuario = " + p.getValue());
+                }
+                else if (p.getKey().equals("id_red_social")) {
+                	str_sql +=
+                		"    JOIN seguro_vehiculo sv ON sv.id_cia_seguros = ci.id_cia_seguros" +
+                		"    JOIN autenticacion a ON a.id_usuario = sv.id_usuario";
+                    array_clauses.add("sv.id_red_social = " + p.getValue());
+                }
+                else if (p.getKey().equals("token")) {
+                    array_clauses.add("a.token = '" + p.getValue() + "'");
                 }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("lo.fecha_modificacion > STR_TO_DATE('" + p.getValue() + "', '%Y-%m-%d %H:%i:%s')");
-                }
-                else if (p.getKey().equals("no borrado")) {
-                    array_clauses.add("lo.borrado = 0");
-                }
-                else if (p.getKey().equals("borrado")) {
-                    array_clauses.add("lo.borrado = 1");
+                    array_clauses.add("ci.fecha_modificacion > STR_TO_DATE('" + p.getValue() + "', '%Y-%m-%d %H:%i:%s')");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -326,16 +283,13 @@ public class Log {
         Statement stmt = null;
 
         String str_sql =
-            "    UPDATE log" +
+            "    UPDATE cia_seguros" +
             "    SET" +
+            "    nombre = " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
             "    fecha_modificacion = " + (_fechaModificacion != null ? "STR_TO_DATE('" + _fechaModificacion + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
-            "    borrado = " + (_borrado != null ? "b'" + (_borrado ? 1 : 0) + "'" : "null") + "," +
-            "    data = " + (_data != null ? "'" + _data + "'" : "null") + "," +
-            "    latitud = " + (_latitud != null ? _latitud : "null") + "," +
-            "    longitud = " + (_longitud != null ? _longitud : "null") +
+            "    datos_anexos = " + (_datosAnexos != null ? "'" + _datosAnexos + "'" : "null") +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_log = " + Long.toString(this._idLog);
+            "    id_cia_seguros = " + Integer.toString(this._id);
 
         try {
             stmt = p_conn.createStatement();
@@ -381,26 +335,33 @@ public class Log {
         ResultSet rs = null;
 
         String str_sql =
-            "    INSERT INTO log" +
+            "    INSERT INTO cia_seguros" +
             "    (" +
-            "    id_usuario, " +
-            "    data, " +
-            "    latitud, " +
-            "    id_log, " +
-            "    longitud)" +
+            "    nombre, " +
+            "    datos_anexos)" +
             "    VALUES" +
             "    (" +
-            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
-            "    " + (_data != null ? "'" + _data + "'" : "null") + "," +
-            "    " + (_latitud != null ? "'" + _latitud + "'" : "null") + "," +
-            "    " + (_idLog != null ? "'" + _idLog + "'" : "null") + "," +
-            "    " + (_longitud != null ? "'" + _longitud + "'" : "null") +
+            "    " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
+            "    " + (_datosAnexos != null ? "'" + _datosAnexos + "'" : "null") +
             "    )";
         
         try {
             stmt = p_conn.createStatement();
 
-            ret = stmt.executeUpdate(str_sql);
+            ret = stmt.executeUpdate(str_sql, Statement.RETURN_GENERATED_KEYS);
+
+            rs = stmt.getGeneratedKeys();
+
+            if (rs.next()) {
+                _id = rs.getInt(1);
+            } else {
+                // throw an exception from here
+                // throw new Exception("Error al obtener id");
+            }
+
+            rs.close();
+            rs = null;
+            //System.out.println("Key returned from getGeneratedKeys():" + _id.toString());
 
             load(p_conn);
 
@@ -445,10 +406,9 @@ public class Log {
         Statement stmt = null;
 
         String str_sql =
-            "    DELETE FROM log" +
+            "    DELETE FROM cia_seguros" +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_log = " + Long.toString(this._idLog);
+            "    id_cia_seguros = " + Integer.toString(this._id);
 
         try {
             stmt = p_conn.createStatement();
@@ -482,12 +442,11 @@ public class Log {
     }
 
     public void load(Connection p_conn) throws SQLException {
-        Log obj = null;
+        CiaSeguros obj = null;
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_log = " + Long.toString(this._idLog) +
+            "    id_cia_seguros = " + Integer.toString(this._id) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -509,11 +468,9 @@ public class Log {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
+                _nombre = obj.getNombre();
                 _fechaModificacion = obj.getFechaModificacion();
-                _borrado = obj.getBorrado();
-                _data = obj.getData();
-                _latitud = obj.getLatitud();
-                _longitud = obj.getLongitud();
+                _datosAnexos = obj.getDatosAnexos();
             }
         }
         catch (SQLException ex){
@@ -553,8 +510,7 @@ public class Log {
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_log = " + Long.toString(this._idLog) +
+            "    id_cia_seguros = " + Integer.toString(this._id) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -624,56 +580,44 @@ public class Log {
 
     @Override
     public String toString() {
-        return "Log [" +
+        return "CiaSeguros [" +
+	           "    _nombre = " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
+	           "    _id = " + (_id != null ? _id : "null") + "," +
 	           "    _fecha_modificacion = " + (_fechaModificacion != null ? "STR_TO_DATE(" + _fechaModificacion + ", '%Y-%m-%d %H:%i:%s')" : "null") + "," +
-	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
-	           "    _borrado = " + (_borrado != null ? "b'" + _borrado : "null") + "," +
-	           "    _data = " + (_data != null ? "'" + _data + "'" : "null") + "," +
-	           "    _latitud = " + (_latitud != null ? _latitud : "null") + "," +
-	           "    _idLog = " + (_idLog != null ? _idLog : "null") + "," +
-	           "    _longitud = " + (_longitud != null ? _longitud : "null") +
+	           "    _datos_anexos = " + (_datosAnexos != null ? "'" + _datosAnexos + "'" : "null") +
 			   "]";
     }
 
 
     public String toJSON() {
-        return "Log : {" +
+        return "CiaSeguros : {" +
+	           "    \"_nombre\" : " + (_nombre != null ? "\"" + _nombre + "\"" : "null") + "," +
+	           "    \"_id\" : " + (_id != null ? _id : "null") + "," +
 	           "    \"_fecha_modificacion\" : " + (_fechaModificacion != null ? "\"" + _fechaModificacion + "\"" : "null") + "," +
-	           "    \"_idUsuario\" : " + (_idUsuario != null ? _idUsuario : "null") + "," +
-	           "    \"_borrado\" : " + (_borrado != null ? "b'" + _borrado : "null") + "," +
-	           "    \"_data\" : " + (_data != null ? "\"" + _data + "\"" : "null") + "," +
-	           "    \"_latitud\" : " + (_latitud != null ? _latitud : "null") + "," +
-	           "    \"_idLog\" : " + (_idLog != null ? _idLog : "null") + "," +
-	           "    \"_longitud\" : " + (_longitud != null ? _longitud : "null") +
+	           "    \"_datos_anexos\" : " + (_datosAnexos != null ? "\"" + _datosAnexos + "\"" : "null") +
 			   "}";
     }
 
 
     public String toXML() {
-        return "<Log>" +
+        return "<CiaSeguros>" +
+	           "    <nombre" + (_nombre != null ? ">" + _nombre + "</nombre>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <id" + (_id != null ? ">" + _id + "</id>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <fechaModificacion" + (_fechaModificacion != null ? ">" + _fechaModificacion + "</fechaModificacion>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <idUsuario" + (_idUsuario != null ? ">" + _idUsuario + "</idUsuario>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <borrado" + (_borrado != null ? ">" + _borrado + "</borrado>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <data" + (_data != null ? ">" + _data + "</data>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <latitud" + (_latitud != null ? ">" + _latitud + "</latitud>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <idLog" + (_idLog != null ? ">" + _idLog + "</idLog>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <longitud" + (_longitud != null ? ">" + _longitud + "</longitud>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-			   "</Log>";
+	           "    <datosAnexos" + (_datosAnexos != null ? ">" + _datosAnexos + "</datosAnexos>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+			   "</CiaSeguros>";
     }
 
 
-    public static Log fromXMLNode(Node xmlNode) {
-        Log ret = new Log();
+    public static CiaSeguros fromXMLNode(Node xmlNode) {
+        CiaSeguros ret = new CiaSeguros();
 
         Element element = (Element) xmlNode;
 
+        ret.setNombre(element.getElementsByTagName("nombre").item(0).getTextContent());
+        ret.setId(Integer.decode(element.getElementsByTagName("id_cia_seguros").item(0).getTextContent()));
         ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
-        ret.setBorrado(Boolean.valueOf(element.getElementsByTagName("borrado").item(0).getTextContent()));
-        ret.setData(element.getElementsByTagName("data").item(0).getTextContent());
-        ret.setLatitud(Double.valueOf(element.getElementsByTagName("latitud").item(0).getTextContent()));
-        ret.setIdLog(Long.decode(element.getElementsByTagName("id_log").item(0).getTextContent()));
-        ret.setLongitud(Double.valueOf(element.getElementsByTagName("longitud").item(0).getTextContent()));
+        ret.setDatosAnexos(element.getElementsByTagName("datos_anexos").item(0).getTextContent());
 
         return ret;
     }

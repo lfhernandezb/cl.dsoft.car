@@ -23,62 +23,42 @@ import org.simpleframework.xml.Root;
  *
  */
 @Root
-public class CargaCombustible {
+public class CiaSeguros {
+    @Element(name = "nombre")
+    private String _nombre;
+    @Element(name = "id")
+    private Integer _id;
     @Element(name = "fechaModificacion")
     private String _fechaModificacion;
-    @Element(name = "estanqueLleno", required = false)
-    private Boolean _estanqueLleno;
-    @Element(name = "fecha", required = false)
-    private String _fecha;
-    @Element(name = "idUsuario")
-    private Long _idUsuario;
-    @Element(name = "idVehiculo")
-    private Long _idVehiculo;
-    @Element(name = "borrado")
-    private Boolean _borrado;
-    @Element(name = "latitud", required = false)
-    private Double _latitud;
-    @Element(name = "costo", required = false)
-    private Integer _costo;
-    @Element(name = "longitud", required = false)
-    private Double _longitud;
-    @Element(name = "idCargaCombustible")
-    private Long _idCargaCombustible;
-    @Element(name = "km", required = false)
-    private Integer _km;
-    @Element(name = "litros", required = false)
-    private Integer _litros;
+    @Element(name = "datosAnexos", required = false)
+    private String _datosAnexos;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    strftime('%Y-%m-%d %H:%M:%S', ca.fecha_modificacion) AS fecha_modificacion," +
-        "    ca.estanque_lleno AS estanque_lleno," +
-        "    strftime('%Y-%m-%d %H:%M:%S', ca.fecha) AS fecha," +
-        "    ca.id_usuario AS id_usuario," +
-        "    ca.id_vehiculo AS id_vehiculo," +
-        "    ca.borrado AS borrado," +
-        "    ca.latitud AS latitud," +
-        "    ca.costo AS costo," +
-        "    ca.longitud AS longitud," +
-        "    ca.id_carga_combustible AS id_carga_combustible," +
-        "    ca.km AS km," +
-        "    ca.litros AS litros" +
-        "    FROM carga_combustible ca";
+        "    ci.nombre AS nombre," +
+        "    ci.id_cia_seguros AS id," +
+        "    strftime('%Y-%m-%d %H:%M:%S', ci.fecha_modificacion) AS fecha_modificacion," +
+        "    ci.datos_anexos AS datos_anexos" +
+        "    FROM cia_seguros ci";
 
-    public CargaCombustible() {
+    public CiaSeguros() {
+        _nombre = null;
+        _id = null;
         _fechaModificacion = null;
-        _estanqueLleno = null;
-        _fecha = null;
-        _idUsuario = null;
-        _idVehiculo = null;
-        _borrado = null;
-        _latitud = null;
-        _costo = null;
-        _longitud = null;
-        _idCargaCombustible = null;
-        _km = null;
-        _litros = null;
+        _datosAnexos = null;
 
+    }
+    /**
+     * @return the _nombre
+     */
+    public String getNombre() {
+        return _nombre;
+    }
+    /**
+     * @return the _id
+     */
+    public Integer getId() {
+        return _id;
     }
     /**
      * @return the _fechaModificacion
@@ -87,92 +67,22 @@ public class CargaCombustible {
         return _fechaModificacion;
     }
     /**
-     * @return the _estanqueLleno
+     * @return the _datosAnexos
      */
-    public Boolean getEstanqueLleno() {
-        return _estanqueLleno;
+    public String getDatosAnexos() {
+        return _datosAnexos;
     }
     /**
-     * @return the _fecha
+     * @param _nombre the _nombre to set
      */
-    public String getFecha() {
-        return _fecha;
+    public void setNombre(String _nombre) {
+        this._nombre = _nombre;
     }
     /**
-     * @return the _idUsuario
+     * @param _id the _id to set
      */
-    public Long getIdUsuario() {
-        return _idUsuario;
-    }
-    /**
-     * @return the _idVehiculo
-     */
-    public Long getIdVehiculo() {
-        return _idVehiculo;
-    }
-    /**
-     * @return the _borrado
-     */
-    public Boolean getBorrado() {
-        return _borrado;
-    }
-    /**
-     * @return the _latitud
-     */
-    public Double getLatitud() {
-        return _latitud;
-    }
-    /**
-     * @return the _costo
-     */
-    public Integer getCosto() {
-        return _costo;
-    }
-    /**
-     * @return the _longitud
-     */
-    public Double getLongitud() {
-        return _longitud;
-    }
-    /**
-     * @return the _idCargaCombustible
-     */
-    public Long getIdCargaCombustible() {
-        return _idCargaCombustible;
-    }
-    /**
-     * @return the _km
-     */
-    public Integer getKm() {
-        return _km;
-    }
-    /**
-     * @return the _litros
-     */
-    public Integer getLitros() {
-        return _litros;
-    }
-    /**
-     * @return the _fecha as seconds from January 1, 1970, 00:00:00 GMT
-     */
-    public long getFechaAsLong() throws ParseException {
-        Date d;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        d = formatter.parse(_fecha);
-
-        return (long)d.getTime() / 1000L;
-    }
-    /**
-     * @return the _fecha as Date
-     */
-    public Date getFechaAsDate() throws ParseException {
-        Date d;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        d = formatter.parse(_fecha);
-
-        return d;
+    public void setId(Integer _id) {
+        this._id = _id;
     }
     /**
      * @param _fechaModificacion the _fechaModificacion to set
@@ -181,118 +91,28 @@ public class CargaCombustible {
         this._fechaModificacion = _fechaModificacion;
     }
     /**
-     * @param _estanqueLleno the _estanqueLleno to set
+     * @param _datosAnexos the _datosAnexos to set
      */
-    public void setEstanqueLleno(Boolean _estanqueLleno) {
-        this._estanqueLleno = _estanqueLleno;
-    }
-    /**
-     * @param _fecha the _fecha to set
-     */
-    public void setFecha(String _fecha) {
-        this._fecha = _fecha;
-    }
-    /**
-     * @param _idUsuario the _idUsuario to set
-     */
-    public void setIdUsuario(Long _idUsuario) {
-        this._idUsuario = _idUsuario;
-    }
-    /**
-     * @param _idVehiculo the _idVehiculo to set
-     */
-    public void setIdVehiculo(Long _idVehiculo) {
-        this._idVehiculo = _idVehiculo;
-    }
-    /**
-     * @param _borrado the _borrado to set
-     */
-    public void setBorrado(Boolean _borrado) {
-        this._borrado = _borrado;
-    }
-    /**
-     * @param _latitud the _latitud to set
-     */
-    public void setLatitud(Double _latitud) {
-        this._latitud = _latitud;
-    }
-    /**
-     * @param _costo the _costo to set
-     */
-    public void setCosto(Integer _costo) {
-        this._costo = _costo;
-    }
-    /**
-     * @param _longitud the _longitud to set
-     */
-    public void setLongitud(Double _longitud) {
-        this._longitud = _longitud;
-    }
-    /**
-     * @param _idCargaCombustible the _idCargaCombustible to set
-     */
-    public void setIdCargaCombustible(Long _idCargaCombustible) {
-        this._idCargaCombustible = _idCargaCombustible;
-    }
-    /**
-     * @param _km the _km to set
-     */
-    public void setKm(Integer _km) {
-        this._km = _km;
-    }
-    /**
-     * @param _litros the _litros to set
-     */
-    public void setLitros(Integer _litros) {
-        this._litros = _litros;
-    }
-    /**
-     * @param _fecha the _fecha to set as seconds from January 1, 1970, 00:00:00 GMT
-     */
-    public void setFecha(long _timestamp) {
-        Date d;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        d = new Date((long)_timestamp*1000);
-
-        this._fecha = formatter.format(d);
-;
-    }
-    /**
-     * @param _fecha the _fecha to set as java.util.Date
-     */
-    public void setFecha(Date _fecha) {
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        this._fecha = formatter.format(_fecha);
-;
+    public void setDatosAnexos(String _datosAnexos) {
+        this._datosAnexos = _datosAnexos;
     }
 
-    public static CargaCombustible fromRS(ResultSet p_rs) throws SQLException {
-        CargaCombustible ret = new CargaCombustible();
+    public static CiaSeguros fromRS(ResultSet p_rs) throws SQLException {
+        CiaSeguros ret = new CiaSeguros();
 
+        ret.setNombre(p_rs.getString("nombre"));
+        ret.setId(p_rs.getInt("id"));
         ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setEstanqueLleno(p_rs.getString("estanque_lleno") != null ? p_rs.getString("estanque_lleno").equals("true") : null);
-        ret.setFecha(p_rs.getString("fecha"));
-        ret.setIdUsuario(p_rs.getLong("id_usuario"));
-        ret.setIdVehiculo(p_rs.getLong("id_vehiculo"));
-        ret.setBorrado(p_rs.getString("borrado") != null ? p_rs.getString("borrado").equals("true") : null);
-        ret.setLatitud(p_rs.getDouble("latitud"));
-        ret.setCosto(p_rs.getInt("costo"));
-        ret.setLongitud(p_rs.getDouble("longitud"));
-        ret.setIdCargaCombustible(p_rs.getLong("id_carga_combustible"));
-        ret.setKm(p_rs.getInt("km"));
-        ret.setLitros(p_rs.getInt("litros"));
+        ret.setDatosAnexos(p_rs.getString("datos_anexos"));
 
         return ret;
     }
 
-    public static CargaCombustible getByParameter(Connection p_conn, String p_key, String p_value) throws SQLException {
-        CargaCombustible ret = null;
+    public static CiaSeguros getByParameter(Connection p_conn, String p_key, String p_value) throws SQLException {
+        CiaSeguros ret = null;
         
         String str_sql = _str_sql +
-            "  WHERE ca." + p_key + " = " + p_value +
+            "  WHERE ci." + p_key + " = " + p_value +
             "  LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -349,40 +169,31 @@ public class CargaCombustible {
         return ret;        
     }
 
+    public static CiaSeguros getById(Connection p_conn, String p_id) throws SQLException {
+        return getByParameter(p_conn, "id_cia_seguros", p_id);
+    }
     
-    public static ArrayList<CargaCombustible> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
+    public static ArrayList<CiaSeguros> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
         Statement stmt = null;
         ResultSet rs = null;
         String str_sql;
-        ArrayList<CargaCombustible> ret;
+        ArrayList<CiaSeguros> ret;
         
         str_sql = "";
         
         try {
             ArrayList<String> array_clauses = new ArrayList<String>();
             
-            ret = new ArrayList<CargaCombustible>();
+            ret = new ArrayList<CiaSeguros>();
             
             str_sql = _str_sql;
             
             for (AbstractMap.SimpleEntry<String, String> p : p_parameters) {
-                if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("ca.id_usuario = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_carga_combustible")) {
-                    array_clauses.add("ca.id_carga_combustible = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_vehiculo")) {
-                    array_clauses.add("ca.id_vehiculo = " + p.getValue());
+                if (p.getKey().equals("id_cia_seguros")) {
+                    array_clauses.add("ci.id_cia_seguros = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("ca.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
-                }
-                else if (p.getKey().equals("no borrado")) {
-                    array_clauses.add("ca.borrado = 'false'");
-                }
-                else if (p.getKey().equals("borrado")) {
-                    array_clauses.add("ca.borrado = 'true'");
+                    array_clauses.add("ci.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -463,11 +274,11 @@ public class CargaCombustible {
     }
 
 
-    public static Long getNextId(Connection p_conn) throws SQLException {
-        Long ret = null;
+    public static Integer getNextId(Connection p_conn) throws SQLException {
+        Integer ret = null;
         
         String str_sql = 
-            "  SELECT COALESCE(MAX(id_carga_combustible), 0) + 1 AS next_id FROM carga_combustible";
+            "  SELECT COALESCE(MAX(id_cia_seguros), 0) + 1 AS next_id FROM cia_seguros";
         
         //System.out.println(str_sql);
         
@@ -485,7 +296,7 @@ public class CargaCombustible {
             
             if (rs.next()) {
                 //System.out.println("rs.next() ok");
-                ret = rs.getLong("next_id");
+                ret = rs.getInt("next_id");
                 //System.out.println("fromRS(rs) ok");
             }
         }
@@ -529,20 +340,13 @@ public class CargaCombustible {
         Statement stmt = null;
 
         String str_sql =
-            "    UPDATE carga_combustible" +
+            "    UPDATE cia_seguros" +
             "    SET" +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    estanque_lleno = " + (_estanqueLleno != null ? "'" + _estanqueLleno + "'" : "null") + "," +
-            "    fecha = " + (_fecha != null ? "date('" + _fecha + "', 'localtime')" : "null") + "," +
-            "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
-            "    latitud = " + (_latitud != null ? "'" + _latitud + "'" : "null") + "," +
-            "    costo = " + (_costo != null ? "'" + _costo + "'" : "null") + "," +
-            "    longitud = " + (_longitud != null ? "'" + _longitud + "'" : "null") + "," +
-            "    km = " + (_km != null ? "'" + _km + "'" : "null") + "," +
-            "    litros = " + (_litros != null ? "'" + _litros + "'" : "null") +
+            "    nombre = " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "null") + "," +
+            "    datos_anexos = " + (_datosAnexos != null ? "'" + _datosAnexos + "'" : "null") +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_carga_combustible = " + Long.toString(this._idCargaCombustible);
+            "    id_cia_seguros = " + Integer.toString(this._id);
 
         try {
             stmt = p_conn.createStatement();
@@ -590,39 +394,23 @@ public class CargaCombustible {
         Statement stmt = null;
         ResultSet rs = null;
 
-        if (_idCargaCombustible == null) {
-            _idCargaCombustible = getNextId(p_conn);
+        if (_id == null) {
+            _id = getNextId(p_conn);
         }
 
         String str_sql =
-            "    INSERT INTO carga_combustible" +
+            "    INSERT INTO cia_seguros" +
             "    (" +
+            "    nombre, " +
+            "    id_cia_seguros, " +
             "    fecha_modificacion, " +
-            "    estanque_lleno, " +
-            "    fecha, " +
-            "    id_usuario, " +
-            "    id_vehiculo, " +
-            "    borrado, " +
-            "    latitud, " +
-            "    costo, " +
-            "    longitud, " +
-            "    id_carga_combustible, " +
-            "    km, " +
-            "    litros)" +
+            "    datos_anexos)" +
             "    VALUES" +
             "    (" +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    " + (_estanqueLleno != null ? "'" + _estanqueLleno + "'" : "null") + "," +
-            "    " + (_fecha != null ? "date('" + _fecha + "', 'localtime')" : "null") + "," +
-            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
-            "    " + (_idVehiculo != null ? "'" + _idVehiculo + "'" : "null") + "," +
-            "    " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
-            "    " + (_latitud != null ? "'" + _latitud + "'" : "null") + "," +
-            "    " + (_costo != null ? "'" + _costo + "'" : "null") + "," +
-            "    " + (_longitud != null ? "'" + _longitud + "'" : "null") + "," +
-            "    " + (_idCargaCombustible != null ? "'" + _idCargaCombustible + "'" : "null") + "," +
-            "    " + (_km != null ? "'" + _km + "'" : "null") + "," +
-            "    " + (_litros != null ? "'" + _litros + "'" : "null") +
+            "    " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
+            "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "null") + "," +
+            "    " + (_datosAnexos != null ? "'" + _datosAnexos + "'" : "null") +
             "    )";
         
         try {
@@ -673,10 +461,9 @@ public class CargaCombustible {
         Statement stmt = null;
 
         String str_sql =
-            "    DELETE FROM carga_combustible" +
+            "    DELETE FROM cia_seguros" +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_carga_combustible = " + Long.toString(this._idCargaCombustible);
+            "    id_cia_seguros = " + Integer.toString(this._id);
 
         try {
             stmt = p_conn.createStatement();
@@ -710,12 +497,11 @@ public class CargaCombustible {
     }
 
     public void load(Connection p_conn) throws SQLException {
-        CargaCombustible obj = null;
+        CiaSeguros obj = null;
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_carga_combustible = " + Long.toString(this._idCargaCombustible) +
+            "    id_cia_seguros = " + Integer.toString(this._id) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -737,16 +523,9 @@ public class CargaCombustible {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
+                _nombre = obj.getNombre();
                 _fechaModificacion = obj.getFechaModificacion();
-                _estanqueLleno = obj.getEstanqueLleno();
-                _fecha = obj.getFecha();
-                _idVehiculo = obj.getIdVehiculo();
-                _borrado = obj.getBorrado();
-                _latitud = obj.getLatitud();
-                _costo = obj.getCosto();
-                _longitud = obj.getLongitud();
-                _km = obj.getKm();
-                _litros = obj.getLitros();
+                _datosAnexos = obj.getDatosAnexos();
             }
         }
         catch (SQLException ex){
@@ -786,8 +565,7 @@ public class CargaCombustible {
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_carga_combustible = " + Long.toString(this._idCargaCombustible) +
+            "    id_cia_seguros = " + Integer.toString(this._id) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -857,41 +635,25 @@ public class CargaCombustible {
 
 @Override
     public String toString() {
-        return "CargaCombustible [" +
+        return "CiaSeguros [" +
+	           "    _nombre = " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
+	           "    _id = " + (_id != null ? _id : "null") + "," +
 	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
-	           "    _estanqueLleno = " + (_estanqueLleno != null ? _estanqueLleno : "null") + "," +
-	           "    _fecha = " + (_fecha != null ? "'" + _fecha + "'" : "null") + "," +
-	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
-	           "    _idVehiculo = " + (_idVehiculo != null ? _idVehiculo : "null") + "," +
-	           "    _borrado = " + (_borrado != null ? _borrado : "null") + "," +
-	           "    _latitud = " + (_latitud != null ? _latitud : "null") + "," +
-	           "    _costo = " + (_costo != null ? _costo : "null") + "," +
-	           "    _longitud = " + (_longitud != null ? _longitud : "null") + "," +
-	           "    _idCargaCombustible = " + (_idCargaCombustible != null ? _idCargaCombustible : "null") + "," +
-	           "    _km = " + (_km != null ? _km : "null") + "," +
-	           "    _litros = " + (_litros != null ? _litros : "null") +
+	           "    _datosAnexos = " + (_datosAnexos != null ? "'" + _datosAnexos + "'" : "null") +
 			   "]";
     }
 
 
 /*
-    public static CargaCombustible fromXMLNode(Node xmlNode) {
-        CargaCombustible ret = new CargaCombustible();
+    public static CiaSeguros fromXMLNode(Node xmlNode) {
+        CiaSeguros ret = new CiaSeguros();
 
         Element element = (Element) xmlNode;
 
+        ret.setNombre(element.getElementsByTagName("nombre").item(0).getTextContent());
+        ret.setId(Integer.decode(element.getElementsByTagName("id_cia_seguros").item(0).getTextContent()));
         ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setEstanqueLleno(element.getElementsByTagName("estanque_lleno").item(0).getTextContent());
-        ret.setFecha(element.getElementsByTagName("fecha").item(0).getTextContent());
-        ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
-        ret.setIdVehiculo(Long.decode(element.getElementsByTagName("id_vehiculo").item(0).getTextContent()));
-        ret.setBorrado(element.getElementsByTagName("borrado").item(0).getTextContent());
-        ret.setLatitud(Double.decode(element.getElementsByTagName("latitud").item(0).getTextContent()));
-        ret.setCosto(Integer.decode(element.getElementsByTagName("costo").item(0).getTextContent()));
-        ret.setLongitud(Double.decode(element.getElementsByTagName("longitud").item(0).getTextContent()));
-        ret.setIdCargaCombustible(Long.decode(element.getElementsByTagName("id_carga_combustible").item(0).getTextContent()));
-        ret.setKm(Integer.decode(element.getElementsByTagName("km").item(0).getTextContent()));
-        ret.setLitros(Integer.decode(element.getElementsByTagName("litros").item(0).getTextContent()));
+        ret.setDatosAnexos(element.getElementsByTagName("datos_anexos").item(0).getTextContent());
 
         return ret;
     }

@@ -24,67 +24,41 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class Log {
-    @Element(name = "idTipoVehiculo", required = false)
-    private Long _idTipoVehiculo;
     @Element(name = "fechaModificacion")
     private String _fechaModificacion;
     @Element(name = "idUsuario")
     private Long _idUsuario;
-    @Element(name = "idVehiculo")
-    private Long _idVehiculo;
     @Element(name = "borrado")
     private Boolean _borrado;
-    @Element(name = "descripcion", required = false)
-    private String _descripcion;
+    @Element(name = "data")
+    private String _data;
     @Element(name = "latitud")
     private Double _latitud;
     @Element(name = "idLog")
     private Long _idLog;
-    @Element(name = "idModelo", required = false)
-    private Long _idModelo;
     @Element(name = "longitud")
     private Double _longitud;
-    @Element(name = "km", required = false)
-    private Integer _km;
-    @Element(name = "idMarca", required = false)
-    private Long _idMarca;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    lo.id_tipo_vehiculo AS id_tipo_vehiculo," +
         "    strftime('%Y-%m-%d %H:%M:%S', lo.fecha_modificacion) AS fecha_modificacion," +
         "    lo.id_usuario AS id_usuario," +
-        "    lo.id_vehiculo AS id_vehiculo," +
         "    lo.borrado AS borrado," +
-        "    lo.descripcion AS descripcion," +
+        "    lo.data AS data," +
         "    lo.latitud AS latitud," +
         "    lo.id_log AS id_log," +
-        "    lo.id_modelo AS id_modelo," +
-        "    lo.longitud AS longitud," +
-        "    lo.km AS km," +
-        "    lo.id_marca AS id_marca" +
+        "    lo.longitud AS longitud" +
         "    FROM log lo";
 
     public Log() {
-        _idTipoVehiculo = null;
         _fechaModificacion = null;
         _idUsuario = null;
-        _idVehiculo = null;
         _borrado = null;
-        _descripcion = null;
+        _data = null;
         _latitud = null;
         _idLog = null;
-        _idModelo = null;
         _longitud = null;
-        _km = null;
-        _idMarca = null;
 
-    }
-    /**
-     * @return the _idTipoVehiculo
-     */
-    public Long getIdTipoVehiculo() {
-        return _idTipoVehiculo;
     }
     /**
      * @return the _fechaModificacion
@@ -99,22 +73,16 @@ public class Log {
         return _idUsuario;
     }
     /**
-     * @return the _idVehiculo
-     */
-    public Long getIdVehiculo() {
-        return _idVehiculo;
-    }
-    /**
      * @return the _borrado
      */
     public Boolean getBorrado() {
         return _borrado;
     }
     /**
-     * @return the _descripcion
+     * @return the _data
      */
-    public String getDescripcion() {
-        return _descripcion;
+    public String getData() {
+        return _data;
     }
     /**
      * @return the _latitud
@@ -129,34 +97,10 @@ public class Log {
         return _idLog;
     }
     /**
-     * @return the _idModelo
-     */
-    public Long getIdModelo() {
-        return _idModelo;
-    }
-    /**
      * @return the _longitud
      */
     public Double getLongitud() {
         return _longitud;
-    }
-    /**
-     * @return the _km
-     */
-    public Integer getKm() {
-        return _km;
-    }
-    /**
-     * @return the _idMarca
-     */
-    public Long getIdMarca() {
-        return _idMarca;
-    }
-    /**
-     * @param _idTipoVehiculo the _idTipoVehiculo to set
-     */
-    public void setIdTipoVehiculo(Long _idTipoVehiculo) {
-        this._idTipoVehiculo = _idTipoVehiculo;
     }
     /**
      * @param _fechaModificacion the _fechaModificacion to set
@@ -171,22 +115,16 @@ public class Log {
         this._idUsuario = _idUsuario;
     }
     /**
-     * @param _idVehiculo the _idVehiculo to set
-     */
-    public void setIdVehiculo(Long _idVehiculo) {
-        this._idVehiculo = _idVehiculo;
-    }
-    /**
      * @param _borrado the _borrado to set
      */
     public void setBorrado(Boolean _borrado) {
         this._borrado = _borrado;
     }
     /**
-     * @param _descripcion the _descripcion to set
+     * @param _data the _data to set
      */
-    public void setDescripcion(String _descripcion) {
-        this._descripcion = _descripcion;
+    public void setData(String _data) {
+        this._data = _data;
     }
     /**
      * @param _latitud the _latitud to set
@@ -201,45 +139,22 @@ public class Log {
         this._idLog = _idLog;
     }
     /**
-     * @param _idModelo the _idModelo to set
-     */
-    public void setIdModelo(Long _idModelo) {
-        this._idModelo = _idModelo;
-    }
-    /**
      * @param _longitud the _longitud to set
      */
     public void setLongitud(Double _longitud) {
         this._longitud = _longitud;
     }
-    /**
-     * @param _km the _km to set
-     */
-    public void setKm(Integer _km) {
-        this._km = _km;
-    }
-    /**
-     * @param _idMarca the _idMarca to set
-     */
-    public void setIdMarca(Long _idMarca) {
-        this._idMarca = _idMarca;
-    }
 
     public static Log fromRS(ResultSet p_rs) throws SQLException {
         Log ret = new Log();
 
-        ret.setIdTipoVehiculo(p_rs.getLong("id_tipo_vehiculo"));
         ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
         ret.setIdUsuario(p_rs.getLong("id_usuario"));
-        ret.setIdVehiculo(p_rs.getLong("id_vehiculo"));
         ret.setBorrado(p_rs.getString("borrado") != null ? p_rs.getString("borrado").equals("true") : null);
-        ret.setDescripcion(p_rs.getString("descripcion"));
+        ret.setData(p_rs.getString("data"));
         ret.setLatitud(p_rs.getDouble("latitud"));
         ret.setIdLog(p_rs.getLong("id_log"));
-        ret.setIdModelo(p_rs.getLong("id_modelo"));
         ret.setLongitud(p_rs.getDouble("longitud"));
-        ret.setKm(p_rs.getInt("km"));
-        ret.setIdMarca(p_rs.getLong("id_marca"));
 
         return ret;
     }
@@ -327,9 +242,6 @@ public class Log {
                 }
                 else if (p.getKey().equals("id_log")) {
                     array_clauses.add("lo.id_log = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_vehiculo")) {
-                    array_clauses.add("lo.id_vehiculo = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
                     array_clauses.add("lo.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
@@ -487,15 +399,11 @@ public class Log {
         String str_sql =
             "    UPDATE log" +
             "    SET" +
-            "    id_tipo_vehiculo = " + (_idTipoVehiculo != null ? "'" + _idTipoVehiculo + "'" : "null") + "," +
             "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
             "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
-            "    descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
+            "    data = " + (_data != null ? "'" + _data + "'" : "null") + "," +
             "    latitud = " + (_latitud != null ? "'" + _latitud + "'" : "null") + "," +
-            "    id_modelo = " + (_idModelo != null ? "'" + _idModelo + "'" : "null") + "," +
-            "    longitud = " + (_longitud != null ? "'" + _longitud + "'" : "null") + "," +
-            "    km = " + (_km != null ? "'" + _km + "'" : "null") + "," +
-            "    id_marca = " + (_idMarca != null ? "'" + _idMarca + "'" : "null") +
+            "    longitud = " + (_longitud != null ? "'" + _longitud + "'" : "null") +
             "    WHERE" +
             "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
             "    id_log = " + Long.toString(this._idLog);
@@ -553,32 +461,22 @@ public class Log {
         String str_sql =
             "    INSERT INTO log" +
             "    (" +
-            "    id_tipo_vehiculo, " +
             "    fecha_modificacion, " +
             "    id_usuario, " +
-            "    id_vehiculo, " +
             "    borrado, " +
-            "    descripcion, " +
+            "    data, " +
             "    latitud, " +
             "    id_log, " +
-            "    id_modelo, " +
-            "    longitud, " +
-            "    km, " +
-            "    id_marca)" +
+            "    longitud)" +
             "    VALUES" +
             "    (" +
-            "    " + (_idTipoVehiculo != null ? "'" + _idTipoVehiculo + "'" : "null") + "," +
             "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
             "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
-            "    " + (_idVehiculo != null ? "'" + _idVehiculo + "'" : "null") + "," +
             "    " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
-            "    " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
+            "    " + (_data != null ? "'" + _data + "'" : "null") + "," +
             "    " + (_latitud != null ? "'" + _latitud + "'" : "null") + "," +
             "    " + (_idLog != null ? "'" + _idLog + "'" : "null") + "," +
-            "    " + (_idModelo != null ? "'" + _idModelo + "'" : "null") + "," +
-            "    " + (_longitud != null ? "'" + _longitud + "'" : "null") + "," +
-            "    " + (_km != null ? "'" + _km + "'" : "null") + "," +
-            "    " + (_idMarca != null ? "'" + _idMarca + "'" : "null") +
+            "    " + (_longitud != null ? "'" + _longitud + "'" : "null") +
             "    )";
         
         try {
@@ -693,16 +591,11 @@ public class Log {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
-                _idTipoVehiculo = obj.getIdTipoVehiculo();
                 _fechaModificacion = obj.getFechaModificacion();
-                _idVehiculo = obj.getIdVehiculo();
                 _borrado = obj.getBorrado();
-                _descripcion = obj.getDescripcion();
+                _data = obj.getData();
                 _latitud = obj.getLatitud();
-                _idModelo = obj.getIdModelo();
                 _longitud = obj.getLongitud();
-                _km = obj.getKm();
-                _idMarca = obj.getIdMarca();
             }
         }
         catch (SQLException ex){
@@ -814,18 +707,13 @@ public class Log {
 @Override
     public String toString() {
         return "Log [" +
-	           "    _idTipoVehiculo = " + (_idTipoVehiculo != null ? _idTipoVehiculo : "null") + "," +
 	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
 	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
-	           "    _idVehiculo = " + (_idVehiculo != null ? _idVehiculo : "null") + "," +
 	           "    _borrado = " + (_borrado != null ? _borrado : "null") + "," +
-	           "    _descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
+	           "    _data = " + (_data != null ? "'" + _data + "'" : "null") + "," +
 	           "    _latitud = " + (_latitud != null ? _latitud : "null") + "," +
 	           "    _idLog = " + (_idLog != null ? _idLog : "null") + "," +
-	           "    _idModelo = " + (_idModelo != null ? _idModelo : "null") + "," +
-	           "    _longitud = " + (_longitud != null ? _longitud : "null") + "," +
-	           "    _km = " + (_km != null ? _km : "null") + "," +
-	           "    _idMarca = " + (_idMarca != null ? _idMarca : "null") +
+	           "    _longitud = " + (_longitud != null ? _longitud : "null") +
 			   "]";
     }
 
@@ -836,18 +724,13 @@ public class Log {
 
         Element element = (Element) xmlNode;
 
-        ret.setIdTipoVehiculo(Long.decode(element.getElementsByTagName("id_tipo_vehiculo").item(0).getTextContent()));
         ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
         ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
-        ret.setIdVehiculo(Long.decode(element.getElementsByTagName("id_vehiculo").item(0).getTextContent()));
         ret.setBorrado(element.getElementsByTagName("borrado").item(0).getTextContent());
-        ret.setDescripcion(element.getElementsByTagName("descripcion").item(0).getTextContent());
+        ret.setData(element.getElementsByTagName("data").item(0).getTextContent());
         ret.setLatitud(Double.decode(element.getElementsByTagName("latitud").item(0).getTextContent()));
         ret.setIdLog(Long.decode(element.getElementsByTagName("id_log").item(0).getTextContent()));
-        ret.setIdModelo(Long.decode(element.getElementsByTagName("id_modelo").item(0).getTextContent()));
         ret.setLongitud(Double.decode(element.getElementsByTagName("longitud").item(0).getTextContent()));
-        ret.setKm(Integer.decode(element.getElementsByTagName("km").item(0).getTextContent()));
-        ret.setIdMarca(Long.decode(element.getElementsByTagName("id_marca").item(0).getTextContent()));
 
         return ret;
     }

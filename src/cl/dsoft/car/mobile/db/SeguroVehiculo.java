@@ -23,62 +23,60 @@ import org.simpleframework.xml.Root;
  *
  */
 @Root
-public class CargaCombustible {
+public class SeguroVehiculo {
+    @Element(name = "idCiaSeguros")
+    private Integer _idCiaSeguros;
     @Element(name = "fechaModificacion")
     private String _fechaModificacion;
-    @Element(name = "estanqueLleno", required = false)
-    private Boolean _estanqueLleno;
-    @Element(name = "fecha", required = false)
-    private String _fecha;
+    @Element(name = "diaVencimiento", required = false)
+    private Short _diaVencimiento;
+    @Element(name = "poliza", required = false)
+    private String _poliza;
     @Element(name = "idUsuario")
     private Long _idUsuario;
+    @Element(name = "idSeguroVehiculo")
+    private Long _idSeguroVehiculo;
     @Element(name = "idVehiculo")
     private Long _idVehiculo;
-    @Element(name = "borrado")
+    @Element(name = "borrado", required = false)
     private Boolean _borrado;
-    @Element(name = "latitud", required = false)
-    private Double _latitud;
-    @Element(name = "costo", required = false)
-    private Integer _costo;
-    @Element(name = "longitud", required = false)
-    private Double _longitud;
-    @Element(name = "idCargaCombustible")
-    private Long _idCargaCombustible;
-    @Element(name = "km", required = false)
-    private Integer _km;
-    @Element(name = "litros", required = false)
-    private Integer _litros;
+    @Element(name = "observaciones", required = false)
+    private String _observaciones;
+    @Element(name = "mesVencimiento", required = false)
+    private Short _mesVencimiento;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    strftime('%Y-%m-%d %H:%M:%S', ca.fecha_modificacion) AS fecha_modificacion," +
-        "    ca.estanque_lleno AS estanque_lleno," +
-        "    strftime('%Y-%m-%d %H:%M:%S', ca.fecha) AS fecha," +
-        "    ca.id_usuario AS id_usuario," +
-        "    ca.id_vehiculo AS id_vehiculo," +
-        "    ca.borrado AS borrado," +
-        "    ca.latitud AS latitud," +
-        "    ca.costo AS costo," +
-        "    ca.longitud AS longitud," +
-        "    ca.id_carga_combustible AS id_carga_combustible," +
-        "    ca.km AS km," +
-        "    ca.litros AS litros" +
-        "    FROM carga_combustible ca";
+        "    se.id_cia_seguros AS id_cia_seguros," +
+        "    strftime('%Y-%m-%d %H:%M:%S', se.fecha_modificacion) AS fecha_modificacion," +
+        "    se.dia_vencimiento AS dia_vencimiento," +
+        "    se.poliza AS poliza," +
+        "    se.id_usuario AS id_usuario," +
+        "    se.id_seguro_vehiculo AS id_seguro_vehiculo," +
+        "    se.id_vehiculo AS id_vehiculo," +
+        "    se.borrado AS borrado," +
+        "    se.observaciones AS observaciones," +
+        "    se.mes_vencimiento AS mes_vencimiento" +
+        "    FROM seguro_vehiculo se";
 
-    public CargaCombustible() {
+    public SeguroVehiculo() {
+        _idCiaSeguros = null;
         _fechaModificacion = null;
-        _estanqueLleno = null;
-        _fecha = null;
+        _diaVencimiento = null;
+        _poliza = null;
         _idUsuario = null;
+        _idSeguroVehiculo = null;
         _idVehiculo = null;
         _borrado = null;
-        _latitud = null;
-        _costo = null;
-        _longitud = null;
-        _idCargaCombustible = null;
-        _km = null;
-        _litros = null;
+        _observaciones = null;
+        _mesVencimiento = null;
 
+    }
+    /**
+     * @return the _idCiaSeguros
+     */
+    public Integer getIdCiaSeguros() {
+        return _idCiaSeguros;
     }
     /**
      * @return the _fechaModificacion
@@ -87,22 +85,28 @@ public class CargaCombustible {
         return _fechaModificacion;
     }
     /**
-     * @return the _estanqueLleno
+     * @return the _diaVencimiento
      */
-    public Boolean getEstanqueLleno() {
-        return _estanqueLleno;
+    public Short getDiaVencimiento() {
+        return _diaVencimiento;
     }
     /**
-     * @return the _fecha
+     * @return the _poliza
      */
-    public String getFecha() {
-        return _fecha;
+    public String getPoliza() {
+        return _poliza;
     }
     /**
      * @return the _idUsuario
      */
     public Long getIdUsuario() {
         return _idUsuario;
+    }
+    /**
+     * @return the _idSeguroVehiculo
+     */
+    public Long getIdSeguroVehiculo() {
+        return _idSeguroVehiculo;
     }
     /**
      * @return the _idVehiculo
@@ -117,62 +121,22 @@ public class CargaCombustible {
         return _borrado;
     }
     /**
-     * @return the _latitud
+     * @return the _observaciones
      */
-    public Double getLatitud() {
-        return _latitud;
+    public String getObservaciones() {
+        return _observaciones;
     }
     /**
-     * @return the _costo
+     * @return the _mesVencimiento
      */
-    public Integer getCosto() {
-        return _costo;
+    public Short getMesVencimiento() {
+        return _mesVencimiento;
     }
     /**
-     * @return the _longitud
+     * @param _idCiaSeguros the _idCiaSeguros to set
      */
-    public Double getLongitud() {
-        return _longitud;
-    }
-    /**
-     * @return the _idCargaCombustible
-     */
-    public Long getIdCargaCombustible() {
-        return _idCargaCombustible;
-    }
-    /**
-     * @return the _km
-     */
-    public Integer getKm() {
-        return _km;
-    }
-    /**
-     * @return the _litros
-     */
-    public Integer getLitros() {
-        return _litros;
-    }
-    /**
-     * @return the _fecha as seconds from January 1, 1970, 00:00:00 GMT
-     */
-    public long getFechaAsLong() throws ParseException {
-        Date d;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        d = formatter.parse(_fecha);
-
-        return (long)d.getTime() / 1000L;
-    }
-    /**
-     * @return the _fecha as Date
-     */
-    public Date getFechaAsDate() throws ParseException {
-        Date d;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        d = formatter.parse(_fecha);
-
-        return d;
+    public void setIdCiaSeguros(Integer _idCiaSeguros) {
+        this._idCiaSeguros = _idCiaSeguros;
     }
     /**
      * @param _fechaModificacion the _fechaModificacion to set
@@ -181,22 +145,28 @@ public class CargaCombustible {
         this._fechaModificacion = _fechaModificacion;
     }
     /**
-     * @param _estanqueLleno the _estanqueLleno to set
+     * @param _diaVencimiento the _diaVencimiento to set
      */
-    public void setEstanqueLleno(Boolean _estanqueLleno) {
-        this._estanqueLleno = _estanqueLleno;
+    public void setDiaVencimiento(Short _diaVencimiento) {
+        this._diaVencimiento = _diaVencimiento;
     }
     /**
-     * @param _fecha the _fecha to set
+     * @param _poliza the _poliza to set
      */
-    public void setFecha(String _fecha) {
-        this._fecha = _fecha;
+    public void setPoliza(String _poliza) {
+        this._poliza = _poliza;
     }
     /**
      * @param _idUsuario the _idUsuario to set
      */
     public void setIdUsuario(Long _idUsuario) {
         this._idUsuario = _idUsuario;
+    }
+    /**
+     * @param _idSeguroVehiculo the _idSeguroVehiculo to set
+     */
+    public void setIdSeguroVehiculo(Long _idSeguroVehiculo) {
+        this._idSeguroVehiculo = _idSeguroVehiculo;
     }
     /**
      * @param _idVehiculo the _idVehiculo to set
@@ -211,88 +181,40 @@ public class CargaCombustible {
         this._borrado = _borrado;
     }
     /**
-     * @param _latitud the _latitud to set
+     * @param _observaciones the _observaciones to set
      */
-    public void setLatitud(Double _latitud) {
-        this._latitud = _latitud;
+    public void setObservaciones(String _observaciones) {
+        this._observaciones = _observaciones;
     }
     /**
-     * @param _costo the _costo to set
+     * @param _mesVencimiento the _mesVencimiento to set
      */
-    public void setCosto(Integer _costo) {
-        this._costo = _costo;
-    }
-    /**
-     * @param _longitud the _longitud to set
-     */
-    public void setLongitud(Double _longitud) {
-        this._longitud = _longitud;
-    }
-    /**
-     * @param _idCargaCombustible the _idCargaCombustible to set
-     */
-    public void setIdCargaCombustible(Long _idCargaCombustible) {
-        this._idCargaCombustible = _idCargaCombustible;
-    }
-    /**
-     * @param _km the _km to set
-     */
-    public void setKm(Integer _km) {
-        this._km = _km;
-    }
-    /**
-     * @param _litros the _litros to set
-     */
-    public void setLitros(Integer _litros) {
-        this._litros = _litros;
-    }
-    /**
-     * @param _fecha the _fecha to set as seconds from January 1, 1970, 00:00:00 GMT
-     */
-    public void setFecha(long _timestamp) {
-        Date d;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        d = new Date((long)_timestamp*1000);
-
-        this._fecha = formatter.format(d);
-;
-    }
-    /**
-     * @param _fecha the _fecha to set as java.util.Date
-     */
-    public void setFecha(Date _fecha) {
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        this._fecha = formatter.format(_fecha);
-;
+    public void setMesVencimiento(Short _mesVencimiento) {
+        this._mesVencimiento = _mesVencimiento;
     }
 
-    public static CargaCombustible fromRS(ResultSet p_rs) throws SQLException {
-        CargaCombustible ret = new CargaCombustible();
+    public static SeguroVehiculo fromRS(ResultSet p_rs) throws SQLException {
+        SeguroVehiculo ret = new SeguroVehiculo();
 
+        ret.setIdCiaSeguros(p_rs.getInt("id_cia_seguros"));
         ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setEstanqueLleno(p_rs.getString("estanque_lleno") != null ? p_rs.getString("estanque_lleno").equals("true") : null);
-        ret.setFecha(p_rs.getString("fecha"));
+        ret.setDiaVencimiento(p_rs.getShort("dia_vencimiento"));
+        ret.setPoliza(p_rs.getString("poliza"));
         ret.setIdUsuario(p_rs.getLong("id_usuario"));
+        ret.setIdSeguroVehiculo(p_rs.getLong("id_seguro_vehiculo"));
         ret.setIdVehiculo(p_rs.getLong("id_vehiculo"));
         ret.setBorrado(p_rs.getString("borrado") != null ? p_rs.getString("borrado").equals("true") : null);
-        ret.setLatitud(p_rs.getDouble("latitud"));
-        ret.setCosto(p_rs.getInt("costo"));
-        ret.setLongitud(p_rs.getDouble("longitud"));
-        ret.setIdCargaCombustible(p_rs.getLong("id_carga_combustible"));
-        ret.setKm(p_rs.getInt("km"));
-        ret.setLitros(p_rs.getInt("litros"));
+        ret.setObservaciones(p_rs.getString("observaciones"));
+        ret.setMesVencimiento(p_rs.getShort("mes_vencimiento"));
 
         return ret;
     }
 
-    public static CargaCombustible getByParameter(Connection p_conn, String p_key, String p_value) throws SQLException {
-        CargaCombustible ret = null;
+    public static SeguroVehiculo getByParameter(Connection p_conn, String p_key, String p_value) throws SQLException {
+        SeguroVehiculo ret = null;
         
         String str_sql = _str_sql +
-            "  WHERE ca." + p_key + " = " + p_value +
+            "  WHERE se." + p_key + " = " + p_value +
             "  LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -350,39 +272,42 @@ public class CargaCombustible {
     }
 
     
-    public static ArrayList<CargaCombustible> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
+    public static ArrayList<SeguroVehiculo> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
         Statement stmt = null;
         ResultSet rs = null;
         String str_sql;
-        ArrayList<CargaCombustible> ret;
+        ArrayList<SeguroVehiculo> ret;
         
         str_sql = "";
         
         try {
             ArrayList<String> array_clauses = new ArrayList<String>();
             
-            ret = new ArrayList<CargaCombustible>();
+            ret = new ArrayList<SeguroVehiculo>();
             
             str_sql = _str_sql;
             
             for (AbstractMap.SimpleEntry<String, String> p : p_parameters) {
                 if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("ca.id_usuario = " + p.getValue());
+                    array_clauses.add("se.id_usuario = " + p.getValue());
                 }
-                else if (p.getKey().equals("id_carga_combustible")) {
-                    array_clauses.add("ca.id_carga_combustible = " + p.getValue());
+                else if (p.getKey().equals("id_seguro_vehiculo")) {
+                    array_clauses.add("se.id_seguro_vehiculo = " + p.getValue());
+                }
+                else if (p.getKey().equals("id_cia_seguros")) {
+                    array_clauses.add("se.id_cia_seguros = " + p.getValue());
                 }
                 else if (p.getKey().equals("id_vehiculo")) {
-                    array_clauses.add("ca.id_vehiculo = " + p.getValue());
+                    array_clauses.add("se.id_vehiculo = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("ca.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
+                    array_clauses.add("se.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
                 }
                 else if (p.getKey().equals("no borrado")) {
-                    array_clauses.add("ca.borrado = 'false'");
+                    array_clauses.add("se.borrado = 'false'");
                 }
                 else if (p.getKey().equals("borrado")) {
-                    array_clauses.add("ca.borrado = 'true'");
+                    array_clauses.add("se.borrado = 'true'");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -467,7 +392,7 @@ public class CargaCombustible {
         Long ret = null;
         
         String str_sql = 
-            "  SELECT COALESCE(MAX(id_carga_combustible), 0) + 1 AS next_id FROM carga_combustible";
+            "  SELECT COALESCE(MAX(id_seguro_vehiculo), 0) + 1 AS next_id FROM seguro_vehiculo";
         
         //System.out.println(str_sql);
         
@@ -529,20 +454,17 @@ public class CargaCombustible {
         Statement stmt = null;
 
         String str_sql =
-            "    UPDATE carga_combustible" +
+            "    UPDATE seguro_vehiculo" +
             "    SET" +
             "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    estanque_lleno = " + (_estanqueLleno != null ? "'" + _estanqueLleno + "'" : "null") + "," +
-            "    fecha = " + (_fecha != null ? "date('" + _fecha + "', 'localtime')" : "null") + "," +
-            "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
-            "    latitud = " + (_latitud != null ? "'" + _latitud + "'" : "null") + "," +
-            "    costo = " + (_costo != null ? "'" + _costo + "'" : "null") + "," +
-            "    longitud = " + (_longitud != null ? "'" + _longitud + "'" : "null") + "," +
-            "    km = " + (_km != null ? "'" + _km + "'" : "null") + "," +
-            "    litros = " + (_litros != null ? "'" + _litros + "'" : "null") +
+            "    dia_vencimiento = " + (_diaVencimiento != null ? "'" + _diaVencimiento + "'" : "null") + "," +
+            "    poliza = " + (_poliza != null ? "'" + _poliza + "'" : "null") + "," +
+            "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "null") + "," +
+            "    observaciones = " + (_observaciones != null ? "'" + _observaciones + "'" : "null") + "," +
+            "    mes_vencimiento = " + (_mesVencimiento != null ? "'" + _mesVencimiento + "'" : "null") +
             "    WHERE" +
             "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_carga_combustible = " + Long.toString(this._idCargaCombustible);
+            "    id_seguro_vehiculo = " + Long.toString(this._idSeguroVehiculo);
 
         try {
             stmt = p_conn.createStatement();
@@ -590,39 +512,35 @@ public class CargaCombustible {
         Statement stmt = null;
         ResultSet rs = null;
 
-        if (_idCargaCombustible == null) {
-            _idCargaCombustible = getNextId(p_conn);
+        if (_idSeguroVehiculo == null) {
+            _idSeguroVehiculo = getNextId(p_conn);
         }
 
         String str_sql =
-            "    INSERT INTO carga_combustible" +
+            "    INSERT INTO seguro_vehiculo" +
             "    (" +
+            "    id_cia_seguros, " +
             "    fecha_modificacion, " +
-            "    estanque_lleno, " +
-            "    fecha, " +
+            "    dia_vencimiento, " +
+            "    poliza, " +
             "    id_usuario, " +
+            "    id_seguro_vehiculo, " +
             "    id_vehiculo, " +
             "    borrado, " +
-            "    latitud, " +
-            "    costo, " +
-            "    longitud, " +
-            "    id_carga_combustible, " +
-            "    km, " +
-            "    litros)" +
+            "    observaciones, " +
+            "    mes_vencimiento)" +
             "    VALUES" +
             "    (" +
+            "    " + (_idCiaSeguros != null ? "'" + _idCiaSeguros + "'" : "null") + "," +
             "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    " + (_estanqueLleno != null ? "'" + _estanqueLleno + "'" : "null") + "," +
-            "    " + (_fecha != null ? "date('" + _fecha + "', 'localtime')" : "null") + "," +
+            "    " + (_diaVencimiento != null ? "'" + _diaVencimiento + "'" : "null") + "," +
+            "    " + (_poliza != null ? "'" + _poliza + "'" : "null") + "," +
             "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
+            "    " + (_idSeguroVehiculo != null ? "'" + _idSeguroVehiculo + "'" : "null") + "," +
             "    " + (_idVehiculo != null ? "'" + _idVehiculo + "'" : "null") + "," +
-            "    " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
-            "    " + (_latitud != null ? "'" + _latitud + "'" : "null") + "," +
-            "    " + (_costo != null ? "'" + _costo + "'" : "null") + "," +
-            "    " + (_longitud != null ? "'" + _longitud + "'" : "null") + "," +
-            "    " + (_idCargaCombustible != null ? "'" + _idCargaCombustible + "'" : "null") + "," +
-            "    " + (_km != null ? "'" + _km + "'" : "null") + "," +
-            "    " + (_litros != null ? "'" + _litros + "'" : "null") +
+            "    " + (_borrado != null ? "'" + _borrado + "'" : "null") + "," +
+            "    " + (_observaciones != null ? "'" + _observaciones + "'" : "null") + "," +
+            "    " + (_mesVencimiento != null ? "'" + _mesVencimiento + "'" : "null") +
             "    )";
         
         try {
@@ -673,10 +591,10 @@ public class CargaCombustible {
         Statement stmt = null;
 
         String str_sql =
-            "    DELETE FROM carga_combustible" +
+            "    DELETE FROM seguro_vehiculo" +
             "    WHERE" +
             "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_carga_combustible = " + Long.toString(this._idCargaCombustible);
+            "    id_seguro_vehiculo = " + Long.toString(this._idSeguroVehiculo);
 
         try {
             stmt = p_conn.createStatement();
@@ -710,12 +628,12 @@ public class CargaCombustible {
     }
 
     public void load(Connection p_conn) throws SQLException {
-        CargaCombustible obj = null;
+        SeguroVehiculo obj = null;
         
         String str_sql = _str_sql +
             "    WHERE" +
             "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_carga_combustible = " + Long.toString(this._idCargaCombustible) +
+            "    id_seguro_vehiculo = " + Long.toString(this._idSeguroVehiculo) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -737,16 +655,14 @@ public class CargaCombustible {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
+                _idCiaSeguros = obj.getIdCiaSeguros();
                 _fechaModificacion = obj.getFechaModificacion();
-                _estanqueLleno = obj.getEstanqueLleno();
-                _fecha = obj.getFecha();
+                _diaVencimiento = obj.getDiaVencimiento();
+                _poliza = obj.getPoliza();
                 _idVehiculo = obj.getIdVehiculo();
                 _borrado = obj.getBorrado();
-                _latitud = obj.getLatitud();
-                _costo = obj.getCosto();
-                _longitud = obj.getLongitud();
-                _km = obj.getKm();
-                _litros = obj.getLitros();
+                _observaciones = obj.getObservaciones();
+                _mesVencimiento = obj.getMesVencimiento();
             }
         }
         catch (SQLException ex){
@@ -787,7 +703,7 @@ public class CargaCombustible {
         String str_sql = _str_sql +
             "    WHERE" +
             "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_carga_combustible = " + Long.toString(this._idCargaCombustible) +
+            "    id_seguro_vehiculo = " + Long.toString(this._idSeguroVehiculo) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -857,41 +773,37 @@ public class CargaCombustible {
 
 @Override
     public String toString() {
-        return "CargaCombustible [" +
+        return "SeguroVehiculo [" +
+	           "    _idCiaSeguros = " + (_idCiaSeguros != null ? _idCiaSeguros : "null") + "," +
 	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
-	           "    _estanqueLleno = " + (_estanqueLleno != null ? _estanqueLleno : "null") + "," +
-	           "    _fecha = " + (_fecha != null ? "'" + _fecha + "'" : "null") + "," +
+	           "    _diaVencimiento = " + (_diaVencimiento != null ? _diaVencimiento : "null") + "," +
+	           "    _poliza = " + (_poliza != null ? "'" + _poliza + "'" : "null") + "," +
 	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
+	           "    _idSeguroVehiculo = " + (_idSeguroVehiculo != null ? _idSeguroVehiculo : "null") + "," +
 	           "    _idVehiculo = " + (_idVehiculo != null ? _idVehiculo : "null") + "," +
 	           "    _borrado = " + (_borrado != null ? _borrado : "null") + "," +
-	           "    _latitud = " + (_latitud != null ? _latitud : "null") + "," +
-	           "    _costo = " + (_costo != null ? _costo : "null") + "," +
-	           "    _longitud = " + (_longitud != null ? _longitud : "null") + "," +
-	           "    _idCargaCombustible = " + (_idCargaCombustible != null ? _idCargaCombustible : "null") + "," +
-	           "    _km = " + (_km != null ? _km : "null") + "," +
-	           "    _litros = " + (_litros != null ? _litros : "null") +
+	           "    _observaciones = " + (_observaciones != null ? "'" + _observaciones + "'" : "null") + "," +
+	           "    _mesVencimiento = " + (_mesVencimiento != null ? _mesVencimiento : "null") +
 			   "]";
     }
 
 
 /*
-    public static CargaCombustible fromXMLNode(Node xmlNode) {
-        CargaCombustible ret = new CargaCombustible();
+    public static SeguroVehiculo fromXMLNode(Node xmlNode) {
+        SeguroVehiculo ret = new SeguroVehiculo();
 
         Element element = (Element) xmlNode;
 
+        ret.setIdCiaSeguros(Integer.decode(element.getElementsByTagName("id_cia_seguros").item(0).getTextContent()));
         ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setEstanqueLleno(element.getElementsByTagName("estanque_lleno").item(0).getTextContent());
-        ret.setFecha(element.getElementsByTagName("fecha").item(0).getTextContent());
+        ret.setDiaVencimiento(Short.decode(element.getElementsByTagName("dia_vencimiento").item(0).getTextContent()));
+        ret.setPoliza(element.getElementsByTagName("poliza").item(0).getTextContent());
         ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
+        ret.setIdSeguroVehiculo(Long.decode(element.getElementsByTagName("id_seguro_vehiculo").item(0).getTextContent()));
         ret.setIdVehiculo(Long.decode(element.getElementsByTagName("id_vehiculo").item(0).getTextContent()));
         ret.setBorrado(element.getElementsByTagName("borrado").item(0).getTextContent());
-        ret.setLatitud(Double.decode(element.getElementsByTagName("latitud").item(0).getTextContent()));
-        ret.setCosto(Integer.decode(element.getElementsByTagName("costo").item(0).getTextContent()));
-        ret.setLongitud(Double.decode(element.getElementsByTagName("longitud").item(0).getTextContent()));
-        ret.setIdCargaCombustible(Long.decode(element.getElementsByTagName("id_carga_combustible").item(0).getTextContent()));
-        ret.setKm(Integer.decode(element.getElementsByTagName("km").item(0).getTextContent()));
-        ret.setLitros(Integer.decode(element.getElementsByTagName("litros").item(0).getTextContent()));
+        ret.setObservaciones(element.getElementsByTagName("observaciones").item(0).getTextContent());
+        ret.setMesVencimiento(Short.decode(element.getElementsByTagName("mes_vencimiento").item(0).getTextContent()));
 
         return ret;
     }
