@@ -20,40 +20,40 @@ import cl.dsoft.car.misc.UnsupportedParameterException;
 public class SeguroVehiculo {
     protected Integer _idCiaSeguros;
     protected String _fechaModificacion;
-    protected Short _diaVencimiento;
     protected String _poliza;
     protected Long _idUsuario;
+    protected String _fechaVencimiento;
     protected Long _idSeguroVehiculo;
     protected Long _idVehiculo;
     protected Boolean _borrado;
     protected String _observaciones;
-    protected Short _mesVencimiento;
+    protected Integer _idTipoSeguro;
 
     private final static String _str_sql = 
         "    SELECT" +
         "    se.id_cia_seguros AS id_cia_seguros," +
         "    DATE_FORMAT(se.fecha_modificacion, '%Y-%m-%d %H:%i:%s') AS fecha_modificacion," +
-        "    se.dia_vencimiento AS dia_vencimiento," +
         "    se.poliza AS poliza," +
         "    se.id_usuario AS id_usuario," +
+        "    DATE_FORMAT(se.fecha_vencimiento, '%Y-%m-%d %H:%i:%s') AS fecha_vencimiento," +
         "    se.id_seguro_vehiculo AS id_seguro_vehiculo," +
         "    se.id_vehiculo AS id_vehiculo," +
         "    0+se.borrado AS borrado," +
         "    se.observaciones AS observaciones," +
-        "    se.mes_vencimiento AS mes_vencimiento" +
+        "    se.id_tipo_seguro AS id_tipo_seguro" +
         "    FROM seguro_vehiculo se";
 
     public SeguroVehiculo() {
         _idCiaSeguros = null;
         _fechaModificacion = null;
-        _diaVencimiento = null;
         _poliza = null;
         _idUsuario = null;
+        _fechaVencimiento = null;
         _idSeguroVehiculo = null;
         _idVehiculo = null;
         _borrado = null;
         _observaciones = null;
-        _mesVencimiento = null;
+        _idTipoSeguro = null;
 
     }
     /**
@@ -69,12 +69,6 @@ public class SeguroVehiculo {
         return _fechaModificacion;
     }
     /**
-     * @return the _diaVencimiento
-     */
-    public Short getDiaVencimiento() {
-        return _diaVencimiento;
-    }
-    /**
      * @return the _poliza
      */
     public String getPoliza() {
@@ -85,6 +79,12 @@ public class SeguroVehiculo {
      */
     public Long getIdUsuario() {
         return _idUsuario;
+    }
+    /**
+     * @return the _fechaVencimiento
+     */
+    public String getFechaVencimiento() {
+        return _fechaVencimiento;
     }
     /**
      * @return the _idSeguroVehiculo
@@ -111,10 +111,10 @@ public class SeguroVehiculo {
         return _observaciones;
     }
     /**
-     * @return the _mesVencimiento
+     * @return the _idTipoSeguro
      */
-    public Short getMesVencimiento() {
-        return _mesVencimiento;
+    public Integer getIdTipoSeguro() {
+        return _idTipoSeguro;
     }
     /**
      * @param _idCiaSeguros the _idCiaSeguros to set
@@ -129,12 +129,6 @@ public class SeguroVehiculo {
         this._fechaModificacion = _fechaModificacion;
     }
     /**
-     * @param _diaVencimiento the _diaVencimiento to set
-     */
-    public void setDiaVencimiento(Short _diaVencimiento) {
-        this._diaVencimiento = _diaVencimiento;
-    }
-    /**
      * @param _poliza the _poliza to set
      */
     public void setPoliza(String _poliza) {
@@ -145,6 +139,12 @@ public class SeguroVehiculo {
      */
     public void setIdUsuario(Long _idUsuario) {
         this._idUsuario = _idUsuario;
+    }
+    /**
+     * @param _fechaVencimiento the _fechaVencimiento to set
+     */
+    public void setFechaVencimiento(String _fechaVencimiento) {
+        this._fechaVencimiento = _fechaVencimiento;
     }
     /**
      * @param _idSeguroVehiculo the _idSeguroVehiculo to set
@@ -171,10 +171,10 @@ public class SeguroVehiculo {
         this._observaciones = _observaciones;
     }
     /**
-     * @param _mesVencimiento the _mesVencimiento to set
+     * @param _idTipoSeguro the _idTipoSeguro to set
      */
-    public void setMesVencimiento(Short _mesVencimiento) {
-        this._mesVencimiento = _mesVencimiento;
+    public void setIdTipoSeguro(Integer _idTipoSeguro) {
+        this._idTipoSeguro = _idTipoSeguro;
     }
 
     public static SeguroVehiculo fromRS(ResultSet p_rs) throws SQLException {
@@ -182,14 +182,14 @@ public class SeguroVehiculo {
 
         ret.setIdCiaSeguros(p_rs.getInt("id_cia_seguros"));
         ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setDiaVencimiento(p_rs.getShort("dia_vencimiento"));
         ret.setPoliza(p_rs.getString("poliza"));
         ret.setIdUsuario(p_rs.getLong("id_usuario"));
+        ret.setFechaVencimiento(p_rs.getString("fecha_vencimiento"));
         ret.setIdSeguroVehiculo(p_rs.getLong("id_seguro_vehiculo"));
         ret.setIdVehiculo(p_rs.getLong("id_vehiculo"));
         ret.setBorrado(p_rs.getBoolean("borrado"));
         ret.setObservaciones(p_rs.getString("observaciones"));
-        ret.setMesVencimiento(p_rs.getShort("mes_vencimiento"));
+        ret.setIdTipoSeguro(p_rs.getInt("id_tipo_seguro"));
 
         return ret;
     }
@@ -287,6 +287,9 @@ public class SeguroVehiculo {
                 else if (p.getKey().equals("id_vehiculo")) {
                     array_clauses.add("se.id_vehiculo = " + p.getValue());
                 }
+                else if (p.getKey().equals("id_tipo_seguro")) {
+                    array_clauses.add("se.id_tipo_seguro = " + p.getValue());
+                }
                 else if (p.getKey().equals("mas reciente")) {
                     array_clauses.add("se.fecha_modificacion > STR_TO_DATE('" + p.getValue() + "', '%Y-%m-%d %H:%i:%s')");
                 }
@@ -383,11 +386,10 @@ public class SeguroVehiculo {
             "    UPDATE seguro_vehiculo" +
             "    SET" +
             "    fecha_modificacion = " + (_fechaModificacion != null ? "STR_TO_DATE('" + _fechaModificacion + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
-            "    dia_vencimiento = " + (_diaVencimiento != null ? _diaVencimiento : "null") + "," +
             "    poliza = " + (_poliza != null ? "'" + _poliza + "'" : "null") + "," +
+            "    fecha_vencimiento = " + (_fechaVencimiento != null ? "STR_TO_DATE('" + _fechaVencimiento + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
             "    borrado = " + (_borrado != null ? "b'" + (_borrado ? 1 : 0) + "'" : "null") + "," +
-            "    observaciones = " + (_observaciones != null ? "'" + _observaciones + "'" : "null") + "," +
-            "    mes_vencimiento = " + (_mesVencimiento != null ? _mesVencimiento : "null") +
+            "    observaciones = " + (_observaciones != null ? "'" + _observaciones + "'" : "null") +
             "    WHERE" +
             "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
             "    id_seguro_vehiculo = " + Long.toString(this._idSeguroVehiculo);
@@ -439,23 +441,23 @@ public class SeguroVehiculo {
             "    INSERT INTO seguro_vehiculo" +
             "    (" +
             "    id_cia_seguros, " +
-            "    dia_vencimiento, " +
             "    poliza, " +
             "    id_usuario, " +
+            "    fecha_vencimiento, " +
             "    id_seguro_vehiculo, " +
             "    id_vehiculo, " +
             "    observaciones, " +
-            "    mes_vencimiento)" +
+            "    id_tipo_seguro)" +
             "    VALUES" +
             "    (" +
             "    " + (_idCiaSeguros != null ? "'" + _idCiaSeguros + "'" : "null") + "," +
-            "    " + (_diaVencimiento != null ? "'" + _diaVencimiento + "'" : "null") + "," +
             "    " + (_poliza != null ? "'" + _poliza + "'" : "null") + "," +
             "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
+            "    " + (_fechaVencimiento != null ? "STR_TO_DATE('" + _fechaVencimiento + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
             "    " + (_idSeguroVehiculo != null ? "'" + _idSeguroVehiculo + "'" : "null") + "," +
             "    " + (_idVehiculo != null ? "'" + _idVehiculo + "'" : "null") + "," +
             "    " + (_observaciones != null ? "'" + _observaciones + "'" : "null") + "," +
-            "    " + (_mesVencimiento != null ? "'" + _mesVencimiento + "'" : "null") +
+            "    " + (_idTipoSeguro != null ? "'" + _idTipoSeguro + "'" : "null") +
             "    )";
         
         try {
@@ -572,12 +574,12 @@ public class SeguroVehiculo {
 
                 _idCiaSeguros = obj.getIdCiaSeguros();
                 _fechaModificacion = obj.getFechaModificacion();
-                _diaVencimiento = obj.getDiaVencimiento();
                 _poliza = obj.getPoliza();
+                _fechaVencimiento = obj.getFechaVencimiento();
                 _idVehiculo = obj.getIdVehiculo();
                 _borrado = obj.getBorrado();
                 _observaciones = obj.getObservaciones();
-                _mesVencimiento = obj.getMesVencimiento();
+                _idTipoSeguro = obj.getIdTipoSeguro();
             }
         }
         catch (SQLException ex){
@@ -691,14 +693,14 @@ public class SeguroVehiculo {
         return "SeguroVehiculo [" +
 	           "    _idCiaSeguros = " + (_idCiaSeguros != null ? _idCiaSeguros : "null") + "," +
 	           "    _fecha_modificacion = " + (_fechaModificacion != null ? "STR_TO_DATE(" + _fechaModificacion + ", '%Y-%m-%d %H:%i:%s')" : "null") + "," +
-	           "    _diaVencimiento = " + (_diaVencimiento != null ? _diaVencimiento : "null") + "," +
 	           "    _poliza = " + (_poliza != null ? "'" + _poliza + "'" : "null") + "," +
 	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
+	           "    _fecha_vencimiento = " + (_fechaVencimiento != null ? "STR_TO_DATE(" + _fechaVencimiento + ", '%Y-%m-%d %H:%i:%s')" : "null") + "," +
 	           "    _idSeguroVehiculo = " + (_idSeguroVehiculo != null ? _idSeguroVehiculo : "null") + "," +
 	           "    _idVehiculo = " + (_idVehiculo != null ? _idVehiculo : "null") + "," +
 	           "    _borrado = " + (_borrado != null ? "b'" + _borrado : "null") + "," +
 	           "    _observaciones = " + (_observaciones != null ? "'" + _observaciones + "'" : "null") + "," +
-	           "    _mesVencimiento = " + (_mesVencimiento != null ? _mesVencimiento : "null") +
+	           "    _idTipoSeguro = " + (_idTipoSeguro != null ? _idTipoSeguro : "null") +
 			   "]";
     }
 
@@ -707,14 +709,14 @@ public class SeguroVehiculo {
         return "SeguroVehiculo : {" +
 	           "    \"_idCiaSeguros\" : " + (_idCiaSeguros != null ? _idCiaSeguros : "null") + "," +
 	           "    \"_fecha_modificacion\" : " + (_fechaModificacion != null ? "\"" + _fechaModificacion + "\"" : "null") + "," +
-	           "    \"_diaVencimiento\" : " + (_diaVencimiento != null ? _diaVencimiento : "null") + "," +
 	           "    \"_poliza\" : " + (_poliza != null ? "\"" + _poliza + "\"" : "null") + "," +
 	           "    \"_idUsuario\" : " + (_idUsuario != null ? _idUsuario : "null") + "," +
+	           "    \"_fecha_vencimiento\" : " + (_fechaVencimiento != null ? "\"" + _fechaVencimiento + "\"" : "null") + "," +
 	           "    \"_idSeguroVehiculo\" : " + (_idSeguroVehiculo != null ? _idSeguroVehiculo : "null") + "," +
 	           "    \"_idVehiculo\" : " + (_idVehiculo != null ? _idVehiculo : "null") + "," +
 	           "    \"_borrado\" : " + (_borrado != null ? "b'" + _borrado : "null") + "," +
 	           "    \"_observaciones\" : " + (_observaciones != null ? "\"" + _observaciones + "\"" : "null") + "," +
-	           "    \"_mesVencimiento\" : " + (_mesVencimiento != null ? _mesVencimiento : "null") +
+	           "    \"_idTipoSeguro\" : " + (_idTipoSeguro != null ? _idTipoSeguro : "null") +
 			   "}";
     }
 
@@ -723,14 +725,14 @@ public class SeguroVehiculo {
         return "<SeguroVehiculo>" +
 	           "    <idCiaSeguros" + (_idCiaSeguros != null ? ">" + _idCiaSeguros + "</idCiaSeguros>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <fechaModificacion" + (_fechaModificacion != null ? ">" + _fechaModificacion + "</fechaModificacion>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <diaVencimiento" + (_diaVencimiento != null ? ">" + _diaVencimiento + "</diaVencimiento>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <poliza" + (_poliza != null ? ">" + _poliza + "</poliza>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <idUsuario" + (_idUsuario != null ? ">" + _idUsuario + "</idUsuario>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <fechaVencimiento" + (_fechaVencimiento != null ? ">" + _fechaVencimiento + "</fechaVencimiento>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <idSeguroVehiculo" + (_idSeguroVehiculo != null ? ">" + _idSeguroVehiculo + "</idSeguroVehiculo>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <idVehiculo" + (_idVehiculo != null ? ">" + _idVehiculo + "</idVehiculo>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <borrado" + (_borrado != null ? ">" + _borrado + "</borrado>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <observaciones" + (_observaciones != null ? ">" + _observaciones + "</observaciones>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <mesVencimiento" + (_mesVencimiento != null ? ">" + _mesVencimiento + "</mesVencimiento>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <idTipoSeguro" + (_idTipoSeguro != null ? ">" + _idTipoSeguro + "</idTipoSeguro>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 			   "</SeguroVehiculo>";
     }
 
@@ -742,14 +744,14 @@ public class SeguroVehiculo {
 
         ret.setIdCiaSeguros(Integer.decode(element.getElementsByTagName("id_cia_seguros").item(0).getTextContent()));
         ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setDiaVencimiento(Short.decode(element.getElementsByTagName("dia_vencimiento").item(0).getTextContent()));
         ret.setPoliza(element.getElementsByTagName("poliza").item(0).getTextContent());
         ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
+        ret.setFechaVencimiento(element.getElementsByTagName("fecha_vencimiento").item(0).getTextContent());
         ret.setIdSeguroVehiculo(Long.decode(element.getElementsByTagName("id_seguro_vehiculo").item(0).getTextContent()));
         ret.setIdVehiculo(Long.decode(element.getElementsByTagName("id_vehiculo").item(0).getTextContent()));
         ret.setBorrado(Boolean.valueOf(element.getElementsByTagName("borrado").item(0).getTextContent()));
         ret.setObservaciones(element.getElementsByTagName("observaciones").item(0).getTextContent());
-        ret.setMesVencimiento(Short.decode(element.getElementsByTagName("mes_vencimiento").item(0).getTextContent()));
+        ret.setIdTipoSeguro(Integer.decode(element.getElementsByTagName("id_tipo_seguro").item(0).getTextContent()));
 
         return ret;
     }

@@ -23,242 +23,62 @@ import org.simpleframework.xml.Root;
  *
  */
 @Root
-public class SeguroVehiculo {
-    @Element(name = "idCiaSeguros")
-    private Integer _idCiaSeguros;
-    @Element(name = "fechaModificacion")
-    private String _fechaModificacion;
-    @Element(name = "poliza", required = false)
-    private String _poliza;
-    @Element(name = "idUsuario")
-    private Long _idUsuario;
-    @Element(name = "fechaVencimiento", required = false)
-    private String _fechaVencimiento;
-    @Element(name = "idSeguroVehiculo")
-    private Long _idSeguroVehiculo;
-    @Element(name = "idVehiculo")
-    private Long _idVehiculo;
-    @Element(name = "borrado")
-    private Boolean _borrado;
-    @Element(name = "observaciones", required = false)
-    private String _observaciones;
-    @Element(name = "idTipoSeguro")
-    private Integer _idTipoSeguro;
+public class TipoSeguro {
+    @Element(name = "descripcion")
+    private String _descripcion;
+    @Element(name = "id")
+    private Integer _id;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    se.id_cia_seguros AS id_cia_seguros," +
-        "    strftime('%Y-%m-%d %H:%M:%S', se.fecha_modificacion) AS fecha_modificacion," +
-        "    se.poliza AS poliza," +
-        "    se.id_usuario AS id_usuario," +
-        "    strftime('%Y-%m-%d %H:%M:%S', se.fecha_vencimiento) AS fecha_vencimiento," +
-        "    se.id_seguro_vehiculo AS id_seguro_vehiculo," +
-        "    se.id_vehiculo AS id_vehiculo," +
-        "    se.borrado AS borrado," +
-        "    se.observaciones AS observaciones," +
-        "    se.id_tipo_seguro AS id_tipo_seguro" +
-        "    FROM seguro_vehiculo se";
+        "    ti.descripcion AS descripcion," +
+        "    ti.id_tipo_seguro AS id" +
+        "    FROM tipo_seguro ti";
 
-    public SeguroVehiculo() {
-        _idCiaSeguros = null;
-        _fechaModificacion = null;
-        _poliza = null;
-        _idUsuario = null;
-        _fechaVencimiento = null;
-        _idSeguroVehiculo = null;
-        _idVehiculo = null;
-        _borrado = null;
-        _observaciones = null;
-        _idTipoSeguro = null;
+    public TipoSeguro() {
+        _descripcion = null;
+        _id = null;
 
     }
     /**
-     * @return the _idCiaSeguros
+     * @return the _descripcion
      */
-    public Integer getIdCiaSeguros() {
-        return _idCiaSeguros;
+    public String getDescripcion() {
+        return _descripcion;
     }
     /**
-     * @return the _fechaModificacion
+     * @return the _id
      */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
+    public Integer getId() {
+        return _id;
     }
     /**
-     * @return the _poliza
+     * @param _descripcion the _descripcion to set
      */
-    public String getPoliza() {
-        return _poliza;
+    public void setDescripcion(String _descripcion) {
+        this._descripcion = _descripcion;
     }
     /**
-     * @return the _idUsuario
+     * @param _id the _id to set
      */
-    public Long getIdUsuario() {
-        return _idUsuario;
-    }
-    /**
-     * @return the _fechaVencimiento
-     */
-    public String getFechaVencimiento() {
-        return _fechaVencimiento;
-    }
-    /**
-     * @return the _idSeguroVehiculo
-     */
-    public Long getIdSeguroVehiculo() {
-        return _idSeguroVehiculo;
-    }
-    /**
-     * @return the _idVehiculo
-     */
-    public Long getIdVehiculo() {
-        return _idVehiculo;
-    }
-    /**
-     * @return the _borrado
-     */
-    public Boolean getBorrado() {
-        return _borrado;
-    }
-    /**
-     * @return the _observaciones
-     */
-    public String getObservaciones() {
-        return _observaciones;
-    }
-    /**
-     * @return the _idTipoSeguro
-     */
-    public Integer getIdTipoSeguro() {
-        return _idTipoSeguro;
-    }
-    /**
-     * @return the _fechaVencimiento as seconds from January 1, 1970, 00:00:00 GMT
-     */
-    public long getFechaVencimientoAsLong() throws ParseException {
-        Date d;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        d = formatter.parse(_fechaVencimiento);
-
-        return (long)d.getTime() / 1000L;
-    }
-    /**
-     * @return the _fechaVencimiento as Date
-     */
-    public Date getFechaVencimientoAsDate() throws ParseException {
-        Date d;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        d = formatter.parse(_fechaVencimiento);
-
-        return d;
-    }
-    /**
-     * @param _idCiaSeguros the _idCiaSeguros to set
-     */
-    public void setIdCiaSeguros(Integer _idCiaSeguros) {
-        this._idCiaSeguros = _idCiaSeguros;
-    }
-    /**
-     * @param _fechaModificacion the _fechaModificacion to set
-     */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
-    }
-    /**
-     * @param _poliza the _poliza to set
-     */
-    public void setPoliza(String _poliza) {
-        this._poliza = _poliza;
-    }
-    /**
-     * @param _idUsuario the _idUsuario to set
-     */
-    public void setIdUsuario(Long _idUsuario) {
-        this._idUsuario = _idUsuario;
-    }
-    /**
-     * @param _fechaVencimiento the _fechaVencimiento to set
-     */
-    public void setFechaVencimiento(String _fechaVencimiento) {
-        this._fechaVencimiento = _fechaVencimiento;
-    }
-    /**
-     * @param _idSeguroVehiculo the _idSeguroVehiculo to set
-     */
-    public void setIdSeguroVehiculo(Long _idSeguroVehiculo) {
-        this._idSeguroVehiculo = _idSeguroVehiculo;
-    }
-    /**
-     * @param _idVehiculo the _idVehiculo to set
-     */
-    public void setIdVehiculo(Long _idVehiculo) {
-        this._idVehiculo = _idVehiculo;
-    }
-    /**
-     * @param _borrado the _borrado to set
-     */
-    public void setBorrado(Boolean _borrado) {
-        this._borrado = _borrado;
-    }
-    /**
-     * @param _observaciones the _observaciones to set
-     */
-    public void setObservaciones(String _observaciones) {
-        this._observaciones = _observaciones;
-    }
-    /**
-     * @param _idTipoSeguro the _idTipoSeguro to set
-     */
-    public void setIdTipoSeguro(Integer _idTipoSeguro) {
-        this._idTipoSeguro = _idTipoSeguro;
-    }
-    /**
-     * @param _fechaVencimiento the _fechaVencimiento to set as seconds from January 1, 1970, 00:00:00 GMT
-     */
-    public void setFechaVencimiento(long _timestamp) {
-        Date d;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        d = new Date((long)_timestamp*1000);
-
-        this._fechaVencimiento = formatter.format(d);
-;
-    }
-    /**
-     * @param _fechaVencimiento the _fechaVencimiento to set as java.util.Date
-     */
-    public void setFechaVencimiento(Date _fecha) {
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        this._fechaVencimiento = formatter.format(_fecha);
-;
+    public void setId(Integer _id) {
+        this._id = _id;
     }
 
-    public static SeguroVehiculo fromRS(ResultSet p_rs) throws SQLException {
-        SeguroVehiculo ret = new SeguroVehiculo();
+    public static TipoSeguro fromRS(ResultSet p_rs) throws SQLException {
+        TipoSeguro ret = new TipoSeguro();
 
-        ret.setIdCiaSeguros(p_rs.getInt("id_cia_seguros"));
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setPoliza(p_rs.getString("poliza"));
-        ret.setIdUsuario(p_rs.getLong("id_usuario"));
-        ret.setFechaVencimiento(p_rs.getString("fecha_vencimiento"));
-        ret.setIdSeguroVehiculo(p_rs.getLong("id_seguro_vehiculo"));
-        ret.setIdVehiculo(p_rs.getLong("id_vehiculo"));
-        ret.setBorrado(p_rs.getString("borrado") != null ? p_rs.getString("borrado").equals("true") : null);
-        ret.setObservaciones(p_rs.getString("observaciones"));
-        ret.setIdTipoSeguro(p_rs.getInt("id_tipo_seguro"));
+        ret.setDescripcion(p_rs.getString("descripcion"));
+        ret.setId(p_rs.getInt("id"));
 
         return ret;
     }
 
-    public static SeguroVehiculo getByParameter(Connection p_conn, String p_key, String p_value) throws SQLException {
-        SeguroVehiculo ret = null;
+    public static TipoSeguro getByParameter(Connection p_conn, String p_key, String p_value) throws SQLException {
+        TipoSeguro ret = null;
         
         String str_sql = _str_sql +
-            "  WHERE se." + p_key + " = " + p_value +
+            "  WHERE ti." + p_key + " = " + p_value +
             "  LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -315,46 +135,28 @@ public class SeguroVehiculo {
         return ret;        
     }
 
+    public static TipoSeguro getById(Connection p_conn, String p_id) throws SQLException {
+        return getByParameter(p_conn, "id_tipo_seguro", p_id);
+    }
     
-    public static ArrayList<SeguroVehiculo> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
+    public static ArrayList<TipoSeguro> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
         Statement stmt = null;
         ResultSet rs = null;
         String str_sql;
-        ArrayList<SeguroVehiculo> ret;
+        ArrayList<TipoSeguro> ret;
         
         str_sql = "";
         
         try {
             ArrayList<String> array_clauses = new ArrayList<String>();
             
-            ret = new ArrayList<SeguroVehiculo>();
+            ret = new ArrayList<TipoSeguro>();
             
             str_sql = _str_sql;
             
             for (AbstractMap.SimpleEntry<String, String> p : p_parameters) {
-                if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("se.id_usuario = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_seguro_vehiculo")) {
-                    array_clauses.add("se.id_seguro_vehiculo = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_cia_seguros")) {
-                    array_clauses.add("se.id_cia_seguros = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_vehiculo")) {
-                    array_clauses.add("se.id_vehiculo = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_tipo_seguro")) {
-                    array_clauses.add("se.id_tipo_seguro = " + p.getValue());
-                }
-                else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("se.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
-                }
-                else if (p.getKey().equals("no borrado")) {
-                    array_clauses.add("se.borrado = 'false'");
-                }
-                else if (p.getKey().equals("borrado")) {
-                    array_clauses.add("se.borrado = 'true'");
+                if (p.getKey().equals("id_tipo_seguro")) {
+                    array_clauses.add("ti.id_tipo_seguro = " + p.getValue());
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -435,11 +237,11 @@ public class SeguroVehiculo {
     }
 
 
-    public static Long getNextId(Connection p_conn) throws SQLException {
-        Long ret = null;
+    public static Integer getNextId(Connection p_conn) throws SQLException {
+        Integer ret = null;
         
         String str_sql = 
-            "  SELECT COALESCE(MAX(id_seguro_vehiculo), 0) + 1 AS next_id FROM seguro_vehiculo";
+            "  SELECT COALESCE(MAX(id_tipo_seguro), 0) + 1 AS next_id FROM tipo_seguro";
         
         //System.out.println(str_sql);
         
@@ -457,7 +259,7 @@ public class SeguroVehiculo {
             
             if (rs.next()) {
                 //System.out.println("rs.next() ok");
-                ret = rs.getLong("next_id");
+                ret = rs.getInt("next_id");
                 //System.out.println("fromRS(rs) ok");
             }
         }
@@ -501,16 +303,11 @@ public class SeguroVehiculo {
         Statement stmt = null;
 
         String str_sql =
-            "    UPDATE seguro_vehiculo" +
+            "    UPDATE tipo_seguro" +
             "    SET" +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    poliza = " + (_poliza != null ? "'" + _poliza + "'" : "null") + "," +
-            "    fecha_vencimiento = " + (_fechaVencimiento != null ? "date('" + _fechaVencimiento + "', 'localtime')" : "null") + "," +
-            "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
-            "    observaciones = " + (_observaciones != null ? "'" + _observaciones + "'" : "null") +
+            "    descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_seguro_vehiculo = " + Long.toString(this._idSeguroVehiculo);
+            "    id_tipo_seguro = " + Integer.toString(this._id);
 
         try {
             stmt = p_conn.createStatement();
@@ -558,35 +355,19 @@ public class SeguroVehiculo {
         Statement stmt = null;
         ResultSet rs = null;
 
-        if (_idSeguroVehiculo == null) {
-            _idSeguroVehiculo = getNextId(p_conn);
+        if (_id == null) {
+            _id = getNextId(p_conn);
         }
 
         String str_sql =
-            "    INSERT INTO seguro_vehiculo" +
+            "    INSERT INTO tipo_seguro" +
             "    (" +
-            "    id_cia_seguros, " +
-            "    fecha_modificacion, " +
-            "    poliza, " +
-            "    id_usuario, " +
-            "    fecha_vencimiento, " +
-            "    id_seguro_vehiculo, " +
-            "    id_vehiculo, " +
-            "    borrado, " +
-            "    observaciones, " +
+            "    descripcion, " +
             "    id_tipo_seguro)" +
             "    VALUES" +
             "    (" +
-            "    " + (_idCiaSeguros != null ? "'" + _idCiaSeguros + "'" : "null") + "," +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    " + (_poliza != null ? "'" + _poliza + "'" : "null") + "," +
-            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
-            "    " + (_fechaVencimiento != null ? "date('" + _fechaVencimiento + "', 'localtime')" : "null") + "," +
-            "    " + (_idSeguroVehiculo != null ? "'" + _idSeguroVehiculo + "'" : "null") + "," +
-            "    " + (_idVehiculo != null ? "'" + _idVehiculo + "'" : "null") + "," +
-            "    " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
-            "    " + (_observaciones != null ? "'" + _observaciones + "'" : "null") + "," +
-            "    " + (_idTipoSeguro != null ? "'" + _idTipoSeguro + "'" : "null") +
+            "    " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
+            "    " + (_id != null ? "'" + _id + "'" : "null") +
             "    )";
         
         try {
@@ -637,10 +418,9 @@ public class SeguroVehiculo {
         Statement stmt = null;
 
         String str_sql =
-            "    DELETE FROM seguro_vehiculo" +
+            "    DELETE FROM tipo_seguro" +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_seguro_vehiculo = " + Long.toString(this._idSeguroVehiculo);
+            "    id_tipo_seguro = " + Integer.toString(this._id);
 
         try {
             stmt = p_conn.createStatement();
@@ -674,12 +454,11 @@ public class SeguroVehiculo {
     }
 
     public void load(Connection p_conn) throws SQLException {
-        SeguroVehiculo obj = null;
+        TipoSeguro obj = null;
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_seguro_vehiculo = " + Long.toString(this._idSeguroVehiculo) +
+            "    id_tipo_seguro = " + Integer.toString(this._id) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -701,14 +480,7 @@ public class SeguroVehiculo {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
-                _idCiaSeguros = obj.getIdCiaSeguros();
-                _fechaModificacion = obj.getFechaModificacion();
-                _poliza = obj.getPoliza();
-                _fechaVencimiento = obj.getFechaVencimiento();
-                _idVehiculo = obj.getIdVehiculo();
-                _borrado = obj.getBorrado();
-                _observaciones = obj.getObservaciones();
-                _idTipoSeguro = obj.getIdTipoSeguro();
+                _descripcion = obj.getDescripcion();
             }
         }
         catch (SQLException ex){
@@ -748,8 +520,7 @@ public class SeguroVehiculo {
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_seguro_vehiculo = " + Long.toString(this._idSeguroVehiculo) +
+            "    id_tipo_seguro = " + Integer.toString(this._id) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -819,37 +590,21 @@ public class SeguroVehiculo {
 
 @Override
     public String toString() {
-        return "SeguroVehiculo [" +
-	           "    _idCiaSeguros = " + (_idCiaSeguros != null ? _idCiaSeguros : "null") + "," +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
-	           "    _poliza = " + (_poliza != null ? "'" + _poliza + "'" : "null") + "," +
-	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
-	           "    _fechaVencimiento = " + (_fechaVencimiento != null ? "'" + _fechaVencimiento + "'" : "null") + "," +
-	           "    _idSeguroVehiculo = " + (_idSeguroVehiculo != null ? _idSeguroVehiculo : "null") + "," +
-	           "    _idVehiculo = " + (_idVehiculo != null ? _idVehiculo : "null") + "," +
-	           "    _borrado = " + (_borrado != null ? _borrado : "null") + "," +
-	           "    _observaciones = " + (_observaciones != null ? "'" + _observaciones + "'" : "null") + "," +
-	           "    _idTipoSeguro = " + (_idTipoSeguro != null ? _idTipoSeguro : "null") +
+        return "TipoSeguro [" +
+	           "    _descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
+	           "    _id = " + (_id != null ? _id : "null") +
 			   "]";
     }
 
 
 /*
-    public static SeguroVehiculo fromXMLNode(Node xmlNode) {
-        SeguroVehiculo ret = new SeguroVehiculo();
+    public static TipoSeguro fromXMLNode(Node xmlNode) {
+        TipoSeguro ret = new TipoSeguro();
 
         Element element = (Element) xmlNode;
 
-        ret.setIdCiaSeguros(Integer.decode(element.getElementsByTagName("id_cia_seguros").item(0).getTextContent()));
-        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setPoliza(element.getElementsByTagName("poliza").item(0).getTextContent());
-        ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
-        ret.setFechaVencimiento(element.getElementsByTagName("fecha_vencimiento").item(0).getTextContent());
-        ret.setIdSeguroVehiculo(Long.decode(element.getElementsByTagName("id_seguro_vehiculo").item(0).getTextContent()));
-        ret.setIdVehiculo(Long.decode(element.getElementsByTagName("id_vehiculo").item(0).getTextContent()));
-        ret.setBorrado(element.getElementsByTagName("borrado").item(0).getTextContent());
-        ret.setObservaciones(element.getElementsByTagName("observaciones").item(0).getTextContent());
-        ret.setIdTipoSeguro(Integer.decode(element.getElementsByTagName("id_tipo_seguro").item(0).getTextContent()));
+        ret.setDescripcion(element.getElementsByTagName("descripcion").item(0).getTextContent());
+        ret.setId(Integer.decode(element.getElementsByTagName("id_tipo_seguro").item(0).getTextContent()));
 
         return ret;
     }
