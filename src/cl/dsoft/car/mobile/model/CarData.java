@@ -122,35 +122,35 @@ public class CarData {
 			listParameters.add(new AbstractMap.SimpleEntry<String, String>("id_usuario", String.valueOf(idUsuario)));
 			listParameters.add(new AbstractMap.SimpleEntry<String, String>("mas reciente", fechaModificacion));
 			
-			//this.paises = Pais.seek(conn, listParameters, null, null, 0, 1);
+			//this.paises = Pais.seek(conn, listParameters, null, null, 0, 10000);
 			
-			//this.regiones = Region.seek(conn, listParameters, null, null, 0, 1);
+			//this.regiones = Region.seek(conn, listParameters, null, null, 0, 10000);
 			
-			//this.comunas = Comuna.seek(conn, listParameters, null, null, 0, 1);
+			//this.comunas = Comuna.seek(conn, listParameters, null, null, 0, 10000);
 			
-			this.mantencionBaseHechas = MantencionBaseHecha.seek(conn, listParameters, null, null, 0, 1);
+			this.mantencionBaseHechas = MantencionBaseHecha.seek(conn, listParameters, null, null, 0, 10000);
 			
-			this.mantencionUsuarios = MantencionUsuario.seek(conn, listParameters, null, null, 0, 1);
+			this.mantencionUsuarios = MantencionUsuario.seek(conn, listParameters, null, null, 0, 10000);
 			
-			this.mantencionUsuarioHechas = MantencionUsuarioHecha.seek(conn, listParameters, null, null, 0, 1);
+			this.mantencionUsuarioHechas = MantencionUsuarioHecha.seek(conn, listParameters, null, null, 0, 10000);
 			
-			this.recordatorios = Recordatorio.seek(conn, listParameters, null, null, 0, 1);
+			this.recordatorios = Recordatorio.seek(conn, listParameters, null, null, 0, 10000);
 			
-			this.cargaCombustibles = CargaCombustible.seek(conn, listParameters, null, null, 0, 1);
+			this.cargaCombustibles = CargaCombustible.seek(conn, listParameters, null, null, 0, 10000);
 			
-			this.reparaciones = Reparacion.seek(conn, listParameters, null, null, 0, 1);
+			this.reparaciones = Reparacion.seek(conn, listParameters, null, null, 0, 10000);
 			
-			this.usuarios = Usuario.seek(conn, listParameters, null, null, 0, 1);
+			this.usuarios = Usuario.seek(conn, listParameters, null, null, 0, 10000);
 			
-			this.autenticaciones = Autenticacion.seek(conn, listParameters, null, null, 0, 1);
+			this.autenticaciones = Autenticacion.seek(conn, listParameters, null, null, 0, 10000);
 			
-			this.vehiculos = Vehiculo.seek(conn, listParameters, null, null, 0, 1);
+			this.vehiculos = Vehiculo.seek(conn, listParameters, null, null, 0, 10000);
 			
-			//this.ciaSeguross = CiaSeguros.seek(conn, listParameters, null, null, 0, 1);
+			//this.ciaSeguross = CiaSeguros.seek(conn, listParameters, null, null, 0, 10000);
 			
-			this.seguroVehiculos = SeguroVehiculo.seek(conn, listParameters, null, null, 0, 1);
+			this.seguroVehiculos = SeguroVehiculo.seek(conn, listParameters, null, null, 0, 10000);
 			
-			this.logs = Log.seek(conn, listParameters, null, null, 0, 1);
+			this.logs = Log.seek(conn, listParameters, null, null, 0, 10000);
 			
 			
 		} catch (Exception e) {
@@ -430,11 +430,13 @@ public class CarData {
 				seguroVehiculo.save(conn);
 			}
 		}
+		/*
 		if (this.getLogs() != null) {
 			for (Log log : this.getLogs()) {
 				
 				log.save(conn);
 			}
 		}
+		*/
 	}
 }

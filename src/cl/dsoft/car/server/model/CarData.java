@@ -98,7 +98,7 @@ public class CarData {
 		this.reparaciones = new Reparaciones(conn, idUsuario, fechaModificacion);
 		this.ciaSeguross = new CiaSeguross(conn, idUsuario, fechaModificacion);
 		this.seguroVehiculos = new SeguroVehiculos(conn, idUsuario, fechaModificacion);
-		this.logs = new Logs(conn, idUsuario, fechaModificacion);
+		//this.logs = new Logs(conn, idUsuario, fechaModificacion);
 	}
 
 	public CarData(java.sql.Connection conn, Long idRedSocial, String token, Boolean byIdRedSocial) {
@@ -121,7 +121,7 @@ public class CarData {
 			this.reparaciones = new Reparaciones(conn, u.getId(), "1900-01-01");
 			this.ciaSeguross = new CiaSeguross(conn, u.getId(), "1900-01-01");
 			this.seguroVehiculos = new SeguroVehiculos(conn, u.getId(), "1900-01-01");
-			this.logs = new Logs(conn, u.getId(), "1900-01-01");
+			//this.logs = new Logs(conn, u.getId(), "1900-01-01");
 		}
 		/*
 		else {

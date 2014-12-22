@@ -46,7 +46,7 @@ public class Usuarios {
 			listParameters.add(new AbstractMap.SimpleEntry<String, String>("id_usuario", String.valueOf(idUsuario)));
 			listParameters.add(new AbstractMap.SimpleEntry<String, String>("mas reciente", fechaModificacion));
 			
-			this.usuarios = Usuario.seek(conn, listParameters, null, null, 0, 1);
+			this.usuarios = Usuario.seek(conn, listParameters, null, null, 0, 10000);
 			
 			
 		} catch (Exception e) {
@@ -66,7 +66,7 @@ public class Usuarios {
 			listParameters.add(new AbstractMap.SimpleEntry<String, String>("id_red_social", String.valueOf(idRedSocial)));
 			listParameters.add(new AbstractMap.SimpleEntry<String, String>("token", String.valueOf(token)));
 			
-			this.usuarios = Usuario.seek(conn, listParameters, null, null, 0, 1);
+			this.usuarios = Usuario.seek(conn, listParameters, null, null, 0, 10000);
 			
 			
 		} catch (Exception e) {

@@ -42,7 +42,7 @@ public class MantencionBaseHechas {
 			listParameters.add(new AbstractMap.SimpleEntry<String, String>("id_usuario", String.valueOf(idBase)));
 			listParameters.add(new AbstractMap.SimpleEntry<String, String>("mas reciente", fechaModificacion));
 			
-			this.mantencionBaseHechas = MantencionBaseHecha.seek(conn, listParameters, null, null, 0, 1);
+			this.mantencionBaseHechas = MantencionBaseHecha.seek(conn, listParameters, null, null, 0, 10000);
 			
 			
 		} catch (Exception e) {

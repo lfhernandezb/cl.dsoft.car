@@ -60,8 +60,10 @@ public class VehiculoModelo extends Vehiculo {
 		parametros.clear();
 		
 		parametros.add(new AbstractMap.SimpleEntry<String, String>("id_mantencion_base", String.valueOf(mb.getId())));
+		parametros.add(new AbstractMap.SimpleEntry<String, String>("id_usuario", String.valueOf(getIdUsuario())));
+		parametros.add(new AbstractMap.SimpleEntry<String, String>("id_vehiculo", String.valueOf(getIdVehiculo())));
 		
-		list_mbh = MantencionBaseHecha.seek(conn, parametros, "fecha", "DESC", 0, 1);		
+		list_mbh = MantencionBaseHecha.seek(conn, parametros, "fecha_modificacion", "DESC", 0, 1);		
 			
 		if (mb.getDependeKm() && mb.getKmEntreMantenciones() != null && mb.getKmEntreMantenciones() > 0) {
 			
@@ -231,7 +233,7 @@ public class VehiculoModelo extends Vehiculo {
     		parametros.add(new AbstractMap.SimpleEntry<String, String>("id_mantencion_usuario", mu.getIdMantencionUsuario().toString()));
     		parametros.add(new AbstractMap.SimpleEntry<String, String>("id_vehiculo", getIdVehiculo().toString()));
     		
-    		list_muh = MantencionUsuarioHecha.seek(p_conn, parametros, "fecha", "DESC", 0, 1);
+    		list_muh = MantencionUsuarioHecha.seek(p_conn, parametros, "fecha_modificacion", "DESC", 0, 1);
     		
 			muh = new MantencionUsuarioHecha();
 			

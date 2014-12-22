@@ -42,7 +42,7 @@ public class Recordatorios {
 			listParameters.add(new AbstractMap.SimpleEntry<String, String>("id_usuario", String.valueOf(idUsuario)));
 			listParameters.add(new AbstractMap.SimpleEntry<String, String>("mas reciente", fechaModificacion));
 			
-			this.recordatorios = Recordatorio.seek(conn, listParameters, null, null, 0, 1);
+			this.recordatorios = Recordatorio.seek(conn, listParameters, null, null, 0, 10000);
 			
 			
 		} catch (Exception e) {

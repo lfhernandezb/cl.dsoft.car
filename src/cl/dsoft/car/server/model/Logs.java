@@ -42,7 +42,7 @@ public class Logs {
 			listParameters.add(new AbstractMap.SimpleEntry<String, String>("id_usuario", String.valueOf(idUsuario)));
 			listParameters.add(new AbstractMap.SimpleEntry<String, String>("mas reciente", fechaModificacion));
 			
-			this.logs = Log.seek(conn, listParameters, null, null, 0, 1);
+			this.logs = Log.seek(conn, listParameters, null, null, 0, 10000);
 			
 			
 		} catch (Exception e) {
