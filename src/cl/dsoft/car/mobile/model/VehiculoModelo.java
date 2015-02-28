@@ -42,11 +42,11 @@ public class VehiculoModelo extends Vehiculo {
 		super();
 	}
 	
-	private MantencionBaseHecha getMantencionMasReciente(Connection conn, MantencionBase mb) throws UnsupportedParameterException, SQLException {
+	private MantencionBaseHechaModelo getMantencionMasReciente(Connection conn, MantencionBase mb) throws UnsupportedParameterException, SQLException {
 		 
-		ArrayList<MantencionBaseHecha> list_mbh;
+		ArrayList<MantencionBaseHechaModelo> list_mbh;
 		ArrayList<AbstractMap.SimpleEntry<String, String>> parametros;
-		MantencionBaseHecha ret = null;
+		MantencionBaseHechaModelo ret = null;
 		
 		parametros = new ArrayList<AbstractMap.SimpleEntry<String, String>>();
 		
@@ -57,7 +57,7 @@ public class VehiculoModelo extends Vehiculo {
 		parametros.add(new AbstractMap.SimpleEntry<String, String>("id_usuario", String.valueOf(getIdUsuario())));
 		parametros.add(new AbstractMap.SimpleEntry<String, String>("id_vehiculo", String.valueOf(getIdVehiculo())));
 		
-		list_mbh = MantencionBaseHecha.seek(conn, parametros, "fecha_modificacion", "DESC", 0, 1);
+		list_mbh = MantencionBaseHechaModelo.seeks(conn, parametros, "fecha_modificacion", "DESC", 0, 1);
 		
 		if (!list_mbh.isEmpty()) {
 			ret = list_mbh.get(0);
@@ -66,9 +66,9 @@ public class VehiculoModelo extends Vehiculo {
 		return ret;
 	}
 
-	private MantencionBaseHecha getMantencionBasePendiente(Connection conn, MantencionBase mb) throws UnsupportedParameterException, SQLException, ParseException {
+	private MantencionBaseHechaModelo getMantencionBasePendiente(Connection conn, MantencionBase mb) throws UnsupportedParameterException, SQLException, ParseException {
 
-		MantencionBaseHecha mbh = null;
+		MantencionBaseHechaModelo mbh = null;
 		
 		// encuentro ultima mantencion hecha de este tipo
 	
@@ -77,9 +77,9 @@ public class VehiculoModelo extends Vehiculo {
         return getMantencionBasePendiente(conn, mb, mbh);
 	}
 
-	private MantencionBaseHecha getMantencionBasePendiente(Connection conn, MantencionBase mb, MantencionBaseHecha mbh) throws UnsupportedParameterException, SQLException, ParseException {
+	private MantencionBaseHechaModelo getMantencionBasePendiente(Connection conn, MantencionBase mb, MantencionBaseHechaModelo mbh) throws UnsupportedParameterException, SQLException, ParseException {
 
-		MantencionBaseHecha ret = null;
+		MantencionBaseHechaModelo ret = null;
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Integer n;
         Boolean bFound = false;
@@ -101,11 +101,13 @@ public class VehiculoModelo extends Vehiculo {
     		
     		if (n > 0) {
     			// hay mantencion pendiente, o bien no la ha informado
-    			ret = new MantencionBaseHecha();
+    			ret = new MantencionBaseHechaModelo();
     			
     			ret.setIdMantencionBase(mb.getId());
     			ret.setIdVehiculo(this.getIdVehiculo());
     			ret.setIdUsuario(this.getIdUsuario());
+    			ret.setDescripcionItem(mb.getDescripcionItem());
+    			//ret.setEsMantencion(mbh.getEsMantencion());
 
     			ret.setKm(kmInicial + n * mb.getKmEntreMantenciones());
     			//mbh.setFecha(formatter.format(new Date()));
@@ -135,11 +137,13 @@ public class VehiculoModelo extends Vehiculo {
     		
     		if (n > 0) {
     			// hay mantencion pendiente, o bien no la ha informado
-    			ret = new MantencionBaseHecha();
+    			ret = new MantencionBaseHechaModelo();
     			
     			ret.setIdMantencionBase(mb.getId());
     			ret.setIdVehiculo(this.getIdVehiculo());
     			ret.setIdUsuario(this.getIdUsuario());
+    			ret.setDescripcionItem(mb.getDescripcionItem());
+    			//ret.setEsMantencion(mbh.getEsMantencion());
 
     			ret.setFecha(dtInicial.plusMonths(n * mb.getMesesEntreMantenciones()).toDate());
     			
@@ -151,9 +155,9 @@ public class VehiculoModelo extends Vehiculo {
 		
 	}
 
-	public ArrayList<MantencionBaseHecha> getMantencionesBasePendientes(Connection conn) throws SQLException, UnsupportedParameterException, ParseException {
+	public ArrayList<MantencionBaseHechaModelo> getMantencionesBasePendientes(Connection conn) throws SQLException, UnsupportedParameterException, ParseException {
     	
-    	ArrayList<MantencionBaseHecha> ret;
+    	ArrayList<MantencionBaseHechaModelo> ret;
     	ArrayList<CambioRevision> list_cr;
     	ArrayList<AbstractMap.SimpleEntry<String, String>> parametros;
     	String traccion, combustible;
@@ -163,15 +167,15 @@ public class VehiculoModelo extends Vehiculo {
     	
     	parametros = new ArrayList<AbstractMap.SimpleEntry<String, String>>();
     	
-    	ret = new ArrayList<MantencionBaseHecha>();
+    	ret = new ArrayList<MantencionBaseHechaModelo>();
     	
     	list_cr = CambioRevision.seek(conn, parametros, null, null, 0, 10000);
     	
     	for (CambioRevision cr : list_cr) {
     		MantencionBase mbCambio, mbRevision;
-    		MantencionBaseHecha mbhCambio, mbhRevision;
+    		MantencionBaseHechaModelo mbhCambio, mbhRevision;
     		
-    		MantencionBaseHecha pendiente = null;
+    		MantencionBaseHechaModelo pendiente = null;
     		    		
     		if (cr.getIdCambio() != 0 && cr.getIdRevision() != 0) {
     			// cambio?
@@ -201,9 +205,17 @@ public class VehiculoModelo extends Vehiculo {
     					if (pendienteR == null) {
     						pendiente = null;
     					}
+    					else {
+    						// es revision!
+    						pendiente.setEsMantencion(false);
+    					}
     				}
     				
     				
+    			}
+    			else {
+    				// es mantencion!
+    				pendiente.setEsMantencion(true);
     			}
     			
     		}
@@ -215,6 +227,10 @@ public class VehiculoModelo extends Vehiculo {
         		mbhCambio = getMantencionMasReciente(conn, mbCambio);
 
         		pendiente = getMantencionBasePendiente(conn, mbCambio, mbhCambio);
+        		
+        		if (pendiente != null) {
+        			pendiente.setEsMantencion(true);
+        		}
     		}
     		else if (cr.getIdCambio() == 0) {
     			// solo revision
@@ -223,7 +239,11 @@ public class VehiculoModelo extends Vehiculo {
         		
         		mbhRevision = getMantencionMasReciente(conn, mbRevision);
 
-    			pendiente = getMantencionBasePendiente(conn, mbRevision, mbhRevision); 
+    			pendiente = getMantencionBasePendiente(conn, mbRevision, mbhRevision);
+    			
+    			if (pendiente != null) {
+    				pendiente.setEsMantencion(false);
+    			}
     		}
     		
     		if (pendiente != null) {

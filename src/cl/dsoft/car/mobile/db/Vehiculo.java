@@ -24,69 +24,91 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class Vehiculo {
+    @Element(name = "kmCalibrados", required = false)
+    private Integer _kmCalibrados;
     @Element(name = "anio", required = false)
     private Integer _anio;
-    @Element(name = "fechaModificacion")
-    private String _fechaModificacion;
+    @Element(name = "idPerfilUso", required = false)
+    private Long _idPerfilUso;
     @Element(name = "aireAcondicionado", required = false)
     private Boolean _aireAcondicionado;
     @Element(name = "alias")
     private String _alias;
-    @Element(name = "idUsuario")
-    private Long _idUsuario;
-    @Element(name = "idVehiculo")
-    private Long _idVehiculo;
     @Element(name = "borrado")
     private Boolean _borrado;
-    @Element(name = "patente", required = false)
-    private String _patente;
-    @Element(name = "idModelo")
-    private Long _idModelo;
+    @Element(name = "fechaUltimoKm", required = false)
+    private String _fechaUltimoKm;
     @Element(name = "idTraccion")
     private Byte _idTraccion;
     @Element(name = "km", required = false)
     private Integer _km;
-    @Element(name = "idCombustible")
-    private Byte _idCombustible;
-    @Element(name = "idTipoTransmision")
-    private Byte _idTipoTransmision;
     @Element(name = "alzaVidrios", required = false)
     private Boolean _alzaVidrios;
+    @Element(name = "fechaModificacion")
+    private String _fechaModificacion;
+    @Element(name = "fechaUltimaCalibracion", required = false)
+    private String _fechaUltimaCalibracion;
+    @Element(name = "idUsuario")
+    private Long _idUsuario;
+    @Element(name = "idVehiculo")
+    private Long _idVehiculo;
+    @Element(name = "patente", required = false)
+    private String _patente;
+    @Element(name = "idModelo")
+    private Long _idModelo;
+    @Element(name = "idTipoTransmision")
+    private Byte _idTipoTransmision;
+    @Element(name = "idCombustible")
+    private Byte _idCombustible;
 
     private final static String _str_sql = 
         "    SELECT" +
+        "    ve.km_calibrados AS km_calibrados," +
         "    ve.anio AS anio," +
-        "    strftime('%Y-%m-%d %H:%M:%S', ve.fecha_modificacion) AS fecha_modificacion," +
+        "    ve.id_perfil_uso AS id_perfil_uso," +
         "    ve.aire_acondicionado AS aire_acondicionado," +
         "    ve.alias AS alias," +
-        "    ve.id_usuario AS id_usuario," +
-        "    ve.id_vehiculo AS id_vehiculo," +
         "    ve.borrado AS borrado," +
-        "    ve.patente AS patente," +
-        "    ve.id_modelo AS id_modelo," +
+        "    strftime('%Y-%m-%d %H:%M:%S', ve.fecha_ultimo_km) AS fecha_ultimo_km," +
         "    ve.id_traccion AS id_traccion," +
         "    ve.km AS km," +
-        "    ve.id_combustible AS id_combustible," +
+        "    ve.alza_vidrios AS alza_vidrios," +
+        "    strftime('%Y-%m-%d %H:%M:%S', ve.fecha_modificacion) AS fecha_modificacion," +
+        "    strftime('%Y-%m-%d %H:%M:%S', ve.fecha_ultima_calibracion) AS fecha_ultima_calibracion," +
+        "    ve.id_usuario AS id_usuario," +
+        "    ve.id_vehiculo AS id_vehiculo," +
+        "    ve.patente AS patente," +
+        "    ve.id_modelo AS id_modelo," +
         "    ve.id_tipo_transmision AS id_tipo_transmision," +
-        "    ve.alza_vidrios AS alza_vidrios" +
+        "    ve.id_combustible AS id_combustible" +
         "    FROM vehiculo ve";
 
     public Vehiculo() {
+        _kmCalibrados = null;
         _anio = null;
-        _fechaModificacion = null;
+        _idPerfilUso = null;
         _aireAcondicionado = null;
         _alias = null;
-        _idUsuario = null;
-        _idVehiculo = null;
         _borrado = null;
-        _patente = null;
-        _idModelo = null;
+        _fechaUltimoKm = null;
         _idTraccion = null;
         _km = null;
-        _idCombustible = null;
-        _idTipoTransmision = null;
         _alzaVidrios = null;
+        _fechaModificacion = null;
+        _fechaUltimaCalibracion = null;
+        _idUsuario = null;
+        _idVehiculo = null;
+        _patente = null;
+        _idModelo = null;
+        _idTipoTransmision = null;
+        _idCombustible = null;
 
+    }
+    /**
+     * @return the _kmCalibrados
+     */
+    public Integer getKmCalibrados() {
+        return _kmCalibrados;
     }
     /**
      * @return the _anio
@@ -95,10 +117,10 @@ public class Vehiculo {
         return _anio;
     }
     /**
-     * @return the _fechaModificacion
+     * @return the _idPerfilUso
      */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
+    public Long getIdPerfilUso() {
+        return _idPerfilUso;
     }
     /**
      * @return the _aireAcondicionado
@@ -113,34 +135,16 @@ public class Vehiculo {
         return _alias;
     }
     /**
-     * @return the _idUsuario
-     */
-    public Long getIdUsuario() {
-        return _idUsuario;
-    }
-    /**
-     * @return the _idVehiculo
-     */
-    public Long getIdVehiculo() {
-        return _idVehiculo;
-    }
-    /**
      * @return the _borrado
      */
     public Boolean getBorrado() {
         return _borrado;
     }
     /**
-     * @return the _patente
+     * @return the _fechaUltimoKm
      */
-    public String getPatente() {
-        return _patente;
-    }
-    /**
-     * @return the _idModelo
-     */
-    public Long getIdModelo() {
-        return _idModelo;
+    public String getFechaUltimoKm() {
+        return _fechaUltimoKm;
     }
     /**
      * @return the _idTraccion
@@ -155,10 +159,46 @@ public class Vehiculo {
         return _km;
     }
     /**
-     * @return the _idCombustible
+     * @return the _alzaVidrios
      */
-    public Byte getIdCombustible() {
-        return _idCombustible;
+    public Boolean getAlzaVidrios() {
+        return _alzaVidrios;
+    }
+    /**
+     * @return the _fechaModificacion
+     */
+    public String getFechaModificacion() {
+        return _fechaModificacion;
+    }
+    /**
+     * @return the _fechaUltimaCalibracion
+     */
+    public String getFechaUltimaCalibracion() {
+        return _fechaUltimaCalibracion;
+    }
+    /**
+     * @return the _idUsuario
+     */
+    public Long getIdUsuario() {
+        return _idUsuario;
+    }
+    /**
+     * @return the _idVehiculo
+     */
+    public Long getIdVehiculo() {
+        return _idVehiculo;
+    }
+    /**
+     * @return the _patente
+     */
+    public String getPatente() {
+        return _patente;
+    }
+    /**
+     * @return the _idModelo
+     */
+    public Long getIdModelo() {
+        return _idModelo;
     }
     /**
      * @return the _idTipoTransmision
@@ -167,10 +207,60 @@ public class Vehiculo {
         return _idTipoTransmision;
     }
     /**
-     * @return the _alzaVidrios
+     * @return the _idCombustible
      */
-    public Boolean getAlzaVidrios() {
-        return _alzaVidrios;
+    public Byte getIdCombustible() {
+        return _idCombustible;
+    }
+    /**
+     * @return the _fechaUltimoKm as seconds from January 1, 1970, 00:00:00 GMT
+     */
+    public long getFechaUltimoKmAsLong() throws ParseException {
+        Date d;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        d = formatter.parse(_fechaUltimoKm);
+
+        return (long)d.getTime() / 1000L;
+    }
+    /**
+     * @return the _fechaUltimaCalibracion as seconds from January 1, 1970, 00:00:00 GMT
+     */
+    public long getFechaUltimaCalibracionAsLong() throws ParseException {
+        Date d;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        d = formatter.parse(_fechaUltimaCalibracion);
+
+        return (long)d.getTime() / 1000L;
+    }
+    /**
+     * @return the _fechaUltimoKm as Date
+     */
+    public Date getFechaUltimoKmAsDate() throws ParseException {
+        Date d;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        d = formatter.parse(_fechaUltimoKm);
+
+        return d;
+    }
+    /**
+     * @return the _fechaUltimaCalibracion as Date
+     */
+    public Date getFechaUltimaCalibracionAsDate() throws ParseException {
+        Date d;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        d = formatter.parse(_fechaUltimaCalibracion);
+
+        return d;
+    }
+    /**
+     * @param _kmCalibrados the _kmCalibrados to set
+     */
+    public void setKmCalibrados(Integer _kmCalibrados) {
+        this._kmCalibrados = _kmCalibrados;
     }
     /**
      * @param _anio the _anio to set
@@ -179,10 +269,10 @@ public class Vehiculo {
         this._anio = _anio;
     }
     /**
-     * @param _fechaModificacion the _fechaModificacion to set
+     * @param _idPerfilUso the _idPerfilUso to set
      */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
+    public void setIdPerfilUso(Long _idPerfilUso) {
+        this._idPerfilUso = _idPerfilUso;
     }
     /**
      * @param _aireAcondicionado the _aireAcondicionado to set
@@ -197,34 +287,16 @@ public class Vehiculo {
         this._alias = _alias;
     }
     /**
-     * @param _idUsuario the _idUsuario to set
-     */
-    public void setIdUsuario(Long _idUsuario) {
-        this._idUsuario = _idUsuario;
-    }
-    /**
-     * @param _idVehiculo the _idVehiculo to set
-     */
-    public void setIdVehiculo(Long _idVehiculo) {
-        this._idVehiculo = _idVehiculo;
-    }
-    /**
      * @param _borrado the _borrado to set
      */
     public void setBorrado(Boolean _borrado) {
         this._borrado = _borrado;
     }
     /**
-     * @param _patente the _patente to set
+     * @param _fechaUltimoKm the _fechaUltimoKm to set
      */
-    public void setPatente(String _patente) {
-        this._patente = _patente;
-    }
-    /**
-     * @param _idModelo the _idModelo to set
-     */
-    public void setIdModelo(Long _idModelo) {
-        this._idModelo = _idModelo;
+    public void setFechaUltimoKm(String _fechaUltimoKm) {
+        this._fechaUltimoKm = _fechaUltimoKm;
     }
     /**
      * @param _idTraccion the _idTraccion to set
@@ -239,10 +311,46 @@ public class Vehiculo {
         this._km = _km;
     }
     /**
-     * @param _idCombustible the _idCombustible to set
+     * @param _alzaVidrios the _alzaVidrios to set
      */
-    public void setIdCombustible(Byte _idCombustible) {
-        this._idCombustible = _idCombustible;
+    public void setAlzaVidrios(Boolean _alzaVidrios) {
+        this._alzaVidrios = _alzaVidrios;
+    }
+    /**
+     * @param _fechaModificacion the _fechaModificacion to set
+     */
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
+    }
+    /**
+     * @param _fechaUltimaCalibracion the _fechaUltimaCalibracion to set
+     */
+    public void setFechaUltimaCalibracion(String _fechaUltimaCalibracion) {
+        this._fechaUltimaCalibracion = _fechaUltimaCalibracion;
+    }
+    /**
+     * @param _idUsuario the _idUsuario to set
+     */
+    public void setIdUsuario(Long _idUsuario) {
+        this._idUsuario = _idUsuario;
+    }
+    /**
+     * @param _idVehiculo the _idVehiculo to set
+     */
+    public void setIdVehiculo(Long _idVehiculo) {
+        this._idVehiculo = _idVehiculo;
+    }
+    /**
+     * @param _patente the _patente to set
+     */
+    public void setPatente(String _patente) {
+        this._patente = _patente;
+    }
+    /**
+     * @param _idModelo the _idModelo to set
+     */
+    public void setIdModelo(Long _idModelo) {
+        this._idModelo = _idModelo;
     }
     /**
      * @param _idTipoTransmision the _idTipoTransmision to set
@@ -251,29 +359,77 @@ public class Vehiculo {
         this._idTipoTransmision = _idTipoTransmision;
     }
     /**
-     * @param _alzaVidrios the _alzaVidrios to set
+     * @param _idCombustible the _idCombustible to set
      */
-    public void setAlzaVidrios(Boolean _alzaVidrios) {
-        this._alzaVidrios = _alzaVidrios;
+    public void setIdCombustible(Byte _idCombustible) {
+        this._idCombustible = _idCombustible;
+    }
+    /**
+     * @param _fechaUltimoKm the _fechaUltimoKm to set as seconds from January 1, 1970, 00:00:00 GMT
+     */
+    public void setFechaUltimoKm(long _timestamp) {
+        Date d;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        d = new Date((long)_timestamp*1000);
+
+        this._fechaUltimoKm = formatter.format(d);
+;
+    }
+    /**
+     * @param _fechaUltimaCalibracion the _fechaUltimaCalibracion to set as seconds from January 1, 1970, 00:00:00 GMT
+     */
+    public void setFechaUltimaCalibracion(long _timestamp) {
+        Date d;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        d = new Date((long)_timestamp*1000);
+
+        this._fechaUltimaCalibracion = formatter.format(d);
+;
+    }
+    /**
+     * @param _fechaUltimoKm the _fechaUltimoKm to set as java.util.Date
+     */
+    public void setFechaUltimoKm(Date _fecha) {
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        this._fechaUltimoKm = formatter.format(_fecha);
+;
+    }
+    /**
+     * @param _fechaUltimaCalibracion the _fechaUltimaCalibracion to set as java.util.Date
+     */
+    public void setFechaUltimaCalibracion(Date _fecha) {
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        this._fechaUltimaCalibracion = formatter.format(_fecha);
+;
     }
 
     public static Vehiculo fromRS(ResultSet p_rs) throws SQLException {
         Vehiculo ret = new Vehiculo();
 
+        ret.setKmCalibrados(p_rs.getInt("km_calibrados"));
         ret.setAnio(p_rs.getInt("anio"));
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
+        ret.setIdPerfilUso(p_rs.getLong("id_perfil_uso"));
         ret.setAireAcondicionado(p_rs.getString("aire_acondicionado") != null ? p_rs.getString("aire_acondicionado").equals("true") : null);
         ret.setAlias(p_rs.getString("alias"));
-        ret.setIdUsuario(p_rs.getLong("id_usuario"));
-        ret.setIdVehiculo(p_rs.getLong("id_vehiculo"));
         ret.setBorrado(p_rs.getString("borrado") != null ? p_rs.getString("borrado").equals("true") : null);
-        ret.setPatente(p_rs.getString("patente"));
-        ret.setIdModelo(p_rs.getLong("id_modelo"));
+        ret.setFechaUltimoKm(p_rs.getString("fecha_ultimo_km"));
         ret.setIdTraccion(p_rs.getByte("id_traccion"));
         ret.setKm(p_rs.getInt("km"));
-        ret.setIdCombustible(p_rs.getByte("id_combustible"));
-        ret.setIdTipoTransmision(p_rs.getByte("id_tipo_transmision"));
         ret.setAlzaVidrios(p_rs.getString("alza_vidrios") != null ? p_rs.getString("alza_vidrios").equals("true") : null);
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
+        ret.setFechaUltimaCalibracion(p_rs.getString("fecha_ultima_calibracion"));
+        ret.setIdUsuario(p_rs.getLong("id_usuario"));
+        ret.setIdVehiculo(p_rs.getLong("id_vehiculo"));
+        ret.setPatente(p_rs.getString("patente"));
+        ret.setIdModelo(p_rs.getLong("id_modelo"));
+        ret.setIdTipoTransmision(p_rs.getByte("id_tipo_transmision"));
+        ret.setIdCombustible(p_rs.getByte("id_combustible"));
 
         return ret;
     }
@@ -362,17 +518,20 @@ public class Vehiculo {
                 else if (p.getKey().equals("id_vehiculo")) {
                     array_clauses.add("ve.id_vehiculo = " + p.getValue());
                 }
+                else if (p.getKey().equals("id_perfil_uso")) {
+                    array_clauses.add("ve.id_perfil_uso = " + p.getValue());
+                }
                 else if (p.getKey().equals("id_modelo")) {
                     array_clauses.add("ve.id_modelo = " + p.getValue());
                 }
                 else if (p.getKey().equals("id_traccion")) {
                     array_clauses.add("ve.id_traccion = " + p.getValue());
                 }
-                else if (p.getKey().equals("id_tipo_transmision")) {
-                    array_clauses.add("ve.id_tipo_transmision = " + p.getValue());
-                }
                 else if (p.getKey().equals("id_combustible")) {
                     array_clauses.add("ve.id_combustible = " + p.getValue());
+                }
+                else if (p.getKey().equals("id_tipo_transmision")) {
+                    array_clauses.add("ve.id_tipo_transmision = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
                     array_clauses.add("ve.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
@@ -530,14 +689,17 @@ public class Vehiculo {
         String str_sql =
             "    UPDATE vehiculo" +
             "    SET" +
+            "    km_calibrados = " + (_kmCalibrados != null ? "'" + _kmCalibrados + "'" : "null") + "," +
             "    anio = " + (_anio != null ? "'" + _anio + "'" : "null") + "," +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
             "    aire_acondicionado = " + (_aireAcondicionado != null ? "'" + _aireAcondicionado + "'" : "null") + "," +
             "    alias = " + (_alias != null ? "'" + _alias + "'" : "null") + "," +
-            "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
-            "    patente = " + (_patente != null ? "'" + _patente + "'" : "null") + "," +
+            "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'0'") + "," +
+            "    fecha_ultimo_km = " + (_fechaUltimoKm != null ? "date('" + _fechaUltimoKm + "', 'localtime')" : "null") + "," +
             "    km = " + (_km != null ? "'" + _km + "'" : "null") + "," +
-            "    alza_vidrios = " + (_alzaVidrios != null ? "'" + _alzaVidrios + "'" : "null") +
+            "    alza_vidrios = " + (_alzaVidrios != null ? "'" + _alzaVidrios + "'" : "null") + "," +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
+            "    fecha_ultima_calibracion = " + (_fechaUltimaCalibracion != null ? "date('" + _fechaUltimaCalibracion + "', 'localtime')" : "null") + "," +
+            "    patente = " + (_patente != null ? "'" + _patente + "'" : "null") +
             "    WHERE" +
             "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
             "    id_vehiculo = " + Long.toString(this._idVehiculo);
@@ -595,36 +757,44 @@ public class Vehiculo {
         String str_sql =
             "    INSERT INTO vehiculo" +
             "    (" +
+            "    km_calibrados, " +
             "    anio, " +
-            "    fecha_modificacion, " +
+            "    id_perfil_uso, " +
             "    aire_acondicionado, " +
             "    alias, " +
-            "    id_usuario, " +
-            "    id_vehiculo, " +
             "    borrado, " +
-            "    patente, " +
-            "    id_modelo, " +
+            "    fecha_ultimo_km, " +
             "    id_traccion, " +
             "    km, " +
-            "    id_combustible, " +
+            "    alza_vidrios, " +
+            "    fecha_modificacion, " +
+            "    fecha_ultima_calibracion, " +
+            "    id_usuario, " +
+            "    id_vehiculo, " +
+            "    patente, " +
+            "    id_modelo, " +
             "    id_tipo_transmision, " +
-            "    alza_vidrios)" +
+            "    id_combustible)" +
             "    VALUES" +
             "    (" +
+            "    " + (_kmCalibrados != null ? "'" + _kmCalibrados + "'" : "null") + "," +
             "    " + (_anio != null ? "'" + _anio + "'" : "null") + "," +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
+            "    " + (_idPerfilUso != null ? "'" + _idPerfilUso + "'" : "null") + "," +
             "    " + (_aireAcondicionado != null ? "'" + _aireAcondicionado + "'" : "null") + "," +
             "    " + (_alias != null ? "'" + _alias + "'" : "null") + "," +
-            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
-            "    " + (_idVehiculo != null ? "'" + _idVehiculo + "'" : "null") + "," +
-            "    " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
-            "    " + (_patente != null ? "'" + _patente + "'" : "null") + "," +
-            "    " + (_idModelo != null ? "'" + _idModelo + "'" : "null") + "," +
+            "    " + (_borrado != null ? "'" + _borrado + "'" : "'0'") + "," +
+            "    " + (_fechaUltimoKm != null ? "date('" + _fechaUltimoKm + "', 'localtime')" : "null") + "," +
             "    " + (_idTraccion != null ? "'" + _idTraccion + "'" : "null") + "," +
             "    " + (_km != null ? "'" + _km + "'" : "null") + "," +
-            "    " + (_idCombustible != null ? "'" + _idCombustible + "'" : "null") + "," +
+            "    " + (_alzaVidrios != null ? "'" + _alzaVidrios + "'" : "null") + "," +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
+            "    " + (_fechaUltimaCalibracion != null ? "date('" + _fechaUltimaCalibracion + "', 'localtime')" : "null") + "," +
+            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
+            "    " + (_idVehiculo != null ? "'" + _idVehiculo + "'" : "null") + "," +
+            "    " + (_patente != null ? "'" + _patente + "'" : "null") + "," +
+            "    " + (_idModelo != null ? "'" + _idModelo + "'" : "null") + "," +
             "    " + (_idTipoTransmision != null ? "'" + _idTipoTransmision + "'" : "null") + "," +
-            "    " + (_alzaVidrios != null ? "'" + _alzaVidrios + "'" : "null") +
+            "    " + (_idCombustible != null ? "'" + _idCombustible + "'" : "null") +
             "    )";
         
         try {
@@ -739,18 +909,22 @@ public class Vehiculo {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
+                _kmCalibrados = obj.getKmCalibrados();
                 _anio = obj.getAnio();
-                _fechaModificacion = obj.getFechaModificacion();
+                _idPerfilUso = obj.getIdPerfilUso();
                 _aireAcondicionado = obj.getAireAcondicionado();
                 _alias = obj.getAlias();
                 _borrado = obj.getBorrado();
-                _patente = obj.getPatente();
-                _idModelo = obj.getIdModelo();
+                _fechaUltimoKm = obj.getFechaUltimoKm();
                 _idTraccion = obj.getIdTraccion();
                 _km = obj.getKm();
-                _idCombustible = obj.getIdCombustible();
-                _idTipoTransmision = obj.getIdTipoTransmision();
                 _alzaVidrios = obj.getAlzaVidrios();
+                _fechaModificacion = obj.getFechaModificacion();
+                _fechaUltimaCalibracion = obj.getFechaUltimaCalibracion();
+                _patente = obj.getPatente();
+                _idModelo = obj.getIdModelo();
+                _idTipoTransmision = obj.getIdTipoTransmision();
+                _idCombustible = obj.getIdCombustible();
             }
         }
         catch (SQLException ex){
@@ -862,20 +1036,24 @@ public class Vehiculo {
 @Override
     public String toString() {
         return "Vehiculo [" +
+	           "    _kmCalibrados = " + (_kmCalibrados != null ? _kmCalibrados : "null") + "," +
 	           "    _anio = " + (_anio != null ? _anio : "null") + "," +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
+	           "    _idPerfilUso = " + (_idPerfilUso != null ? _idPerfilUso : "null") + "," +
 	           "    _aireAcondicionado = " + (_aireAcondicionado != null ? _aireAcondicionado : "null") + "," +
 	           "    _alias = " + (_alias != null ? "'" + _alias + "'" : "null") + "," +
-	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
-	           "    _idVehiculo = " + (_idVehiculo != null ? _idVehiculo : "null") + "," +
 	           "    _borrado = " + (_borrado != null ? _borrado : "null") + "," +
-	           "    _patente = " + (_patente != null ? "'" + _patente + "'" : "null") + "," +
-	           "    _idModelo = " + (_idModelo != null ? _idModelo : "null") + "," +
+	           "    _fechaUltimoKm = " + (_fechaUltimoKm != null ? "'" + _fechaUltimoKm + "'" : "null") + "," +
 	           "    _idTraccion = " + (_idTraccion != null ? _idTraccion : "null") + "," +
 	           "    _km = " + (_km != null ? _km : "null") + "," +
-	           "    _idCombustible = " + (_idCombustible != null ? _idCombustible : "null") + "," +
+	           "    _alzaVidrios = " + (_alzaVidrios != null ? _alzaVidrios : "null") + "," +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
+	           "    _fechaUltimaCalibracion = " + (_fechaUltimaCalibracion != null ? "'" + _fechaUltimaCalibracion + "'" : "null") + "," +
+	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
+	           "    _idVehiculo = " + (_idVehiculo != null ? _idVehiculo : "null") + "," +
+	           "    _patente = " + (_patente != null ? "'" + _patente + "'" : "null") + "," +
+	           "    _idModelo = " + (_idModelo != null ? _idModelo : "null") + "," +
 	           "    _idTipoTransmision = " + (_idTipoTransmision != null ? _idTipoTransmision : "null") + "," +
-	           "    _alzaVidrios = " + (_alzaVidrios != null ? _alzaVidrios : "null") +
+	           "    _idCombustible = " + (_idCombustible != null ? _idCombustible : "null") +
 			   "]";
     }
 
@@ -886,20 +1064,24 @@ public class Vehiculo {
 
         Element element = (Element) xmlNode;
 
+        ret.setKmCalibrados(Integer.decode(element.getElementsByTagName("km_calibrados").item(0).getTextContent()));
         ret.setAnio(Integer.decode(element.getElementsByTagName("anio").item(0).getTextContent()));
-        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
+        ret.setIdPerfilUso(Long.decode(element.getElementsByTagName("id_perfil_uso").item(0).getTextContent()));
         ret.setAireAcondicionado(element.getElementsByTagName("aire_acondicionado").item(0).getTextContent());
         ret.setAlias(element.getElementsByTagName("alias").item(0).getTextContent());
-        ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
-        ret.setIdVehiculo(Long.decode(element.getElementsByTagName("id_vehiculo").item(0).getTextContent()));
         ret.setBorrado(element.getElementsByTagName("borrado").item(0).getTextContent());
-        ret.setPatente(element.getElementsByTagName("patente").item(0).getTextContent());
-        ret.setIdModelo(Long.decode(element.getElementsByTagName("id_modelo").item(0).getTextContent()));
+        ret.setFechaUltimoKm(element.getElementsByTagName("fecha_ultimo_km").item(0).getTextContent());
         ret.setIdTraccion(Byte.decode(element.getElementsByTagName("id_traccion").item(0).getTextContent()));
         ret.setKm(Integer.decode(element.getElementsByTagName("km").item(0).getTextContent()));
-        ret.setIdCombustible(Byte.decode(element.getElementsByTagName("id_combustible").item(0).getTextContent()));
-        ret.setIdTipoTransmision(Byte.decode(element.getElementsByTagName("id_tipo_transmision").item(0).getTextContent()));
         ret.setAlzaVidrios(element.getElementsByTagName("alza_vidrios").item(0).getTextContent());
+        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
+        ret.setFechaUltimaCalibracion(element.getElementsByTagName("fecha_ultima_calibracion").item(0).getTextContent());
+        ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
+        ret.setIdVehiculo(Long.decode(element.getElementsByTagName("id_vehiculo").item(0).getTextContent()));
+        ret.setPatente(element.getElementsByTagName("patente").item(0).getTextContent());
+        ret.setIdModelo(Long.decode(element.getElementsByTagName("id_modelo").item(0).getTextContent()));
+        ret.setIdTipoTransmision(Byte.decode(element.getElementsByTagName("id_tipo_transmision").item(0).getTextContent()));
+        ret.setIdCombustible(Byte.decode(element.getElementsByTagName("id_combustible").item(0).getTextContent()));
 
         return ret;
     }

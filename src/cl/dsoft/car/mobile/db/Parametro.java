@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cl.dsoft.car.server.db;
+package cl.dsoft.car.mobile.db;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -9,46 +9,50 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+
 import cl.dsoft.car.misc.UnsupportedParameterException;
 
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
+
 /**
- * @author petete-ntbk
+ * @author Luis Hernandez
  *
  */
-public class MantencionPospuesta {
-    protected String _fechaModificacion;
-    protected String _fecha;
-    protected Long _idUsuario;
-    protected Integer _idMantencionPospuesta;
-    protected Long _idMantencionBase;
-    protected Long _idVehiculo;
-    protected Boolean _borrado;
-    protected Integer _km;
+@Root
+public class Parametro {
+    @Element(name = "id")
+    private Long _id;
+    @Element(name = "fechaModificacion")
+    private String _fechaModificacion;
+    @Element(name = "valor")
+    private String _valor;
+    @Element(name = "llave")
+    private String _llave;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    DATE_FORMAT(ma.fecha_modificacion, '%Y-%m-%d %H:%i:%s') AS fecha_modificacion," +
-        "    DATE_FORMAT(ma.fecha, '%Y-%m-%d %H:%i:%s') AS fecha," +
-        "    ma.id_usuario AS id_usuario," +
-        "    ma.id_mantencion_pospuesta AS id_mantencion_pospuesta," +
-        "    ma.id_mantencion_base AS id_mantencion_base," +
-        "    ma.id_vehiculo AS id_vehiculo," +
-        "    0+ma.borrado AS borrado," +
-        "    ma.km AS km" +
-        "    FROM mantencion_pospuesta ma";
+        "    pa.id_parametro AS id," +
+        "    strftime('%Y-%m-%d %H:%M:%S', pa.fecha_modificacion) AS fecha_modificacion," +
+        "    pa.valor AS valor," +
+        "    pa.llave AS llave" +
+        "    FROM parametro pa";
 
-    public MantencionPospuesta() {
+    public Parametro() {
+        _id = null;
         _fechaModificacion = null;
-        _fecha = null;
-        _idUsuario = null;
-        _idMantencionPospuesta = null;
-        _idMantencionBase = null;
-        _idVehiculo = null;
-        _borrado = null;
-        _km = null;
+        _valor = null;
+        _llave = null;
 
+    }
+    /**
+     * @return the _id
+     */
+    public Long getId() {
+        return _id;
     }
     /**
      * @return the _fechaModificacion
@@ -57,46 +61,22 @@ public class MantencionPospuesta {
         return _fechaModificacion;
     }
     /**
-     * @return the _fecha
+     * @return the _valor
      */
-    public String getFecha() {
-        return _fecha;
+    public String getValor() {
+        return _valor;
     }
     /**
-     * @return the _idUsuario
+     * @return the _llave
      */
-    public Long getIdUsuario() {
-        return _idUsuario;
+    public String getLlave() {
+        return _llave;
     }
     /**
-     * @return the _idMantencionPospuesta
+     * @param _id the _id to set
      */
-    public Integer getIdMantencionPospuesta() {
-        return _idMantencionPospuesta;
-    }
-    /**
-     * @return the _idMantencionBase
-     */
-    public Long getIdMantencionBase() {
-        return _idMantencionBase;
-    }
-    /**
-     * @return the _idVehiculo
-     */
-    public Long getIdVehiculo() {
-        return _idVehiculo;
-    }
-    /**
-     * @return the _borrado
-     */
-    public Boolean getBorrado() {
-        return _borrado;
-    }
-    /**
-     * @return the _km
-     */
-    public Integer getKm() {
-        return _km;
+    public void setId(Long _id) {
+        this._id = _id;
     }
     /**
      * @param _fechaModificacion the _fechaModificacion to set
@@ -105,68 +85,34 @@ public class MantencionPospuesta {
         this._fechaModificacion = _fechaModificacion;
     }
     /**
-     * @param _fecha the _fecha to set
+     * @param _valor the _valor to set
      */
-    public void setFecha(String _fecha) {
-        this._fecha = _fecha;
+    public void setValor(String _valor) {
+        this._valor = _valor;
     }
     /**
-     * @param _idUsuario the _idUsuario to set
+     * @param _llave the _llave to set
      */
-    public void setIdUsuario(Long _idUsuario) {
-        this._idUsuario = _idUsuario;
-    }
-    /**
-     * @param _idMantencionPospuesta the _idMantencionPospuesta to set
-     */
-    public void setIdMantencionPospuesta(Integer _idMantencionPospuesta) {
-        this._idMantencionPospuesta = _idMantencionPospuesta;
-    }
-    /**
-     * @param _idMantencionBase the _idMantencionBase to set
-     */
-    public void setIdMantencionBase(Long _idMantencionBase) {
-        this._idMantencionBase = _idMantencionBase;
-    }
-    /**
-     * @param _idVehiculo the _idVehiculo to set
-     */
-    public void setIdVehiculo(Long _idVehiculo) {
-        this._idVehiculo = _idVehiculo;
-    }
-    /**
-     * @param _borrado the _borrado to set
-     */
-    public void setBorrado(Boolean _borrado) {
-        this._borrado = _borrado;
-    }
-    /**
-     * @param _km the _km to set
-     */
-    public void setKm(Integer _km) {
-        this._km = _km;
+    public void setLlave(String _llave) {
+        this._llave = _llave;
     }
 
-    public static MantencionPospuesta fromRS(ResultSet p_rs) throws SQLException {
-        MantencionPospuesta ret = new MantencionPospuesta();
+    public static Parametro fromRS(ResultSet p_rs) throws SQLException {
+        Parametro ret = new Parametro();
 
+        ret.setId(p_rs.getLong("id"));
         ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setFecha(p_rs.getString("fecha"));
-        ret.setIdUsuario(p_rs.getLong("id_usuario"));
-        ret.setIdMantencionPospuesta(p_rs.getInt("id_mantencion_pospuesta"));
-        ret.setIdMantencionBase(p_rs.getLong("id_mantencion_base"));
-        ret.setIdVehiculo(p_rs.getLong("id_vehiculo"));
-        ret.setBorrado(p_rs.getBoolean("borrado"));
-        ret.setKm(p_rs.getInt("km"));
+        ret.setValor(p_rs.getString("valor"));
+        ret.setLlave(p_rs.getString("llave"));
 
         return ret;
     }
 
-    public static MantencionPospuesta getByParameter(Connection p_conn, String p_key, String p_value) throws SQLException {
-        MantencionPospuesta ret = null;
+    public static Parametro getByParameter(Connection p_conn, String p_key, String p_value) throws SQLException {
+        Parametro ret = null;
         
         String str_sql = _str_sql +
-            "  WHERE ma." + p_key + " = " + p_value +
+            "  WHERE pa." + p_key + " = " + p_value +
             "  LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -223,46 +169,31 @@ public class MantencionPospuesta {
         return ret;        
     }
 
+    public static Parametro getById(Connection p_conn, String p_id) throws SQLException {
+        return getByParameter(p_conn, "id_parametro", p_id);
+    }
     
-    public static ArrayList<MantencionPospuesta> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
+    public static ArrayList<Parametro> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
         Statement stmt = null;
         ResultSet rs = null;
         String str_sql;
-        ArrayList<MantencionPospuesta> ret;
+        ArrayList<Parametro> ret;
         
         str_sql = "";
         
         try {
             ArrayList<String> array_clauses = new ArrayList<String>();
             
-            ret = new ArrayList<MantencionPospuesta>();
+            ret = new ArrayList<Parametro>();
             
             str_sql = _str_sql;
             
             for (AbstractMap.SimpleEntry<String, String> p : p_parameters) {
-                if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("ma.id_usuario = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_mantencion_pospuesta")) {
-                    array_clauses.add("ma.id_mantencion_pospuesta = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("ma.id_usuario = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_vehiculo")) {
-                    array_clauses.add("ma.id_vehiculo = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_mantencion_base")) {
-                    array_clauses.add("ma.id_mantencion_base = " + p.getValue());
+                if (p.getKey().equals("id_parametro")) {
+                    array_clauses.add("pa.id_parametro = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("ma.fecha_modificacion > STR_TO_DATE('" + p.getValue() + "', '%Y-%m-%d %H:%i:%s')");
-                }
-                else if (p.getKey().equals("no borrado")) {
-                    array_clauses.add("ma.borrado = 0");
-                }
-                else if (p.getKey().equals("borrado")) {
-                    array_clauses.add("ma.borrado = 1");
+                    array_clauses.add("pa.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -342,26 +273,88 @@ public class MantencionPospuesta {
         return ret;
     }
 
+
+    public static Long getNextId(Connection p_conn) throws SQLException {
+        Long ret = null;
+        
+        String str_sql = 
+            "  SELECT COALESCE(MAX(id_parametro), 0) + 1 AS next_id FROM parametro";
+        
+        //System.out.println(str_sql);
+        
+        // assume that conn is an already created JDBC connection (see previous examples)
+        Statement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            stmt = p_conn.createStatement();
+            //System.out.println("stmt = p_conn.createStatement() ok");
+            rs = stmt.executeQuery(str_sql);
+            //System.out.println("rs = stmt.executeQuery(str_sql) ok");
+
+            // Now do something with the ResultSet ....
+            
+            if (rs.next()) {
+                //System.out.println("rs.next() ok");
+                ret = rs.getLong("next_id");
+                //System.out.println("fromRS(rs) ok");
+            }
+        }
+        catch (SQLException ex){
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage() + " sentencia: " + str_sql);
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            
+            throw ex;
+        }
+        finally {
+            // it is a good idea to release
+            // resources in a finally{} block
+            // in reverse-order of their creation
+            // if they are no-longer needed
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException sqlEx) { 
+                    
+                } // ignore
+                rs = null;
+            }
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException sqlEx) {
+                    
+                } // ignore
+                stmt = null;
+            }
+        }        
+        
+        return ret;        
+    }
+
     public int update(Connection p_conn) throws SQLException {
 
         int ret = -1;
         Statement stmt = null;
 
         String str_sql =
-            "    UPDATE mantencion_pospuesta" +
+            "    UPDATE parametro" +
             "    SET" +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "STR_TO_DATE('" + _fechaModificacion + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
-            "    fecha = " + (_fecha != null ? "STR_TO_DATE('" + _fecha + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
-            "    borrado = " + (_borrado != null ? "b'" + (_borrado ? 1 : 0) + "'" : "null") + "," +
-            "    km = " + (_km != null ? _km : "null") +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
+            "    valor = " + (_valor != null ? "'" + _valor + "'" : "null") + "," +
+            "    llave = " + (_llave != null ? "'" + _llave + "'" : "null") +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_mantencion_pospuesta = " + Integer.toString(this._idMantencionPospuesta);
+            "    id_parametro = " + Long.toString(this._id);
 
         try {
             stmt = p_conn.createStatement();
-            
+
             ret = stmt.executeUpdate(str_sql);
+
+            load(p_conn);
+
             /*
             if (stmt.executeUpdate(str_sql) < 1) {
                 throw new Exception("No hubo filas afectadas");
@@ -401,28 +394,28 @@ public class MantencionPospuesta {
         Statement stmt = null;
         ResultSet rs = null;
 
+        if (_id == null) {
+            _id = getNextId(p_conn);
+        }
+
         String str_sql =
-            "    INSERT INTO mantencion_pospuesta" +
+            "    INSERT INTO parametro" +
             "    (" +
-            "    fecha, " +
-            "    id_usuario, " +
-            "    id_mantencion_pospuesta, " +
-            "    id_mantencion_base, " +
-            "    id_vehiculo, " +
-            "    km)" +
+            "    id_parametro, " +
+            "    fecha_modificacion, " +
+            "    valor, " +
+            "    llave)" +
             "    VALUES" +
             "    (" +
-            "    " + (_fecha != null ? "STR_TO_DATE('" + _fecha + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
-            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
-            "    " + (_idMantencionPospuesta != null ? "'" + _idMantencionPospuesta + "'" : "null") + "," +
-            "    " + (_idMantencionBase != null ? "'" + _idMantencionBase + "'" : "null") + "," +
-            "    " + (_idVehiculo != null ? "'" + _idVehiculo + "'" : "null") + "," +
-            "    " + (_km != null ? "'" + _km + "'" : "null") +
+            "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
+            "    " + (_valor != null ? "'" + _valor + "'" : "null") + "," +
+            "    " + (_llave != null ? "'" + _llave + "'" : "null") +
             "    )";
         
         try {
             stmt = p_conn.createStatement();
-
+            
             ret = stmt.executeUpdate(str_sql);
 
             load(p_conn);
@@ -468,10 +461,9 @@ public class MantencionPospuesta {
         Statement stmt = null;
 
         String str_sql =
-            "    DELETE FROM mantencion_pospuesta" +
+            "    DELETE FROM parametro" +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_mantencion_pospuesta = " + Integer.toString(this._idMantencionPospuesta);
+            "    id_parametro = " + Long.toString(this._id);
 
         try {
             stmt = p_conn.createStatement();
@@ -505,12 +497,11 @@ public class MantencionPospuesta {
     }
 
     public void load(Connection p_conn) throws SQLException {
-        MantencionPospuesta obj = null;
+        Parametro obj = null;
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_mantencion_pospuesta = " + Integer.toString(this._idMantencionPospuesta) +
+            "    id_parametro = " + Long.toString(this._id) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -533,11 +524,8 @@ public class MantencionPospuesta {
                 //System.out.println("fromRS(rs) ok");
 
                 _fechaModificacion = obj.getFechaModificacion();
-                _fecha = obj.getFecha();
-                _idMantencionBase = obj.getIdMantencionBase();
-                _idVehiculo = obj.getIdVehiculo();
-                _borrado = obj.getBorrado();
-                _km = obj.getKm();
+                _valor = obj.getValor();
+                _llave = obj.getLlave();
             }
         }
         catch (SQLException ex){
@@ -577,8 +565,7 @@ public class MantencionPospuesta {
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_mantencion_pospuesta = " + Integer.toString(this._idMantencionPospuesta) +
+            "    id_parametro = " + Long.toString(this._id) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -646,63 +633,29 @@ public class MantencionPospuesta {
         
     }
 
-    @Override
+@Override
     public String toString() {
-        return "MantencionPospuesta [" +
-	           "    _fecha_modificacion = " + (_fechaModificacion != null ? "STR_TO_DATE(" + _fechaModificacion + ", '%Y-%m-%d %H:%i:%s')" : "null") + "," +
-	           "    _fecha = " + (_fecha != null ? "STR_TO_DATE(" + _fecha + ", '%Y-%m-%d %H:%i:%s')" : "null") + "," +
-	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
-	           "    _idMantencionPospuesta = " + (_idMantencionPospuesta != null ? _idMantencionPospuesta : "null") + "," +
-	           "    _idMantencionBase = " + (_idMantencionBase != null ? _idMantencionBase : "null") + "," +
-	           "    _idVehiculo = " + (_idVehiculo != null ? _idVehiculo : "null") + "," +
-	           "    _borrado = " + (_borrado != null ? "b'" + _borrado : "null") + "," +
-	           "    _km = " + (_km != null ? _km : "null") +
+        return "Parametro [" +
+	           "    _id = " + (_id != null ? _id : "null") + "," +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
+	           "    _valor = " + (_valor != null ? "'" + _valor + "'" : "null") + "," +
+	           "    _llave = " + (_llave != null ? "'" + _llave + "'" : "null") +
 			   "]";
     }
 
 
-    public String toJSON() {
-        return "MantencionPospuesta : {" +
-	           "    \"_fecha_modificacion\" : " + (_fechaModificacion != null ? "\"" + _fechaModificacion + "\"" : "null") + "," +
-	           "    \"_fecha\" : " + (_fecha != null ? "\"" + _fecha + "\"" : "null") + "," +
-	           "    \"_idUsuario\" : " + (_idUsuario != null ? _idUsuario : "null") + "," +
-	           "    \"_idMantencionPospuesta\" : " + (_idMantencionPospuesta != null ? _idMantencionPospuesta : "null") + "," +
-	           "    \"_idMantencionBase\" : " + (_idMantencionBase != null ? _idMantencionBase : "null") + "," +
-	           "    \"_idVehiculo\" : " + (_idVehiculo != null ? _idVehiculo : "null") + "," +
-	           "    \"_borrado\" : " + (_borrado != null ? "b'" + _borrado : "null") + "," +
-	           "    \"_km\" : " + (_km != null ? _km : "null") +
-			   "}";
-    }
-
-
-    public String toXML() {
-        return "<MantencionPospuesta>" +
-	           "    <fechaModificacion" + (_fechaModificacion != null ? ">" + _fechaModificacion + "</fechaModificacion>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <fecha" + (_fecha != null ? ">" + _fecha + "</fecha>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <idUsuario" + (_idUsuario != null ? ">" + _idUsuario + "</idUsuario>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <idMantencionPospuesta" + (_idMantencionPospuesta != null ? ">" + _idMantencionPospuesta + "</idMantencionPospuesta>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <idMantencionBase" + (_idMantencionBase != null ? ">" + _idMantencionBase + "</idMantencionBase>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <idVehiculo" + (_idVehiculo != null ? ">" + _idVehiculo + "</idVehiculo>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <borrado" + (_borrado != null ? ">" + _borrado + "</borrado>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <km" + (_km != null ? ">" + _km + "</km>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-			   "</MantencionPospuesta>";
-    }
-
-
-    public static MantencionPospuesta fromXMLNode(Node xmlNode) {
-        MantencionPospuesta ret = new MantencionPospuesta();
+/*
+    public static Parametro fromXMLNode(Node xmlNode) {
+        Parametro ret = new Parametro();
 
         Element element = (Element) xmlNode;
 
+        ret.setId(Long.decode(element.getElementsByTagName("id_parametro").item(0).getTextContent()));
         ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setFecha(element.getElementsByTagName("fecha").item(0).getTextContent());
-        ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
-        ret.setIdMantencionPospuesta(Integer.decode(element.getElementsByTagName("id_mantencion_pospuesta").item(0).getTextContent()));
-        ret.setIdMantencionBase(Long.decode(element.getElementsByTagName("id_mantencion_base").item(0).getTextContent()));
-        ret.setIdVehiculo(Long.decode(element.getElementsByTagName("id_vehiculo").item(0).getTextContent()));
-        ret.setBorrado(Boolean.valueOf(element.getElementsByTagName("borrado").item(0).getTextContent()));
-        ret.setKm(Integer.decode(element.getElementsByTagName("km").item(0).getTextContent()));
+        ret.setValor(element.getElementsByTagName("valor").item(0).getTextContent());
+        ret.setLlave(element.getElementsByTagName("llave").item(0).getTextContent());
 
         return ret;
     }
+    */
 }

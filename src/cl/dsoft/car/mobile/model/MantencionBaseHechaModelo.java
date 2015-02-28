@@ -23,6 +23,7 @@ public class MantencionBaseHechaModelo extends MantencionBaseHecha {
 	 * 
 	 */
 	private String _descripcionItem;
+	protected Boolean _esMantencion;
 	
     private final static String _str_sql = 
             "    SELECT" +
@@ -35,8 +36,10 @@ public class MantencionBaseHechaModelo extends MantencionBaseHecha {
             "    ma.costo AS costo," +
             "    ma.km AS km," +
             "    ma.id_mantencion_base_hecha AS id_mantencion_base_hecha," +
-            "    mb.descripcion_item" +
+            "    mb.descripcion_item," +
+            "    cr.id_cambio IS NULL AS es_mantencion" +
             "    FROM mantencion_base_hecha ma" +
+            "    LEFT JOIN cambio_revision cr on cr.id_revision = ma.id_mantencion_base" +
             "    JOIN mantencion_base mb ON ma.id_mantencion_base = mb.id_mantencion_base";
 
     public MantencionBaseHechaModelo() {
@@ -44,6 +47,20 @@ public class MantencionBaseHechaModelo extends MantencionBaseHecha {
 	}
     
     /**
+	 * @return the _esMantencion
+	 */
+	public Boolean getEsMantencion() {
+		return _esMantencion;
+	}
+
+	/**
+	 * @param _esMantencion the _esMantencion to set
+	 */
+	public void setEsMantencion(Boolean _esMantencion) {
+		this._esMantencion = _esMantencion;
+	}
+
+	/**
 	 * @return the descripcion
 	 */
 	public String getDescripcionItem() {
@@ -70,6 +87,7 @@ public class MantencionBaseHechaModelo extends MantencionBaseHecha {
         ret.setKm(p_rs.getInt("km"));
         ret.setIdMantencionBaseHecha(p_rs.getInt("id_mantencion_base_hecha"));
         ret.setDescripcionItem(p_rs.getString("descripcion_item"));
+        ret.setEsMantencion(p_rs.getBoolean("es_mantencion"));
 
         return ret;
     }
@@ -201,7 +219,8 @@ public class MantencionBaseHechaModelo extends MantencionBaseHecha {
 	           "    _costo = " + (getCosto() != null ? getCosto() : "null") + "," +
 	           "    _km = " + (getKm() != null ? getKm() : "null") + "," +
 	           "    _idMantencionBaseHecha = " + (getIdMantencionBaseHecha() != null ? getIdMantencionBaseHecha() : "null") +
-	           "    _descripcion_item = " + (_descripcionItem != null ? _descripcionItem : "null") +
+	           "    _descripcion_item = " + (_descripcionItem != null ? _descripcionItem : "null") + "," +
+	           "    _es_mantencion = " + (getEsMantencion() != null ? getEsMantencion() : "null") + "," +	           
 			   "]";
     }
 
