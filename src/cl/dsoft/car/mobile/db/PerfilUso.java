@@ -26,14 +26,12 @@ import org.simpleframework.xml.Root;
 public class PerfilUso {
     @Element(name = "nombre")
     private String _nombre;
-    @Element(name = "idPerfilUso")
-    private Long _idPerfilUso;
+    @Element(name = "id")
+    private Long _id;
     @Element(name = "kmAnuales")
     private Integer _kmAnuales;
     @Element(name = "fechaModificacion")
     private String _fechaModificacion;
-    @Element(name = "idUsuario")
-    private Long _idUsuario;
     @Element(name = "borrado")
     private Boolean _borrado;
     @Element(name = "descripcion", required = false)
@@ -44,10 +42,9 @@ public class PerfilUso {
     private final static String _str_sql = 
         "    SELECT" +
         "    pe.nombre AS nombre," +
-        "    pe.id_perfil_uso AS id_perfil_uso," +
+        "    pe.id_perfil_uso AS id," +
         "    pe.km_anuales AS km_anuales," +
         "    strftime('%Y-%m-%d %H:%M:%S', pe.fecha_modificacion) AS fecha_modificacion," +
-        "    pe.id_usuario AS id_usuario," +
         "    pe.borrado AS borrado," +
         "    pe.descripcion AS descripcion," +
         "    pe.es_perfil_medio AS es_perfil_medio" +
@@ -55,10 +52,9 @@ public class PerfilUso {
 
     public PerfilUso() {
         _nombre = null;
-        _idPerfilUso = null;
+        _id = null;
         _kmAnuales = null;
         _fechaModificacion = null;
-        _idUsuario = null;
         _borrado = null;
         _descripcion = null;
         _esPerfilMedio = null;
@@ -71,10 +67,10 @@ public class PerfilUso {
         return _nombre;
     }
     /**
-     * @return the _idPerfilUso
+     * @return the _id
      */
-    public Long getIdPerfilUso() {
-        return _idPerfilUso;
+    public Long getId() {
+        return _id;
     }
     /**
      * @return the _kmAnuales
@@ -87,12 +83,6 @@ public class PerfilUso {
      */
     public String getFechaModificacion() {
         return _fechaModificacion;
-    }
-    /**
-     * @return the _idUsuario
-     */
-    public Long getIdUsuario() {
-        return _idUsuario;
     }
     /**
      * @return the _borrado
@@ -119,10 +109,10 @@ public class PerfilUso {
         this._nombre = _nombre;
     }
     /**
-     * @param _idPerfilUso the _idPerfilUso to set
+     * @param _id the _id to set
      */
-    public void setIdPerfilUso(Long _idPerfilUso) {
-        this._idPerfilUso = _idPerfilUso;
+    public void setId(Long _id) {
+        this._id = _id;
     }
     /**
      * @param _kmAnuales the _kmAnuales to set
@@ -135,12 +125,6 @@ public class PerfilUso {
      */
     public void setFechaModificacion(String _fechaModificacion) {
         this._fechaModificacion = _fechaModificacion;
-    }
-    /**
-     * @param _idUsuario the _idUsuario to set
-     */
-    public void setIdUsuario(Long _idUsuario) {
-        this._idUsuario = _idUsuario;
     }
     /**
      * @param _borrado the _borrado to set
@@ -165,10 +149,9 @@ public class PerfilUso {
         PerfilUso ret = new PerfilUso();
 
         ret.setNombre(p_rs.getString("nombre"));
-        ret.setIdPerfilUso(p_rs.getLong("id_perfil_uso"));
+        ret.setId(p_rs.getLong("id"));
         ret.setKmAnuales(p_rs.getInt("km_anuales"));
         ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setIdUsuario(p_rs.getLong("id_usuario"));
         ret.setBorrado(p_rs.getString("borrado") != null ? p_rs.getString("borrado").equals("true") : null);
         ret.setDescripcion(p_rs.getString("descripcion"));
         ret.setEsPerfilMedio(p_rs.getString("es_perfil_medio") != null ? p_rs.getString("es_perfil_medio").equals("true") : null);
@@ -237,6 +220,9 @@ public class PerfilUso {
         return ret;        
     }
 
+    public static PerfilUso getById(Connection p_conn, String p_id) throws SQLException {
+        return getByParameter(p_conn, "id_perfil_uso", p_id);
+    }
     
     public static ArrayList<PerfilUso> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
         Statement stmt = null;
@@ -256,9 +242,6 @@ public class PerfilUso {
             for (AbstractMap.SimpleEntry<String, String> p : p_parameters) {
                 if (p.getKey().equals("id_perfil_uso")) {
                     array_clauses.add("pe.id_perfil_uso = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("pe.id_usuario = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
                     array_clauses.add("pe.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
@@ -423,8 +406,7 @@ public class PerfilUso {
             "    descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
             "    es_perfil_medio = " + (_esPerfilMedio != null ? "'" + _esPerfilMedio + "'" : "null") +
             "    WHERE" +
-            "    id_perfil_uso = " + Long.toString(this._idPerfilUso) + " AND" +
-            "    id_usuario = " + Long.toString(this._idUsuario);
+            "    id_perfil_uso = " + Long.toString(this._id);
 
         try {
             stmt = p_conn.createStatement();
@@ -472,8 +454,8 @@ public class PerfilUso {
         Statement stmt = null;
         ResultSet rs = null;
 
-        if (_idPerfilUso == null) {
-            _idPerfilUso = getNextId(p_conn);
+        if (_id == null) {
+            _id = getNextId(p_conn);
         }
 
         String str_sql =
@@ -483,17 +465,15 @@ public class PerfilUso {
             "    id_perfil_uso, " +
             "    km_anuales, " +
             "    fecha_modificacion, " +
-            "    id_usuario, " +
             "    borrado, " +
             "    descripcion, " +
             "    es_perfil_medio)" +
             "    VALUES" +
             "    (" +
             "    " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
-            "    " + (_idPerfilUso != null ? "'" + _idPerfilUso + "'" : "null") + "," +
+            "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
             "    " + (_kmAnuales != null ? "'" + _kmAnuales + "'" : "null") + "," +
             "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
             "    " + (_borrado != null ? "'" + _borrado + "'" : "'0'") + "," +
             "    " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
             "    " + (_esPerfilMedio != null ? "'" + _esPerfilMedio + "'" : "null") +
@@ -549,8 +529,7 @@ public class PerfilUso {
         String str_sql =
             "    DELETE FROM perfil_uso" +
             "    WHERE" +
-            "    id_perfil_uso = " + Long.toString(this._idPerfilUso) + " AND" +
-            "    id_usuario = " + Long.toString(this._idUsuario);
+            "    id_perfil_uso = " + Long.toString(this._id);
 
         try {
             stmt = p_conn.createStatement();
@@ -588,8 +567,7 @@ public class PerfilUso {
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_perfil_uso = " + Long.toString(this._idPerfilUso) + " AND" +
-            "    id_usuario = " + Long.toString(this._idUsuario) +
+            "    id_perfil_uso = " + Long.toString(this._id) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -656,8 +634,7 @@ public class PerfilUso {
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_perfil_uso = " + Long.toString(this._idPerfilUso) + " AND" +
-            "    id_usuario = " + Long.toString(this._idUsuario) +
+            "    id_perfil_uso = " + Long.toString(this._id) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -729,10 +706,9 @@ public class PerfilUso {
     public String toString() {
         return "PerfilUso [" +
 	           "    _nombre = " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
-	           "    _idPerfilUso = " + (_idPerfilUso != null ? _idPerfilUso : "null") + "," +
+	           "    _id = " + (_id != null ? _id : "null") + "," +
 	           "    _kmAnuales = " + (_kmAnuales != null ? _kmAnuales : "null") + "," +
 	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
-	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
 	           "    _borrado = " + (_borrado != null ? _borrado : "null") + "," +
 	           "    _descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
 	           "    _esPerfilMedio = " + (_esPerfilMedio != null ? _esPerfilMedio : "null") +
@@ -747,10 +723,9 @@ public class PerfilUso {
         Element element = (Element) xmlNode;
 
         ret.setNombre(element.getElementsByTagName("nombre").item(0).getTextContent());
-        ret.setIdPerfilUso(Long.decode(element.getElementsByTagName("id_perfil_uso").item(0).getTextContent()));
+        ret.setId(Long.decode(element.getElementsByTagName("id_perfil_uso").item(0).getTextContent()));
         ret.setKmAnuales(Integer.decode(element.getElementsByTagName("km_anuales").item(0).getTextContent()));
         ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
         ret.setBorrado(element.getElementsByTagName("borrado").item(0).getTextContent());
         ret.setDescripcion(element.getElementsByTagName("descripcion").item(0).getTextContent());
         ret.setEsPerfilMedio(element.getElementsByTagName("es_perfil_medio").item(0).getTextContent());

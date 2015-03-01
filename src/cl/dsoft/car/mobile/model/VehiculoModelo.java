@@ -9,11 +9,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.joda.time.DateTime ;
 import org.joda.time.Months;
 
+import cl.dsoft.car.misc.MyCarException;
 import cl.dsoft.car.misc.Rendimiento;
 import cl.dsoft.car.misc.UnsupportedParameterException;
 import cl.dsoft.car.mobile.model.CambioRevisionModelo;
@@ -24,6 +27,7 @@ import cl.dsoft.car.mobile.db.MantencionBase;
 import cl.dsoft.car.mobile.db.MantencionBaseHecha;
 import cl.dsoft.car.mobile.db.MantencionUsuario;
 import cl.dsoft.car.mobile.db.MantencionUsuarioHecha;
+import cl.dsoft.car.mobile.db.PerfilUso;
 import cl.dsoft.car.mobile.db.Traccion;
 import cl.dsoft.car.mobile.db.Vehiculo;
 
@@ -427,5 +431,47 @@ public class VehiculoModelo extends Vehiculo {
     	
     	return ret;
     	
+    }
+    
+    public void ActualizaKm(Connection p_conn) throws ParseException, SQLException, MyCarException {
+    	
+    	int millisecsPerDay;
+    	Date ultimaFechaModificacion, ahora;
+    	PerfilUso pu;
+    	
+    	millisecsPerDay = 24 * 60 * 60 * 1000;
+    	ahora = new Date();
+    	
+    	// construyo fecha Enero 1 Anio vehiculo
+    	Calendar calendar = new GregorianCalendar(getAnio(), 1, 1);
+    	
+    	if (getKmCalibrados() == null) {
+    		
+    		ultimaFechaModificacion = new Date(calendar.getTimeInMillis());
+    	} else {
+    		
+    		ultimaFechaModificacion = getFechaUltimaCalibracionAsDate();    		
+    	}
+
+    	long dias = (ahora.getTime() - ultimaFechaModificacion.getTime()) / millisecsPerDay;
+    	
+    	pu = PerfilUso.getById(p_conn, String.valueOf(getIdPerfilUso()));
+    	
+    	if (pu == null) {
+    		throw new MyCarException("No existe el perfil de uso con id " + String.valueOf(getIdPerfilUso()));
+    	}
+    	
+    	int Km = (int) (dias * pu.getKmAnuales() / 365);
+
+    	if (getKmCalibrados() == null) {
+    		setKm(Km + 500);
+    	} else {
+    		setKm(Km + getKmCalibrados());
+    	}
+
+    	setFechaUltimoKm(ahora);
+    	
+    	//update(p_conn);
+
     }
 }
