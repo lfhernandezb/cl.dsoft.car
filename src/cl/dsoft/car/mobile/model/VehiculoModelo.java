@@ -27,7 +27,6 @@ import cl.dsoft.car.mobile.db.MantencionBase;
 import cl.dsoft.car.mobile.db.MantencionBaseHecha;
 import cl.dsoft.car.mobile.db.MantencionUsuario;
 import cl.dsoft.car.mobile.db.MantencionUsuarioHecha;
-import cl.dsoft.car.mobile.db.PerfilUso;
 import cl.dsoft.car.mobile.db.Traccion;
 import cl.dsoft.car.mobile.db.Vehiculo;
 
@@ -437,7 +436,6 @@ public class VehiculoModelo extends Vehiculo {
     	
     	int millisecsPerDay;
     	Date ultimaFechaModificacion, ahora;
-    	PerfilUso pu;
     	
     	millisecsPerDay = 24 * 60 * 60 * 1000;
     	ahora = new Date();
@@ -455,13 +453,11 @@ public class VehiculoModelo extends Vehiculo {
 
     	long dias = (ahora.getTime() - ultimaFechaModificacion.getTime()) / millisecsPerDay;
     	
-    	pu = PerfilUso.getById(p_conn, String.valueOf(getIdPerfilUso()));
-    	
-    	if (pu == null) {
-    		throw new MyCarException("No existe el perfil de uso con id " + String.valueOf(getIdPerfilUso()));
+    	if (getKmAnuales() == null) {
+    		throw new MyCarException("El vehiculo no tiene estimacion de km anuales");
     	}
     	
-    	int Km = (int) (dias * pu.getKmAnuales() / 365);
+    	int Km = (int) (dias * getKmAnuales() / 365);
 
     	if (getKmCalibrados() == null) {
     		setKm(Km + 500);
