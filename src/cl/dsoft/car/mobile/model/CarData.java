@@ -26,9 +26,15 @@ import cl.dsoft.car.mobile.db.Reparacion;
 import cl.dsoft.car.mobile.db.SeguroVehiculo;
 import cl.dsoft.car.mobile.db.Usuario;
 import cl.dsoft.car.mobile.db.Vehiculo;
+import cl.dsoft.car.mobile.db.MantencionBase;
+import cl.dsoft.car.mobile.db.MantencionPospuesta;
+import cl.dsoft.car.mobile.db.Notificacion;
+import cl.dsoft.car.mobile.db.Parametro;
 
 @Root(name = "CarData")
-@Order(elements={"paises", "regiones", "comunas", "usuarios", "autenticaciones", "vehiculos", "mantencionBaseHechas", "mantencionUsuarios", "mantencionUsuarioHechas", "recordatorios", "cargaCombustibles", "reparaciones", "ciaSeguross", "seguroVehiculos", "logs"})
+@Order(elements={"paises", "regiones", "comunas", "usuarios", "autenticaciones", "vehiculos", "mantencionBaseHechas", "mantencionUsuarios", 
+		"mantencionUsuarioHechas", "recordatorios", "cargaCombustibles", "reparaciones", "ciaSeguross", "seguroVehiculos", "logs", 
+		"mantecionPropuestas", "notificaciones", "parametros"})
 //If you want you can define the order in which the fields are written
 //Optional
 //@Order(elements = { "usuarios", "vehiculos", "mantencionUsuarios", "mantencionUsuarioHechas", "recordatorios", "rendimientos", "reparaciones" })
@@ -64,6 +70,12 @@ public class CarData {
 	protected ArrayList<SeguroVehiculo> seguroVehiculos;
 	@ElementList(required=false)
 	protected ArrayList<Log> logs;
+	@ElementList(required=false)
+	protected ArrayList<MantencionPospuesta> mantencionPropuestas;
+	@ElementList(required=false)
+	protected ArrayList<Notificacion> notificaciones;
+	@ElementList(required=false)
+	protected ArrayList<Parametro> parametros;
 	
 	public CarData() {
 
@@ -82,36 +94,14 @@ public class CarData {
 		this.ciaSeguross = null;
 		this.seguroVehiculos = null;
 		this.logs = null;
-	}
-	
-	/**
-	 * @return the ciaSeguross
-	 */
-	public ArrayList<CiaSeguros> getCiaSeguross() {
-		return ciaSeguross;
-	}
+		this.mantencionPropuestas = null;
+		this.notificaciones = null;
+		this.parametros = null;
+	}	
 
-	/**
-	 * @param ciaSeguross the ciaSeguross to set
+	/*
+	 * generacion de datos de App Movil a Servidor
 	 */
-	public void setCiaSeguross(ArrayList<CiaSeguros> ciaSeguross) {
-		this.ciaSeguross = ciaSeguross;
-	}
-
-	/**
-	 * @return the seguroVehiculos
-	 */
-	public ArrayList<SeguroVehiculo> getSeguroVehiculos() {
-		return seguroVehiculos;
-	}
-
-	/**
-	 * @param seguroVehiculos the seguroVehiculos to set
-	 */
-	public void setSeguroVehiculos(ArrayList<SeguroVehiculo> seguroVehiculos) {
-		this.seguroVehiculos = seguroVehiculos;
-	}
-
 	public CarData(java.sql.Connection conn, Long idUsuario, String fechaModificacion) {
 
     	ArrayList<AbstractMap.SimpleEntry<String, String>> listParameters;
@@ -152,6 +142,12 @@ public class CarData {
 			
 			this.logs = Log.seek(conn, listParameters, null, null, 0, 10000);
 			
+			this.mantencionPropuestas = MantencionPospuesta.seek(conn, listParameters, null, null, 0, 10000);
+			
+			//this.notificaciones = Notificacion.seek(conn, listParameters, null, null, 0, 10000);
+			
+			//this.parametros = Parametro.seek(conn, listParameters, null, null, 0, 10000);
+			
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -160,6 +156,48 @@ public class CarData {
 
 	}
 	
+	/**
+	 * @return the parametros
+	 */
+	public ArrayList<Parametro> getParametros() {
+		return parametros;
+	}
+
+	/**
+	 * @param parametros the parametros to set
+	 */
+	public void setParametros(ArrayList<Parametro> parametros) {
+		this.parametros = parametros;
+	}
+
+	/**
+	 * @return the ciaSeguross
+	 */
+	public ArrayList<CiaSeguros> getCiaSeguross() {
+		return ciaSeguross;
+	}
+
+	/**
+	 * @param ciaSeguross the ciaSeguross to set
+	 */
+	public void setCiaSeguross(ArrayList<CiaSeguros> ciaSeguross) {
+		this.ciaSeguross = ciaSeguross;
+	}
+
+	/**
+	 * @return the seguroVehiculos
+	 */
+	public ArrayList<SeguroVehiculo> getSeguroVehiculos() {
+		return seguroVehiculos;
+	}
+
+	/**
+	 * @param seguroVehiculos the seguroVehiculos to set
+	 */
+	public void setSeguroVehiculos(ArrayList<SeguroVehiculo> seguroVehiculos) {
+		this.seguroVehiculos = seguroVehiculos;
+	}
+
 	/**
 	 * @return the logs
 	 */
@@ -344,6 +382,38 @@ public class CarData {
 		this.reparaciones = reparaciones;
 	}
 	
+	/**
+	 * @return the mantencionPropuestas
+	 */
+	public ArrayList<MantencionPospuesta> getMantencionPropuestas() {
+		return mantencionPropuestas;
+	}
+
+	/**
+	 * @param mantencionPropuestas the mantencionPropuestas to set
+	 */
+	public void setMantencionPropuestas(
+			ArrayList<MantencionPospuesta> mantencionPropuestas) {
+		this.mantencionPropuestas = mantencionPropuestas;
+	}
+
+	/**
+	 * @return the notificaciones
+	 */
+	public ArrayList<Notificacion> getNotificaciones() {
+		return notificaciones;
+	}
+
+	/**
+	 * @param notificaciones the notificaciones to set
+	 */
+	public void setNotificaciones(ArrayList<Notificacion> notificaciones) {
+		this.notificaciones = notificaciones;
+	}
+
+	/*
+	 * se graban en la bd de la App Movil los datos que llegan desde el Servidor
+	 */
 	public void save(java.sql.Connection conn) throws SQLException {
 		
 		if (this.getPaises() != null) {
@@ -438,5 +508,23 @@ public class CarData {
 			}
 		}
 		*/
+		if (this.getMantencionPropuestas() != null) {
+			for (MantencionPospuesta mantencionPospuesta : this.getMantencionPropuestas()) {
+				
+				mantencionPospuesta.save(conn);
+			}
+		}
+		if (this.getNotificaciones() != null) {
+			for (Notificacion notificacion : this.getNotificaciones()) {
+				
+				notificacion.save(conn);
+			}
+		}
+		if (this.getParametros() != null) {
+			for (Parametro parametro : this.getParametros()) {
+				
+				parametro.save(conn);
+			}
+		}
 	}
 }

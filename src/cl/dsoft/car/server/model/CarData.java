@@ -25,11 +25,17 @@ import cl.dsoft.car.server.db.Reparacion;
 import cl.dsoft.car.server.db.Usuario;
 import cl.dsoft.car.server.db.Autenticacion;
 import cl.dsoft.car.server.db.Vehiculo;
+import cl.dsoft.car.server.db.MantencionPospuesta;
+import cl.dsoft.car.server.db.Notificacion;
+import cl.dsoft.car.server.db.Parametro;
+
 
 @XmlRootElement(name = "CarData")
 //If you want you can define the order in which the fields are written
 //Optional
-@XmlType(propOrder = { "paises", "regiones", "comunas", "usuarios", "autenticaciones", "vehiculos", "mantencionBaseHechas", "mantencionUsuarios", "mantencionUsuarioHechas", "recordatorios", "cargaCombustibles", "reparaciones", "ciaSeguross", "seguroVehiculos", "logs" })
+@XmlType(propOrder = { "paises", "regiones", "comunas", "usuarios", "autenticaciones", "vehiculos", "mantencionBaseHechas", "mantencionUsuarios", 
+		"mantencionUsuarioHechas", "recordatorios", "cargaCombustibles", "reparaciones", "ciaSeguross", "seguroVehiculos", "logs",
+		"mantecionPropuestas", "notificaciones", "parametros"})
 public class CarData {
 
 	//@XmlElement(nillable=true, required=false)
@@ -62,6 +68,12 @@ public class CarData {
 	protected SeguroVehiculos seguroVehiculos;
 	//@XmlElement(nillable=true, required=false)
 	protected Logs logs;
+	//@XmlElement(nillable=true, required=false)
+	protected MantencionPospuestas mantencionPospuestas;
+	//@XmlElement(nillable=true, required=false)
+	protected Notificaciones notificaciones;
+	//@XmlElement(nillable=true, required=false)
+	protected Parametros parametros;
 	
 	public CarData() {
 
@@ -80,8 +92,14 @@ public class CarData {
 		this.ciaSeguross = null;
 		this.seguroVehiculos = null;
 		this.logs = null;
+		this.mantencionPospuestas = null;
+		this.notificaciones = null;
+		this.parametros = null;
 	}
 
+	/*
+	 * se generan los datos que iran desde el Servidor a la App Movil en la consulta por idUsuario
+	 */
 	public CarData(java.sql.Connection conn, Long idUsuario, String fechaModificacion) {
 
 		this.paises = new Paises(conn, idUsuario, fechaModificacion);
@@ -99,8 +117,14 @@ public class CarData {
 		this.ciaSeguross = new CiaSeguross(conn, idUsuario, fechaModificacion);
 		this.seguroVehiculos = new SeguroVehiculos(conn, idUsuario, fechaModificacion);
 		//this.logs = new Logs(conn, idUsuario, fechaModificacion);
+		this.mantencionPospuestas = new MantencionPospuestas(conn, idUsuario, fechaModificacion);
+		this.notificaciones = new Notificaciones(conn, idUsuario, fechaModificacion);
+		this.parametros = new Parametros(conn, idUsuario, fechaModificacion);
 	}
 
+	/*
+	 * se generan los datos que iran desde el Servidor a la App Movil en la consulta por idRedSocial, token
+	 */
 	public CarData(java.sql.Connection conn, Long idRedSocial, String token, Boolean byIdRedSocial) {
 
 		this.usuarios = new Usuarios(conn, idRedSocial, token, byIdRedSocial);
@@ -122,6 +146,9 @@ public class CarData {
 			this.ciaSeguross = new CiaSeguross(conn, u.getId(), "1900-01-01");
 			this.seguroVehiculos = new SeguroVehiculos(conn, u.getId(), "1900-01-01");
 			//this.logs = new Logs(conn, u.getId(), "1900-01-01");
+			this.mantencionPospuestas = new MantencionPospuestas(conn, u.getId(), "1900-01-01");
+			this.notificaciones = new Notificaciones(conn, u.getId(), "1900-01-01");
+			this.parametros = new Parametros(conn, u.getId(), "1900-01-01");
 		}
 		/*
 		else {
@@ -138,6 +165,48 @@ public class CarData {
 			this.reparaciones = new Reparaciones();
 		}
 		*/
+	}
+
+	/**
+	 * @return the mantencionPospuestas
+	 */
+	public MantencionPospuestas getMantencionPospuestas() {
+		return mantencionPospuestas;
+	}
+
+	/**
+	 * @param mantencionPospuestas the mantencionPospuestas to set
+	 */
+	public void setMantencionPospuestas(MantencionPospuestas mantencionPospuestas) {
+		this.mantencionPospuestas = mantencionPospuestas;
+	}
+
+	/**
+	 * @return the notificaciones
+	 */
+	public Notificaciones getNotificaciones() {
+		return notificaciones;
+	}
+
+	/**
+	 * @param notificaciones the notificaciones to set
+	 */
+	public void setNotificaciones(Notificaciones notificaciones) {
+		this.notificaciones = notificaciones;
+	}
+
+	/**
+	 * @return the parametros
+	 */
+	public Parametros getParametros() {
+		return parametros;
+	}
+
+	/**
+	 * @param parametros the parametros to set
+	 */
+	public void setParametros(Parametros parametros) {
+		this.parametros = parametros;
 	}
 
 	/**
@@ -352,6 +421,9 @@ public class CarData {
 		this.logs = logs;
 	}
 
+	/*
+	 * se graban en la base de datos MySQL los datos recibidos desde la App Movil
+	 */
 	public void save(java.sql.Connection conn) throws SQLException {
 		
 		for (Usuario usuario : this.usuarios.getUsuarios()) {
@@ -409,6 +481,22 @@ public class CarData {
 			log.save(conn);
 		}
 
+		for (MantencionPospuesta mantencionPospuesta : this.mantencionPospuestas.getMantencionPospuestas()) {
+			
+			mantencionPospuesta.save(conn);
+		}
+		/*
+		for (Notificacion notificacion : this.notificaciones.getNotificaciones()) {
+			
+			notificacion.save(conn);
+		}
+		*/
+		/*
+		for (Parametro parametro : this.parametros.getParametros()) {
+			
+			parametro.save(conn);
+		}
+		*/
 	}
 
 	/* (non-Javadoc)
