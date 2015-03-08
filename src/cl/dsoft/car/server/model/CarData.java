@@ -35,7 +35,7 @@ import cl.dsoft.car.server.db.Parametro;
 //Optional
 @XmlType(propOrder = { "paises", "regiones", "comunas", "usuarios", "autenticaciones", "vehiculos", "mantencionBaseHechas", "mantencionUsuarios", 
 		"mantencionUsuarioHechas", "recordatorios", "cargaCombustibles", "reparaciones", "ciaSeguross", "seguroVehiculos", "logs",
-		"mantecionPropuestas", "notificaciones", "parametros"})
+		"mantencionPospuestas", "notificaciones", "parametros"})
 public class CarData {
 
 	//@XmlElement(nillable=true, required=false)

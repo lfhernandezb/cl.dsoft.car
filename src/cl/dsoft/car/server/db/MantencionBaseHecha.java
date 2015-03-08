@@ -27,7 +27,6 @@ public class MantencionBaseHecha {
     protected Integer _costo;
     protected Integer _km;
     protected Integer _idMantencionBaseHecha;
-    protected Boolean _esMantencion;
 
     private final static String _str_sql = 
         "    SELECT" +
@@ -39,10 +38,8 @@ public class MantencionBaseHecha {
         "    0+ma.borrado AS borrado," +
         "    ma.costo AS costo," +
         "    ma.km AS km," +
-        "    ma.id_mantencion_base_hecha AS id_mantencion_base_hecha," +
-        "    cr.id_cambio IS NULL AS es_mantencion" +
-        "    FROM mantencion_base_hecha ma" +
-        "    LEFT JOIN cambio_revision cr on cr.id_revision = ma.id_mantencion_base";
+        "    ma.id_mantencion_base_hecha AS id_mantencion_base_hecha" +
+        "    FROM mantencion_base_hecha ma";
 
     public MantencionBaseHecha() {
         _fechaModificacion = null;
@@ -54,25 +51,9 @@ public class MantencionBaseHecha {
         _costo = null;
         _km = null;
         _idMantencionBaseHecha = null;
-        _esMantencion = null;
 
     }
-
     /**
-	 * @return the _esMantencion
-	 */
-	public Boolean getEsMantencion() {
-		return _esMantencion;
-	}
-
-	/**
-	 * @param _esMantencion the _esMantencion to set
-	 */
-	public void setEsMantencion(Boolean _esMantencion) {
-		this._esMantencion = _esMantencion;
-	}
-
-	/**
      * @return the _fechaModificacion
      */
     public String getFechaModificacion() {
@@ -193,7 +174,6 @@ public class MantencionBaseHecha {
         ret.setCosto(p_rs.getInt("costo"));
         ret.setKm(p_rs.getInt("km"));
         ret.setIdMantencionBaseHecha(p_rs.getInt("id_mantencion_base_hecha"));
-        ret.setEsMantencion(p_rs.getBoolean("es_mantencion"));
 
         return ret;
     }
@@ -578,7 +558,6 @@ public class MantencionBaseHecha {
                 _borrado = obj.getBorrado();
                 _costo = obj.getCosto();
                 _km = obj.getKm();
-                _esMantencion = obj.getEsMantencion();
             }
         }
         catch (SQLException ex){
@@ -698,8 +677,7 @@ public class MantencionBaseHecha {
 	           "    _borrado = " + (_borrado != null ? "b'" + _borrado : "null") + "," +
 	           "    _costo = " + (_costo != null ? _costo : "null") + "," +
 	           "    _km = " + (_km != null ? _km : "null") + "," +
-	           "    _idMantencionBaseHecha = " + (_idMantencionBaseHecha != null ? _idMantencionBaseHecha : "null") + "," +
-	           "    _esMantencion = " + (_esMantencion != null ? _esMantencion : "null") +
+	           "    _idMantencionBaseHecha = " + (_idMantencionBaseHecha != null ? _idMantencionBaseHecha : "null") +
 			   "]";
     }
 

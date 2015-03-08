@@ -36,6 +36,8 @@ public class Notificacion {
     private String _fechaModificacion;
     @Element(name = "fechaFin", required = false)
     private String _fechaFin;
+    @Element(name = "idUsuario")
+    private Long _idUsuario;
     @Element(name = "periodicidad", required = false)
     private Short _periodicidad;
     @Element(name = "fechaInicio", required = false)
@@ -49,6 +51,7 @@ public class Notificacion {
         "    no.numero_impresiones AS numero_impresiones," +
         "    strftime('%Y-%m-%d %H:%M:%S', no.fecha_modificacion) AS fecha_modificacion," +
         "    strftime('%Y-%m-%d %H:%M:%S', no.fecha_fin) AS fecha_fin," +
+        "    no.id_usuario AS id_usuario," +
         "    no.periodicidad AS periodicidad," +
         "    strftime('%Y-%m-%d %H:%M:%S', no.fecha_inicio) AS fecha_inicio" +
         "    FROM notificacion no";
@@ -60,6 +63,7 @@ public class Notificacion {
         _numeroImpresiones = null;
         _fechaModificacion = null;
         _fechaFin = null;
+        _idUsuario = null;
         _periodicidad = null;
         _fechaInicio = null;
 
@@ -99,6 +103,12 @@ public class Notificacion {
      */
     public String getFechaFin() {
         return _fechaFin;
+    }
+    /**
+     * @return the _idUsuario
+     */
+    public Long getIdUsuario() {
+        return _idUsuario;
     }
     /**
      * @return the _periodicidad
@@ -193,6 +203,12 @@ public class Notificacion {
         this._fechaFin = _fechaFin;
     }
     /**
+     * @param _idUsuario the _idUsuario to set
+     */
+    public void setIdUsuario(Long _idUsuario) {
+        this._idUsuario = _idUsuario;
+    }
+    /**
      * @param _periodicidad the _periodicidad to set
      */
     public void setPeriodicidad(Short _periodicidad) {
@@ -258,6 +274,7 @@ public class Notificacion {
         ret.setNumeroImpresiones(p_rs.getShort("numero_impresiones"));
         ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
         ret.setFechaFin(p_rs.getString("fecha_fin"));
+        ret.setIdUsuario(p_rs.getLong("id_usuario"));
         ret.setPeriodicidad(p_rs.getShort("periodicidad"));
         ret.setFechaInicio(p_rs.getString("fecha_inicio"));
 
@@ -347,6 +364,9 @@ public class Notificacion {
             for (AbstractMap.SimpleEntry<String, String> p : p_parameters) {
                 if (p.getKey().equals("id_notificacion")) {
                     array_clauses.add("no.id_notificacion = " + p.getValue());
+                }
+                else if (p.getKey().equals("id_usuario")) {
+                    array_clauses.add("no.id_usuario = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
                     array_clauses.add("no.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
@@ -573,6 +593,7 @@ public class Notificacion {
             "    numero_impresiones, " +
             "    fecha_modificacion, " +
             "    fecha_fin, " +
+            "    id_usuario, " +
             "    periodicidad, " +
             "    fecha_inicio)" +
             "    VALUES" +
@@ -583,6 +604,7 @@ public class Notificacion {
             "    " + (_numeroImpresiones != null ? "'" + _numeroImpresiones + "'" : "null") + "," +
             "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
             "    " + (_fechaFin != null ? "date('" + _fechaFin + "', 'localtime')" : "null") + "," +
+            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
             "    " + (_periodicidad != null ? "'" + _periodicidad + "'" : "null") + "," +
             "    " + (_fechaInicio != null ? "date('" + _fechaInicio + "', 'localtime')" : "null") +
             "    )";
@@ -702,6 +724,7 @@ public class Notificacion {
                 _numeroImpresiones = obj.getNumeroImpresiones();
                 _fechaModificacion = obj.getFechaModificacion();
                 _fechaFin = obj.getFechaFin();
+                _idUsuario = obj.getIdUsuario();
                 _periodicidad = obj.getPeriodicidad();
                 _fechaInicio = obj.getFechaInicio();
             }
@@ -820,6 +843,7 @@ public class Notificacion {
 	           "    _numeroImpresiones = " + (_numeroImpresiones != null ? _numeroImpresiones : "null") + "," +
 	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
 	           "    _fechaFin = " + (_fechaFin != null ? "'" + _fechaFin + "'" : "null") + "," +
+	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
 	           "    _periodicidad = " + (_periodicidad != null ? _periodicidad : "null") + "," +
 	           "    _fechaInicio = " + (_fechaInicio != null ? "'" + _fechaInicio + "'" : "null") +
 			   "]";
@@ -838,6 +862,7 @@ public class Notificacion {
         ret.setNumeroImpresiones(Short.decode(element.getElementsByTagName("numero_impresiones").item(0).getTextContent()));
         ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
         ret.setFechaFin(element.getElementsByTagName("fecha_fin").item(0).getTextContent());
+        ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
         ret.setPeriodicidad(Short.decode(element.getElementsByTagName("periodicidad").item(0).getTextContent()));
         ret.setFechaInicio(element.getElementsByTagName("fecha_inicio").item(0).getTextContent());
 

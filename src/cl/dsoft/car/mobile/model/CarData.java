@@ -34,7 +34,7 @@ import cl.dsoft.car.mobile.db.Parametro;
 @Root(name = "CarData")
 @Order(elements={"paises", "regiones", "comunas", "usuarios", "autenticaciones", "vehiculos", "mantencionBaseHechas", "mantencionUsuarios", 
 		"mantencionUsuarioHechas", "recordatorios", "cargaCombustibles", "reparaciones", "ciaSeguross", "seguroVehiculos", "logs", 
-		"mantecionPropuestas", "notificaciones", "parametros"})
+		"mantencionPospuestas", "notificaciones", "parametros"})
 //If you want you can define the order in which the fields are written
 //Optional
 //@Order(elements = { "usuarios", "vehiculos", "mantencionUsuarios", "mantencionUsuarioHechas", "recordatorios", "rendimientos", "reparaciones" })
@@ -71,7 +71,7 @@ public class CarData {
 	@ElementList(required=false)
 	protected ArrayList<Log> logs;
 	@ElementList(required=false)
-	protected ArrayList<MantencionPospuesta> mantencionPropuestas;
+	protected ArrayList<MantencionPospuesta> mantencionPospuestas;
 	@ElementList(required=false)
 	protected ArrayList<Notificacion> notificaciones;
 	@ElementList(required=false)
@@ -94,7 +94,7 @@ public class CarData {
 		this.ciaSeguross = null;
 		this.seguroVehiculos = null;
 		this.logs = null;
-		this.mantencionPropuestas = null;
+		this.mantencionPospuestas = null;
 		this.notificaciones = null;
 		this.parametros = null;
 	}	
@@ -142,7 +142,7 @@ public class CarData {
 			
 			this.logs = Log.seek(conn, listParameters, null, null, 0, 10000);
 			
-			this.mantencionPropuestas = MantencionPospuesta.seek(conn, listParameters, null, null, 0, 10000);
+			this.mantencionPospuestas = MantencionPospuesta.seek(conn, listParameters, null, null, 0, 10000);
 			
 			//this.notificaciones = Notificacion.seek(conn, listParameters, null, null, 0, 10000);
 			
@@ -386,7 +386,7 @@ public class CarData {
 	 * @return the mantencionPropuestas
 	 */
 	public ArrayList<MantencionPospuesta> getMantencionPropuestas() {
-		return mantencionPropuestas;
+		return mantencionPospuestas;
 	}
 
 	/**
@@ -394,7 +394,7 @@ public class CarData {
 	 */
 	public void setMantencionPropuestas(
 			ArrayList<MantencionPospuesta> mantencionPropuestas) {
-		this.mantencionPropuestas = mantencionPropuestas;
+		this.mantencionPospuestas = mantencionPropuestas;
 	}
 
 	/**

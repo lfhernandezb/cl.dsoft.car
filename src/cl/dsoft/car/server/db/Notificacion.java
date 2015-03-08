@@ -21,6 +21,7 @@ public class Notificacion {
     protected Integer _id;
     protected String _fechaModificacion;
     protected String _fechaFin;
+    protected Long _idUsuario;
     protected Boolean _borrado;
     protected Short _periodicidad;
     protected String _detalle;
@@ -32,6 +33,7 @@ public class Notificacion {
         "    no.id_notificacion AS id," +
         "    DATE_FORMAT(no.fecha_modificacion, '%Y-%m-%d %H:%i:%s') AS fecha_modificacion," +
         "    DATE_FORMAT(no.fecha_fin, '%Y-%m-%d %H:%i:%s') AS fecha_fin," +
+        "    no.id_usuario AS id_usuario," +
         "    0+no.borrado AS borrado," +
         "    no.periodicidad AS periodicidad," +
         "    no.detalle AS detalle," +
@@ -43,6 +45,7 @@ public class Notificacion {
         _id = null;
         _fechaModificacion = null;
         _fechaFin = null;
+        _idUsuario = null;
         _borrado = null;
         _periodicidad = null;
         _detalle = null;
@@ -67,6 +70,12 @@ public class Notificacion {
      */
     public String getFechaFin() {
         return _fechaFin;
+    }
+    /**
+     * @return the _idUsuario
+     */
+    public Long getIdUsuario() {
+        return _idUsuario;
     }
     /**
      * @return the _borrado
@@ -117,6 +126,12 @@ public class Notificacion {
         this._fechaFin = _fechaFin;
     }
     /**
+     * @param _idUsuario the _idUsuario to set
+     */
+    public void setIdUsuario(Long _idUsuario) {
+        this._idUsuario = _idUsuario;
+    }
+    /**
      * @param _borrado the _borrado to set
      */
     public void setBorrado(Boolean _borrado) {
@@ -153,6 +168,7 @@ public class Notificacion {
         ret.setId(p_rs.getInt("id"));
         ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
         ret.setFechaFin(p_rs.getString("fecha_fin"));
+        ret.setIdUsuario(p_rs.getLong("id_usuario"));
         ret.setBorrado(p_rs.getBoolean("borrado"));
         ret.setPeriodicidad(p_rs.getShort("periodicidad"));
         ret.setDetalle(p_rs.getString("detalle"));
@@ -245,6 +261,9 @@ public class Notificacion {
             for (AbstractMap.SimpleEntry<String, String> p : p_parameters) {
                 if (p.getKey().equals("id_notificacion")) {
                     array_clauses.add("no.id_notificacion = " + p.getValue());
+                }
+                else if (p.getKey().equals("id_usuario")) {
+                    array_clauses.add("no.id_usuario = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
                     array_clauses.add("no.fecha_modificacion > STR_TO_DATE('" + p.getValue() + "', '%Y-%m-%d %H:%i:%s')");
@@ -398,6 +417,7 @@ public class Notificacion {
             "    INSERT INTO notificacion" +
             "    (" +
             "    fecha_fin, " +
+            "    id_usuario, " +
             "    periodicidad, " +
             "    detalle, " +
             "    fecha_inicio, " +
@@ -405,6 +425,7 @@ public class Notificacion {
             "    VALUES" +
             "    (" +
             "    " + (_fechaFin != null ? "STR_TO_DATE('" + _fechaFin + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
+            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
             "    " + (_periodicidad != null ? "'" + _periodicidad + "'" : "null") + "," +
             "    " + (_detalle != null ? "'" + _detalle + "'" : "null") + "," +
             "    " + (_fechaInicio != null ? "STR_TO_DATE('" + _fechaInicio + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
@@ -536,6 +557,7 @@ public class Notificacion {
 
                 _fechaModificacion = obj.getFechaModificacion();
                 _fechaFin = obj.getFechaFin();
+                _idUsuario = obj.getIdUsuario();
                 _borrado = obj.getBorrado();
                 _periodicidad = obj.getPeriodicidad();
                 _detalle = obj.getDetalle();
@@ -654,6 +676,7 @@ public class Notificacion {
 	           "    _id = " + (_id != null ? _id : "null") + "," +
 	           "    _fecha_modificacion = " + (_fechaModificacion != null ? "STR_TO_DATE(" + _fechaModificacion + ", '%Y-%m-%d %H:%i:%s')" : "null") + "," +
 	           "    _fecha_fin = " + (_fechaFin != null ? "STR_TO_DATE(" + _fechaFin + ", '%Y-%m-%d %H:%i:%s')" : "null") + "," +
+	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
 	           "    _borrado = " + (_borrado != null ? "b'" + _borrado : "null") + "," +
 	           "    _periodicidad = " + (_periodicidad != null ? _periodicidad : "null") + "," +
 	           "    _detalle = " + (_detalle != null ? "'" + _detalle + "'" : "null") + "," +
@@ -668,6 +691,7 @@ public class Notificacion {
 	           "    \"_id\" : " + (_id != null ? _id : "null") + "," +
 	           "    \"_fecha_modificacion\" : " + (_fechaModificacion != null ? "\"" + _fechaModificacion + "\"" : "null") + "," +
 	           "    \"_fecha_fin\" : " + (_fechaFin != null ? "\"" + _fechaFin + "\"" : "null") + "," +
+	           "    \"_idUsuario\" : " + (_idUsuario != null ? _idUsuario : "null") + "," +
 	           "    \"_borrado\" : " + (_borrado != null ? "b'" + _borrado : "null") + "," +
 	           "    \"_periodicidad\" : " + (_periodicidad != null ? _periodicidad : "null") + "," +
 	           "    \"_detalle\" : " + (_detalle != null ? "\"" + _detalle + "\"" : "null") + "," +
@@ -682,6 +706,7 @@ public class Notificacion {
 	           "    <id" + (_id != null ? ">" + _id + "</id>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <fechaModificacion" + (_fechaModificacion != null ? ">" + _fechaModificacion + "</fechaModificacion>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <fechaFin" + (_fechaFin != null ? ">" + _fechaFin + "</fechaFin>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <idUsuario" + (_idUsuario != null ? ">" + _idUsuario + "</idUsuario>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <borrado" + (_borrado != null ? ">" + _borrado + "</borrado>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <periodicidad" + (_periodicidad != null ? ">" + _periodicidad + "</periodicidad>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <detalle" + (_detalle != null ? ">" + _detalle + "</detalle>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
@@ -699,6 +724,7 @@ public class Notificacion {
         ret.setId(Integer.decode(element.getElementsByTagName("id_notificacion").item(0).getTextContent()));
         ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
         ret.setFechaFin(element.getElementsByTagName("fecha_fin").item(0).getTextContent());
+        ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
         ret.setBorrado(Boolean.valueOf(element.getElementsByTagName("borrado").item(0).getTextContent()));
         ret.setPeriodicidad(Short.decode(element.getElementsByTagName("periodicidad").item(0).getTextContent()));
         ret.setDetalle(element.getElementsByTagName("detalle").item(0).getTextContent());

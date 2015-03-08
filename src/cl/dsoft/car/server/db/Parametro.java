@@ -182,6 +182,9 @@ public class Parametro {
                 if (p.getKey().equals("id_parametro")) {
                     array_clauses.add("pa.id_parametro = " + p.getValue());
                 }
+                if (p.getKey().equals("id_usuario")) {
+                    //
+                }
                 else if (p.getKey().equals("mas reciente")) {
                     array_clauses.add("pa.fecha_modificacion > STR_TO_DATE('" + p.getValue() + "', '%Y-%m-%d %H:%i:%s')");
                 }
