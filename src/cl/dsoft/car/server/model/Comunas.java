@@ -29,7 +29,7 @@ public class Comunas {
 		seek(conn, idRedSocial, token);
 	}
 
-    public List<Comuna> getcomunas() {
+    public List<Comuna> getComunas() {
 		if (comunas == null) {
 			comunas = new ArrayList<Comuna>();
 		}
