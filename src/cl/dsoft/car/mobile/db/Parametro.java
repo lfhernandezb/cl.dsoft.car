@@ -195,6 +195,9 @@ public class Parametro {
                 else if (p.getKey().equals("mas reciente")) {
                     array_clauses.add("pa.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
                 }
+                else if (p.getKey().equals("llave")) {
+                    array_clauses.add("pa.llave = '" + p.getValue() + "'");
+                }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
                 }

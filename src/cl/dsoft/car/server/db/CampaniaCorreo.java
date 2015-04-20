@@ -17,26 +17,50 @@ import cl.dsoft.car.misc.UnsupportedParameterException;
  * @author petete-ntbk
  *
  */
-public class CampaniaUsuario {
+public class CampaniaCorreo {
+    protected String _textoCorreo;
     protected String _fechaModificacion;
-    protected Long _idUsuario;
-    protected Long _id;
-    protected Integer _idCampania;
+    protected String _inicio;
+    protected String _condicionSql;
+    protected Integer _id;
+    protected Boolean _borrado;
+    protected String _descripcion;
+    protected Boolean _activa;
+    protected Boolean _porSql;
+    protected Short _periodicidadDias;
 
     private final static String _str_sql = 
         "    SELECT" +
+        "    ca.texto_correo AS texto_correo," +
         "    DATE_FORMAT(ca.fecha_modificacion, '%Y-%m-%d %H:%i:%s') AS fecha_modificacion," +
-        "    ca.id_usuario AS id_usuario," +
-        "    ca.id_campania_usuario AS id," +
-        "    ca.id_campania AS id_campania" +
-        "    FROM campania_usuario ca";
+        "    DATE_FORMAT(ca.inicio, '%Y-%m-%d %H:%i:%s') AS inicio," +
+        "    ca.condicion_sql AS condicion_sql," +
+        "    ca.id_campania AS id," +
+        "    0+ca.borrado AS borrado," +
+        "    ca.descripcion AS descripcion," +
+        "    0+ca.activa AS activa," +
+        "    0+ca.por_sql AS por_sql," +
+        "    ca.periodicidad_dias AS periodicidad_dias" +
+        "    FROM campania ca";
 
-    public CampaniaUsuario() {
+    public CampaniaCorreo() {
+        _textoCorreo = null;
         _fechaModificacion = null;
-        _idUsuario = null;
+        _inicio = null;
+        _condicionSql = null;
         _id = null;
-        _idCampania = null;
+        _borrado = null;
+        _descripcion = null;
+        _activa = null;
+        _porSql = null;
+        _periodicidadDias = null;
 
+    }
+    /**
+     * @return the _textoCorreo
+     */
+    public String getTextoCorreo() {
+        return _textoCorreo;
     }
     /**
      * @return the _fechaModificacion
@@ -45,22 +69,58 @@ public class CampaniaUsuario {
         return _fechaModificacion;
     }
     /**
-     * @return the _idUsuario
+     * @return the _inicio
      */
-    public Long getIdUsuario() {
-        return _idUsuario;
+    public String getInicio() {
+        return _inicio;
+    }
+    /**
+     * @return the _condicionSql
+     */
+    public String getCondicionSql() {
+        return _condicionSql;
     }
     /**
      * @return the _id
      */
-    public Long getId() {
+    public Integer getId() {
         return _id;
     }
     /**
-     * @return the _idCampania
+     * @return the _borrado
      */
-    public Integer getIdCampania() {
-        return _idCampania;
+    public Boolean getBorrado() {
+        return _borrado;
+    }
+    /**
+     * @return the _descripcion
+     */
+    public String getDescripcion() {
+        return _descripcion;
+    }
+    /**
+     * @return the _activa
+     */
+    public Boolean getActiva() {
+        return _activa;
+    }
+    /**
+     * @return the _porSql
+     */
+    public Boolean getPorSql() {
+        return _porSql;
+    }
+    /**
+     * @return the _periodicidadDias
+     */
+    public Short getPeriodicidadDias() {
+        return _periodicidadDias;
+    }
+    /**
+     * @param _textoCorreo the _textoCorreo to set
+     */
+    public void setTextoCorreo(String _textoCorreo) {
+        this._textoCorreo = _textoCorreo;
     }
     /**
      * @param _fechaModificacion the _fechaModificacion to set
@@ -69,37 +129,73 @@ public class CampaniaUsuario {
         this._fechaModificacion = _fechaModificacion;
     }
     /**
-     * @param _idUsuario the _idUsuario to set
+     * @param _inicio the _inicio to set
      */
-    public void setIdUsuario(Long _idUsuario) {
-        this._idUsuario = _idUsuario;
+    public void setInicio(String _inicio) {
+        this._inicio = _inicio;
+    }
+    /**
+     * @param _condicionSql the _condicionSql to set
+     */
+    public void setCondicionSql(String _condicionSql) {
+        this._condicionSql = _condicionSql;
     }
     /**
      * @param _id the _id to set
      */
-    public void setId(Long _id) {
+    public void setId(Integer _id) {
         this._id = _id;
     }
     /**
-     * @param _idCampania the _idCampania to set
+     * @param _borrado the _borrado to set
      */
-    public void setIdCampania(Integer _idCampania) {
-        this._idCampania = _idCampania;
+    public void setBorrado(Boolean _borrado) {
+        this._borrado = _borrado;
+    }
+    /**
+     * @param _descripcion the _descripcion to set
+     */
+    public void setDescripcion(String _descripcion) {
+        this._descripcion = _descripcion;
+    }
+    /**
+     * @param _activa the _activa to set
+     */
+    public void setActiva(Boolean _activa) {
+        this._activa = _activa;
+    }
+    /**
+     * @param _porSql the _porSql to set
+     */
+    public void setPorSql(Boolean _porSql) {
+        this._porSql = _porSql;
+    }
+    /**
+     * @param _periodicidadDias the _periodicidadDias to set
+     */
+    public void setPeriodicidadDias(Short _periodicidadDias) {
+        this._periodicidadDias = _periodicidadDias;
     }
 
-    public static CampaniaUsuario fromRS(ResultSet p_rs) throws SQLException {
-        CampaniaUsuario ret = new CampaniaUsuario();
+    public static CampaniaCorreo fromRS(ResultSet p_rs) throws SQLException {
+        CampaniaCorreo ret = new CampaniaCorreo();
 
+        ret.setTextoCorreo(p_rs.getString("texto_correo"));
         ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setIdUsuario(p_rs.getLong("id_usuario"));
-        ret.setId(p_rs.getLong("id"));
-        ret.setIdCampania(p_rs.getInt("id_campania"));
+        ret.setInicio(p_rs.getString("inicio"));
+        ret.setCondicionSql(p_rs.getString("condicion_sql"));
+        ret.setId(p_rs.getInt("id"));
+        ret.setBorrado(p_rs.getBoolean("borrado"));
+        ret.setDescripcion(p_rs.getString("descripcion"));
+        ret.setActiva(p_rs.getBoolean("activa"));
+        ret.setPorSql(p_rs.getBoolean("por_sql"));
+        ret.setPeriodicidadDias(p_rs.getShort("periodicidad_dias"));
 
         return ret;
     }
 
-    public static CampaniaUsuario getByParameter(Connection p_conn, String p_key, String p_value) throws SQLException {
-        CampaniaUsuario ret = null;
+    public static CampaniaCorreo getByParameter(Connection p_conn, String p_key, String p_value) throws SQLException {
+        CampaniaCorreo ret = null;
         
         String str_sql = _str_sql +
             "  WHERE ca." + p_key + " = " + p_value +
@@ -159,37 +255,37 @@ public class CampaniaUsuario {
         return ret;        
     }
 
-    public static CampaniaUsuario getById(Connection p_conn, String p_id) throws SQLException {
-        return getByParameter(p_conn, "id_campania_usuario", p_id);
+    public static CampaniaCorreo getById(Connection p_conn, String p_id) throws SQLException {
+        return getByParameter(p_conn, "id_campania", p_id);
     }
     
-    public static ArrayList<CampaniaUsuario> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
+    public static ArrayList<CampaniaCorreo> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
         Statement stmt = null;
         ResultSet rs = null;
         String str_sql;
-        ArrayList<CampaniaUsuario> ret;
+        ArrayList<CampaniaCorreo> ret;
         
         str_sql = "";
         
         try {
             ArrayList<String> array_clauses = new ArrayList<String>();
             
-            ret = new ArrayList<CampaniaUsuario>();
+            ret = new ArrayList<CampaniaCorreo>();
             
             str_sql = _str_sql;
             
             for (AbstractMap.SimpleEntry<String, String> p : p_parameters) {
-                if (p.getKey().equals("id_campania_usuario")) {
-                    array_clauses.add("ca.id_campania_usuario = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("ca.id_usuario = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_campania")) {
+                if (p.getKey().equals("id_campania")) {
                     array_clauses.add("ca.id_campania = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
                     array_clauses.add("ca.fecha_modificacion > STR_TO_DATE('" + p.getValue() + "', '%Y-%m-%d %H:%i:%s')");
+                }
+                else if (p.getKey().equals("no borrado")) {
+                    array_clauses.add("ca.borrado = 0");
+                }
+                else if (p.getKey().equals("borrado")) {
+                    array_clauses.add("ca.borrado = 1");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -275,11 +371,19 @@ public class CampaniaUsuario {
         Statement stmt = null;
 
         String str_sql =
-            "    UPDATE campania_usuario" +
+            "    UPDATE campania" +
             "    SET" +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "STR_TO_DATE('" + _fechaModificacion + "', '%Y-%m-%d %H:%i:%s')" : "null") +
+            "    texto_correo = " + (_textoCorreo != null ? "'" + _textoCorreo + "'" : "null") + "," +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "STR_TO_DATE('" + _fechaModificacion + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
+            "    inicio = " + (_inicio != null ? "STR_TO_DATE('" + _inicio + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
+            "    condicion_sql = " + (_condicionSql != null ? "'" + _condicionSql + "'" : "null") + "," +
+            "    borrado = " + (_borrado != null ? "b'" + (_borrado ? 1 : 0) + "'" : "null") + "," +
+            "    descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
+            "    activa = " + (_activa != null ? "b'" + (_activa ? 1 : 0) + "'" : "null") + "," +
+            "    por_sql = " + (_porSql != null ? "b'" + (_porSql ? 1 : 0) + "'" : "null") + "," +
+            "    periodicidad_dias = " + (_periodicidadDias != null ? _periodicidadDias : "null") +
             "    WHERE" +
-            "    id_campania_usuario = " + Long.toString(this._id);
+            "    id_campania = " + Integer.toString(this._id);
 
         try {
             stmt = p_conn.createStatement();
@@ -325,14 +429,20 @@ public class CampaniaUsuario {
         ResultSet rs = null;
 
         String str_sql =
-            "    INSERT INTO campania_usuario" +
+            "    INSERT INTO campania" +
             "    (" +
-            "    id_usuario, " +
-            "    id_campania)" +
+            "    texto_correo, " +
+            "    inicio, " +
+            "    condicion_sql, " +
+            "    descripcion, " +
+            "    periodicidad_dias)" +
             "    VALUES" +
             "    (" +
-            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
-            "    " + (_idCampania != null ? "'" + _idCampania + "'" : "null") +
+            "    " + (_textoCorreo != null ? "'" + _textoCorreo + "'" : "null") + "," +
+            "    " + (_inicio != null ? "STR_TO_DATE('" + _inicio + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
+            "    " + (_condicionSql != null ? "'" + _condicionSql + "'" : "null") + "," +
+            "    " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
+            "    " + (_periodicidadDias != null ? "'" + _periodicidadDias + "'" : "null") +
             "    )";
         
         try {
@@ -343,7 +453,7 @@ public class CampaniaUsuario {
             rs = stmt.getGeneratedKeys();
 
             if (rs.next()) {
-                _id = rs.getLong(1);
+                _id = rs.getInt(1);
             } else {
                 // throw an exception from here
                 // throw new Exception("Error al obtener id");
@@ -396,9 +506,9 @@ public class CampaniaUsuario {
         Statement stmt = null;
 
         String str_sql =
-            "    DELETE FROM campania_usuario" +
+            "    DELETE FROM campania" +
             "    WHERE" +
-            "    id_campania_usuario = " + Long.toString(this._id);
+            "    id_campania = " + Integer.toString(this._id);
 
         try {
             stmt = p_conn.createStatement();
@@ -432,11 +542,11 @@ public class CampaniaUsuario {
     }
 
     public void load(Connection p_conn) throws SQLException {
-        CampaniaUsuario obj = null;
+        CampaniaCorreo obj = null;
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_campania_usuario = " + Long.toString(this._id) +
+            "    id_campania = " + Integer.toString(this._id) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -458,9 +568,15 @@ public class CampaniaUsuario {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
+                _textoCorreo = obj.getTextoCorreo();
                 _fechaModificacion = obj.getFechaModificacion();
-                _idUsuario = obj.getIdUsuario();
-                _idCampania = obj.getIdCampania();
+                _inicio = obj.getInicio();
+                _condicionSql = obj.getCondicionSql();
+                _borrado = obj.getBorrado();
+                _descripcion = obj.getDescripcion();
+                _activa = obj.getActiva();
+                _porSql = obj.getPorSql();
+                _periodicidadDias = obj.getPeriodicidadDias();
             }
         }
         catch (SQLException ex){
@@ -500,7 +616,7 @@ public class CampaniaUsuario {
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_campania_usuario = " + Long.toString(this._id) +
+            "    id_campania = " + Integer.toString(this._id) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -570,44 +686,68 @@ public class CampaniaUsuario {
 
     @Override
     public String toString() {
-        return "CampaniaUsuario [" +
+        return "CampaniaCorreo [" +
+	           "    _texto_correo = " + (_textoCorreo != null ? "'" + _textoCorreo + "'" : "null") + "," +
 	           "    _fecha_modificacion = " + (_fechaModificacion != null ? "STR_TO_DATE(" + _fechaModificacion + ", '%Y-%m-%d %H:%i:%s')" : "null") + "," +
-	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
+	           "    _inicio = " + (_inicio != null ? "STR_TO_DATE(" + _inicio + ", '%Y-%m-%d %H:%i:%s')" : "null") + "," +
+	           "    _condicion_sql = " + (_condicionSql != null ? "'" + _condicionSql + "'" : "null") + "," +
 	           "    _id = " + (_id != null ? _id : "null") + "," +
-	           "    _idCampania = " + (_idCampania != null ? _idCampania : "null") +
+	           "    _borrado = " + (_borrado != null ? "b'" + _borrado : "null") + "," +
+	           "    _descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
+	           "    _activa = " + (_activa != null ? "b'" + _activa : "null") + "," +
+	           "    _por_sql = " + (_porSql != null ? "b'" + _porSql : "null") + "," +
+	           "    _periodicidadDias = " + (_periodicidadDias != null ? _periodicidadDias : "null") +
 			   "]";
     }
 
 
     public String toJSON() {
-        return "CampaniaUsuario : {" +
+        return "CampaniaCorreo : {" +
+	           "    \"_texto_correo\" : " + (_textoCorreo != null ? "\"" + _textoCorreo + "\"" : "null") + "," +
 	           "    \"_fecha_modificacion\" : " + (_fechaModificacion != null ? "\"" + _fechaModificacion + "\"" : "null") + "," +
-	           "    \"_idUsuario\" : " + (_idUsuario != null ? _idUsuario : "null") + "," +
+	           "    \"_inicio\" : " + (_inicio != null ? "\"" + _inicio + "\"" : "null") + "," +
+	           "    \"_condicion_sql\" : " + (_condicionSql != null ? "\"" + _condicionSql + "\"" : "null") + "," +
 	           "    \"_id\" : " + (_id != null ? _id : "null") + "," +
-	           "    \"_idCampania\" : " + (_idCampania != null ? _idCampania : "null") +
+	           "    \"_borrado\" : " + (_borrado != null ? "b'" + _borrado : "null") + "," +
+	           "    \"_descripcion\" : " + (_descripcion != null ? "\"" + _descripcion + "\"" : "null") + "," +
+	           "    \"_activa\" : " + (_activa != null ? "b'" + _activa : "null") + "," +
+	           "    \"_por_sql\" : " + (_porSql != null ? "b'" + _porSql : "null") + "," +
+	           "    \"_periodicidadDias\" : " + (_periodicidadDias != null ? _periodicidadDias : "null") +
 			   "}";
     }
 
 
     public String toXML() {
-        return "<CampaniaUsuario>" +
+        return "<CampaniaCorreo>" +
+	           "    <textoCorreo" + (_textoCorreo != null ? ">" + _textoCorreo + "</textoCorreo>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <fechaModificacion" + (_fechaModificacion != null ? ">" + _fechaModificacion + "</fechaModificacion>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <idUsuario" + (_idUsuario != null ? ">" + _idUsuario + "</idUsuario>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <inicio" + (_inicio != null ? ">" + _inicio + "</inicio>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <condicionSql" + (_condicionSql != null ? ">" + _condicionSql + "</condicionSql>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <id" + (_id != null ? ">" + _id + "</id>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <idCampania" + (_idCampania != null ? ">" + _idCampania + "</idCampania>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-			   "</CampaniaUsuario>";
+	           "    <borrado" + (_borrado != null ? ">" + _borrado + "</borrado>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <descripcion" + (_descripcion != null ? ">" + _descripcion + "</descripcion>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <activa" + (_activa != null ? ">" + _activa + "</activa>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <porSql" + (_porSql != null ? ">" + _porSql + "</porSql>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <periodicidadDias" + (_periodicidadDias != null ? ">" + _periodicidadDias + "</periodicidadDias>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+			   "</CampaniaCorreo>";
     }
 
 
-    public static CampaniaUsuario fromXMLNode(Node xmlNode) {
-        CampaniaUsuario ret = new CampaniaUsuario();
+    public static CampaniaCorreo fromXMLNode(Node xmlNode) {
+        CampaniaCorreo ret = new CampaniaCorreo();
 
         Element element = (Element) xmlNode;
 
+        ret.setTextoCorreo(element.getElementsByTagName("texto_correo").item(0).getTextContent());
         ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
-        ret.setId(Long.decode(element.getElementsByTagName("id_campania_usuario").item(0).getTextContent()));
-        ret.setIdCampania(Integer.decode(element.getElementsByTagName("id_campania").item(0).getTextContent()));
+        ret.setInicio(element.getElementsByTagName("inicio").item(0).getTextContent());
+        ret.setCondicionSql(element.getElementsByTagName("condicion_sql").item(0).getTextContent());
+        ret.setId(Integer.decode(element.getElementsByTagName("id_campania").item(0).getTextContent()));
+        ret.setBorrado(Boolean.valueOf(element.getElementsByTagName("borrado").item(0).getTextContent()));
+        ret.setDescripcion(element.getElementsByTagName("descripcion").item(0).getTextContent());
+        ret.setActiva(Boolean.valueOf(element.getElementsByTagName("activa").item(0).getTextContent()));
+        ret.setPorSql(Boolean.valueOf(element.getElementsByTagName("por_sql").item(0).getTextContent()));
+        ret.setPeriodicidadDias(Short.decode(element.getElementsByTagName("periodicidad_dias").item(0).getTextContent()));
 
         return ret;
     }

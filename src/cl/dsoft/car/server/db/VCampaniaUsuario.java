@@ -17,38 +17,50 @@ import cl.dsoft.car.misc.UnsupportedParameterException;
  * @author petete-ntbk
  *
  */
-public class CampaniaUsuario {
-    protected String _fechaModificacion;
-    protected Long _idUsuario;
+public class VCampaniaUsuario {
+    protected String _detalle;
+    protected String _numeroImpresiones;
     protected Long _id;
-    protected Integer _idCampania;
+    protected String _fechaModificacion;
+    protected String _fechaFin;
+    protected Long _idUsuario;
+    protected Short _periodicidad;
+    protected String _fechaInicio;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    DATE_FORMAT(ca.fecha_modificacion, '%Y-%m-%d %H:%i:%s') AS fecha_modificacion," +
-        "    ca.id_usuario AS id_usuario," +
-        "    ca.id_campania_usuario AS id," +
-        "    ca.id_campania AS id_campania" +
-        "    FROM campania_usuario ca";
+        "    v_.detalle AS detalle," +
+        "    v_.numero_impresiones AS numero_impresiones," +
+        "    v_.id AS id," +
+        "    DATE_FORMAT(v_.fecha_modificacion, '%Y-%m-%d %H:%i:%s') AS fecha_modificacion," +
+        "    DATE_FORMAT(v_.fecha_fin, '%Y-%m-%d %H:%i:%s') AS fecha_fin," +
+        "    v_.id_usuario AS id_usuario," +
+        "    v_.periodicidad AS periodicidad," +
+        "    DATE_FORMAT(v_.fecha_inicio, '%Y-%m-%d %H:%i:%s') AS fecha_inicio" +
+        "    FROM v_campania_usuario v_";
 
-    public CampaniaUsuario() {
-        _fechaModificacion = null;
-        _idUsuario = null;
+    public VCampaniaUsuario() {
+        _detalle = null;
+        _numeroImpresiones = null;
         _id = null;
-        _idCampania = null;
+        _fechaModificacion = null;
+        _fechaFin = null;
+        _idUsuario = null;
+        _periodicidad = null;
+        _fechaInicio = null;
 
     }
     /**
-     * @return the _fechaModificacion
+     * @return the _detalle
      */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
+    public String getDetalle() {
+        return _detalle;
     }
     /**
-     * @return the _idUsuario
+     * @return the _numeroImpresiones
      */
-    public Long getIdUsuario() {
-        return _idUsuario;
+    public String getNumeroImpresiones() {
+        return _numeroImpresiones;
     }
     /**
      * @return the _id
@@ -57,22 +69,46 @@ public class CampaniaUsuario {
         return _id;
     }
     /**
-     * @return the _idCampania
+     * @return the _fechaModificacion
      */
-    public Integer getIdCampania() {
-        return _idCampania;
+    public String getFechaModificacion() {
+        return _fechaModificacion;
     }
     /**
-     * @param _fechaModificacion the _fechaModificacion to set
+     * @return the _fechaFin
      */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
+    public String getFechaFin() {
+        return _fechaFin;
     }
     /**
-     * @param _idUsuario the _idUsuario to set
+     * @return the _idUsuario
      */
-    public void setIdUsuario(Long _idUsuario) {
-        this._idUsuario = _idUsuario;
+    public Long getIdUsuario() {
+        return _idUsuario;
+    }
+    /**
+     * @return the _periodicidad
+     */
+    public Short getPeriodicidad() {
+        return _periodicidad;
+    }
+    /**
+     * @return the _fechaInicio
+     */
+    public String getFechaInicio() {
+        return _fechaInicio;
+    }
+    /**
+     * @param _detalle the _detalle to set
+     */
+    public void setDetalle(String _detalle) {
+        this._detalle = _detalle;
+    }
+    /**
+     * @param _numeroImpresiones the _numeroImpresiones to set
+     */
+    public void setNumeroImpresiones(String _numeroImpresiones) {
+        this._numeroImpresiones = _numeroImpresiones;
     }
     /**
      * @param _id the _id to set
@@ -81,28 +117,56 @@ public class CampaniaUsuario {
         this._id = _id;
     }
     /**
-     * @param _idCampania the _idCampania to set
+     * @param _fechaModificacion the _fechaModificacion to set
      */
-    public void setIdCampania(Integer _idCampania) {
-        this._idCampania = _idCampania;
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
+    }
+    /**
+     * @param _fechaFin the _fechaFin to set
+     */
+    public void setFechaFin(String _fechaFin) {
+        this._fechaFin = _fechaFin;
+    }
+    /**
+     * @param _idUsuario the _idUsuario to set
+     */
+    public void setIdUsuario(Long _idUsuario) {
+        this._idUsuario = _idUsuario;
+    }
+    /**
+     * @param _periodicidad the _periodicidad to set
+     */
+    public void setPeriodicidad(Short _periodicidad) {
+        this._periodicidad = _periodicidad;
+    }
+    /**
+     * @param _fechaInicio the _fechaInicio to set
+     */
+    public void setFechaInicio(String _fechaInicio) {
+        this._fechaInicio = _fechaInicio;
     }
 
-    public static CampaniaUsuario fromRS(ResultSet p_rs) throws SQLException {
-        CampaniaUsuario ret = new CampaniaUsuario();
+    public static VCampaniaUsuario fromRS(ResultSet p_rs) throws SQLException {
+        VCampaniaUsuario ret = new VCampaniaUsuario();
 
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setIdUsuario(p_rs.getLong("id_usuario"));
+        ret.setDetalle(p_rs.getString("detalle"));
+        ret.setNumeroImpresiones(p_rs.getString("numero_impresiones"));
         ret.setId(p_rs.getLong("id"));
-        ret.setIdCampania(p_rs.getInt("id_campania"));
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
+        ret.setFechaFin(p_rs.getString("fecha_fin"));
+        ret.setIdUsuario(p_rs.getLong("id_usuario"));
+        ret.setPeriodicidad(p_rs.getShort("periodicidad"));
+        ret.setFechaInicio(p_rs.getString("fecha_inicio"));
 
         return ret;
     }
 
-    public static CampaniaUsuario getByParameter(Connection p_conn, String p_key, String p_value) throws SQLException {
-        CampaniaUsuario ret = null;
+    public static VCampaniaUsuario getByParameter(Connection p_conn, String p_key, String p_value) throws SQLException {
+        VCampaniaUsuario ret = null;
         
         String str_sql = _str_sql +
-            "  WHERE ca." + p_key + " = " + p_value +
+            "  WHERE v_." + p_key + " = " + p_value +
             "  LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -159,37 +223,25 @@ public class CampaniaUsuario {
         return ret;        
     }
 
-    public static CampaniaUsuario getById(Connection p_conn, String p_id) throws SQLException {
-        return getByParameter(p_conn, "id_campania_usuario", p_id);
-    }
     
-    public static ArrayList<CampaniaUsuario> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
+    public static ArrayList<VCampaniaUsuario> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
         Statement stmt = null;
         ResultSet rs = null;
         String str_sql;
-        ArrayList<CampaniaUsuario> ret;
+        ArrayList<VCampaniaUsuario> ret;
         
         str_sql = "";
         
         try {
             ArrayList<String> array_clauses = new ArrayList<String>();
             
-            ret = new ArrayList<CampaniaUsuario>();
+            ret = new ArrayList<VCampaniaUsuario>();
             
             str_sql = _str_sql;
             
             for (AbstractMap.SimpleEntry<String, String> p : p_parameters) {
-                if (p.getKey().equals("id_campania_usuario")) {
-                    array_clauses.add("ca.id_campania_usuario = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("ca.id_usuario = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_campania")) {
-                    array_clauses.add("ca.id_campania = " + p.getValue());
-                }
-                else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("ca.fecha_modificacion > STR_TO_DATE('" + p.getValue() + "', '%Y-%m-%d %H:%i:%s')");
+                if (p.getKey().equals("mas reciente")) {
+                    array_clauses.add("v_.fecha_modificacion > STR_TO_DATE('" + p.getValue() + "', '%Y-%m-%d %H:%i:%s')");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -275,11 +327,18 @@ public class CampaniaUsuario {
         Statement stmt = null;
 
         String str_sql =
-            "    UPDATE campania_usuario" +
+            "    UPDATE v_campania_usuario" +
             "    SET" +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "STR_TO_DATE('" + _fechaModificacion + "', '%Y-%m-%d %H:%i:%s')" : "null") +
+            "    detalle = " + (_detalle != null ? "'" + _detalle + "'" : "null") + "," +
+            "    numero_impresiones = " + (_numeroImpresiones != null ? "'" + _numeroImpresiones + "'" : "null") + "," +
+            "    id = " + (_id != null ? _id : "null") + "," +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "STR_TO_DATE('" + _fechaModificacion + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
+            "    fecha_fin = " + (_fechaFin != null ? "STR_TO_DATE('" + _fechaFin + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
+            "    id_usuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
+            "    periodicidad = " + (_periodicidad != null ? _periodicidad : "null") + "," +
+            "    fecha_inicio = " + (_fechaInicio != null ? "STR_TO_DATE('" + _fechaInicio + "', '%Y-%m-%d %H:%i:%s')" : "null") +
             "    WHERE" +
-            "    id_campania_usuario = " + Long.toString(this._id);
+;
 
         try {
             stmt = p_conn.createStatement();
@@ -325,33 +384,28 @@ public class CampaniaUsuario {
         ResultSet rs = null;
 
         String str_sql =
-            "    INSERT INTO campania_usuario" +
+            "    INSERT INTO v_campania_usuario" +
             "    (" +
+            "    detalle, " +
+            "    numero_impresiones, " +
+            "    fecha_fin, " +
             "    id_usuario, " +
-            "    id_campania)" +
+            "    periodicidad, " +
+            "    fecha_inicio)" +
             "    VALUES" +
             "    (" +
+            "    " + (_detalle != null ? "'" + _detalle + "'" : "null") + "," +
+            "    " + (_numeroImpresiones != null ? "'" + _numeroImpresiones + "'" : "null") + "," +
+            "    " + (_fechaFin != null ? "STR_TO_DATE('" + _fechaFin + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
             "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
-            "    " + (_idCampania != null ? "'" + _idCampania + "'" : "null") +
+            "    " + (_periodicidad != null ? "'" + _periodicidad + "'" : "null") + "," +
+            "    " + (_fechaInicio != null ? "STR_TO_DATE('" + _fechaInicio + "', '%Y-%m-%d %H:%i:%s')" : "null") +
             "    )";
         
         try {
             stmt = p_conn.createStatement();
 
-            ret = stmt.executeUpdate(str_sql, Statement.RETURN_GENERATED_KEYS);
-
-            rs = stmt.getGeneratedKeys();
-
-            if (rs.next()) {
-                _id = rs.getLong(1);
-            } else {
-                // throw an exception from here
-                // throw new Exception("Error al obtener id");
-            }
-
-            rs.close();
-            rs = null;
-            //System.out.println("Key returned from getGeneratedKeys():" + _id.toString());
+            ret = stmt.executeUpdate(str_sql);
 
             load(p_conn);
 
@@ -396,9 +450,9 @@ public class CampaniaUsuario {
         Statement stmt = null;
 
         String str_sql =
-            "    DELETE FROM campania_usuario" +
+            "    DELETE FROM v_campania_usuario" +
             "    WHERE" +
-            "    id_campania_usuario = " + Long.toString(this._id);
+;
 
         try {
             stmt = p_conn.createStatement();
@@ -432,11 +486,11 @@ public class CampaniaUsuario {
     }
 
     public void load(Connection p_conn) throws SQLException {
-        CampaniaUsuario obj = null;
+        VCampaniaUsuario obj = null;
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_campania_usuario = " + Long.toString(this._id) +
+ +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -458,9 +512,14 @@ public class CampaniaUsuario {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
+                _detalle = obj.getDetalle();
+                _numeroImpresiones = obj.getNumeroImpresiones();
+                _id = obj.getId();
                 _fechaModificacion = obj.getFechaModificacion();
+                _fechaFin = obj.getFechaFin();
                 _idUsuario = obj.getIdUsuario();
-                _idCampania = obj.getIdCampania();
+                _periodicidad = obj.getPeriodicidad();
+                _fechaInicio = obj.getFechaInicio();
             }
         }
         catch (SQLException ex){
@@ -500,7 +559,7 @@ public class CampaniaUsuario {
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_campania_usuario = " + Long.toString(this._id) +
+ +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -570,44 +629,60 @@ public class CampaniaUsuario {
 
     @Override
     public String toString() {
-        return "CampaniaUsuario [" +
-	           "    _fecha_modificacion = " + (_fechaModificacion != null ? "STR_TO_DATE(" + _fechaModificacion + ", '%Y-%m-%d %H:%i:%s')" : "null") + "," +
-	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
+        return "VCampaniaUsuario [" +
+	           "    _detalle = " + (_detalle != null ? "'" + _detalle + "'" : "null") + "," +
+	           "    _numero_impresiones = " + (_numeroImpresiones != null ? "'" + _numeroImpresiones + "'" : "null") + "," +
 	           "    _id = " + (_id != null ? _id : "null") + "," +
-	           "    _idCampania = " + (_idCampania != null ? _idCampania : "null") +
+	           "    _fecha_modificacion = " + (_fechaModificacion != null ? "STR_TO_DATE(" + _fechaModificacion + ", '%Y-%m-%d %H:%i:%s')" : "null") + "," +
+	           "    _fecha_fin = " + (_fechaFin != null ? "STR_TO_DATE(" + _fechaFin + ", '%Y-%m-%d %H:%i:%s')" : "null") + "," +
+	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
+	           "    _periodicidad = " + (_periodicidad != null ? _periodicidad : "null") + "," +
+	           "    _fecha_inicio = " + (_fechaInicio != null ? "STR_TO_DATE(" + _fechaInicio + ", '%Y-%m-%d %H:%i:%s')" : "null") +
 			   "]";
     }
 
 
     public String toJSON() {
-        return "CampaniaUsuario : {" +
-	           "    \"_fecha_modificacion\" : " + (_fechaModificacion != null ? "\"" + _fechaModificacion + "\"" : "null") + "," +
-	           "    \"_idUsuario\" : " + (_idUsuario != null ? _idUsuario : "null") + "," +
+        return "VCampaniaUsuario : {" +
+	           "    \"_detalle\" : " + (_detalle != null ? "\"" + _detalle + "\"" : "null") + "," +
+	           "    \"_numero_impresiones\" : " + (_numeroImpresiones != null ? "\"" + _numeroImpresiones + "\"" : "null") + "," +
 	           "    \"_id\" : " + (_id != null ? _id : "null") + "," +
-	           "    \"_idCampania\" : " + (_idCampania != null ? _idCampania : "null") +
+	           "    \"_fecha_modificacion\" : " + (_fechaModificacion != null ? "\"" + _fechaModificacion + "\"" : "null") + "," +
+	           "    \"_fecha_fin\" : " + (_fechaFin != null ? "\"" + _fechaFin + "\"" : "null") + "," +
+	           "    \"_idUsuario\" : " + (_idUsuario != null ? _idUsuario : "null") + "," +
+	           "    \"_periodicidad\" : " + (_periodicidad != null ? _periodicidad : "null") + "," +
+	           "    \"_fecha_inicio\" : " + (_fechaInicio != null ? "\"" + _fechaInicio + "\"" : "null") +
 			   "}";
     }
 
 
     public String toXML() {
-        return "<CampaniaUsuario>" +
-	           "    <fechaModificacion" + (_fechaModificacion != null ? ">" + _fechaModificacion + "</fechaModificacion>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <idUsuario" + (_idUsuario != null ? ">" + _idUsuario + "</idUsuario>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+        return "<VCampaniaUsuario>" +
+	           "    <detalle" + (_detalle != null ? ">" + _detalle + "</detalle>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <numeroImpresiones" + (_numeroImpresiones != null ? ">" + _numeroImpresiones + "</numeroImpresiones>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <id" + (_id != null ? ">" + _id + "</id>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <idCampania" + (_idCampania != null ? ">" + _idCampania + "</idCampania>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-			   "</CampaniaUsuario>";
+	           "    <fechaModificacion" + (_fechaModificacion != null ? ">" + _fechaModificacion + "</fechaModificacion>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <fechaFin" + (_fechaFin != null ? ">" + _fechaFin + "</fechaFin>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <idUsuario" + (_idUsuario != null ? ">" + _idUsuario + "</idUsuario>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <periodicidad" + (_periodicidad != null ? ">" + _periodicidad + "</periodicidad>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <fechaInicio" + (_fechaInicio != null ? ">" + _fechaInicio + "</fechaInicio>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+			   "</VCampaniaUsuario>";
     }
 
 
-    public static CampaniaUsuario fromXMLNode(Node xmlNode) {
-        CampaniaUsuario ret = new CampaniaUsuario();
+    public static VCampaniaUsuario fromXMLNode(Node xmlNode) {
+        VCampaniaUsuario ret = new VCampaniaUsuario();
 
         Element element = (Element) xmlNode;
 
+        ret.setDetalle(element.getElementsByTagName("detalle").item(0).getTextContent());
+        ret.setNumeroImpresiones(element.getElementsByTagName("numero_impresiones").item(0).getTextContent());
+        ret.setId(Long.decode(element.getElementsByTagName("id").item(0).getTextContent()));
         ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
+        ret.setFechaFin(element.getElementsByTagName("fecha_fin").item(0).getTextContent());
         ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
-        ret.setId(Long.decode(element.getElementsByTagName("id_campania_usuario").item(0).getTextContent()));
-        ret.setIdCampania(Integer.decode(element.getElementsByTagName("id_campania").item(0).getTextContent()));
+        ret.setPeriodicidad(Short.decode(element.getElementsByTagName("periodicidad").item(0).getTextContent()));
+        ret.setFechaInicio(element.getElementsByTagName("fecha_inicio").item(0).getTextContent());
 
         return ret;
     }
