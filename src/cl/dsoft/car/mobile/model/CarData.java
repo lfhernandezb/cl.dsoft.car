@@ -28,13 +28,13 @@ import cl.dsoft.car.mobile.db.Usuario;
 import cl.dsoft.car.mobile.db.Vehiculo;
 import cl.dsoft.car.mobile.db.MantencionBase;
 import cl.dsoft.car.mobile.db.MantencionPospuesta;
-import cl.dsoft.car.mobile.db.Notificacion;
+import cl.dsoft.car.mobile.db.VwCampaniaUsuario;
 import cl.dsoft.car.mobile.db.Parametro;
 
 @Root(name = "CarData")
 @Order(elements={"paises", "regiones", "comunas", "usuarios", "autenticaciones", "vehiculos", "mantencionBaseHechas", "mantencionUsuarios", 
 		"mantencionUsuarioHechas", "recordatorios", "cargaCombustibles", "reparaciones", "ciaSeguross", "seguroVehiculos", "logs", 
-		"mantencionPospuestas", "notificaciones", "parametros"})
+		"mantencionPospuestas", "vwCampaniaUsuarios", "parametros"})
 //If you want you can define the order in which the fields are written
 //Optional
 //@Order(elements = { "usuarios", "vehiculos", "mantencionUsuarios", "mantencionUsuarioHechas", "recordatorios", "rendimientos", "reparaciones" })
@@ -73,7 +73,7 @@ public class CarData {
 	@ElementList(required=false)
 	protected ArrayList<MantencionPospuesta> mantencionPospuestas;
 	@ElementList(required=false)
-	protected ArrayList<Notificacion> notificaciones;
+	protected ArrayList<VwCampaniaUsuario> vwCampaniaUsuarios;
 	@ElementList(required=false)
 	protected ArrayList<Parametro> parametros;
 	
@@ -95,7 +95,7 @@ public class CarData {
 		this.seguroVehiculos = null;
 		this.logs = null;
 		this.mantencionPospuestas = null;
-		this.notificaciones = null;
+		this.vwCampaniaUsuarios = null;
 		this.parametros = null;
 	}	
 
@@ -398,17 +398,17 @@ public class CarData {
 	}
 
 	/**
-	 * @return the notificaciones
+	 * @return the vwCampaniaUsuarios
 	 */
-	public ArrayList<Notificacion> getNotificaciones() {
-		return notificaciones;
+	public ArrayList<VwCampaniaUsuario> getVwCampaniaUsuarios() {
+		return vwCampaniaUsuarios;
 	}
 
 	/**
-	 * @param notificaciones the notificaciones to set
+	 * @param vwCampaniaUsuarios the vwCampaniaUsuarios to set
 	 */
-	public void setNotificaciones(ArrayList<Notificacion> notificaciones) {
-		this.notificaciones = notificaciones;
+	public void setVwCampaniaUsuarios(ArrayList<VwCampaniaUsuario> vwCampaniaUsuarios) {
+		this.vwCampaniaUsuarios = vwCampaniaUsuarios;
 	}
 
 	/*
@@ -514,10 +514,10 @@ public class CarData {
 				mantencionPospuesta.save(conn);
 			}
 		}
-		if (this.getNotificaciones() != null) {
-			for (Notificacion notificacion : this.getNotificaciones()) {
+		if (this.getVwCampaniaUsuarios() != null) {
+			for (VwCampaniaUsuario vwCampaniaUsuario : this.getVwCampaniaUsuarios()) {
 				
-				notificacion.save(conn);
+				vwCampaniaUsuario.save(conn);
 			}
 		}
 		if (this.getParametros() != null) {

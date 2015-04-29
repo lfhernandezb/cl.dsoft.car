@@ -17,44 +17,50 @@ import cl.dsoft.car.misc.UnsupportedParameterException;
  * @author petete-ntbk
  *
  */
-public class Parametro {
-    protected String _fechaModificacion;
-    protected String _valor;
-    protected String _llave;
+public class VwCampaniaUsuario {
+    protected String _detalle;
+    protected Short _numeroImpresiones;
     protected Long _id;
+    protected String _fechaModificacion;
+    protected String _fechaFin;
+    protected Long _idUsuario;
+    protected Short _periodicidad;
+    protected String _fechaInicio;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    DATE_FORMAT(pa.fecha_modificacion, '%Y-%m-%d %H:%i:%s') AS fecha_modificacion," +
-        "    pa.valor AS valor," +
-        "    pa.llave AS llave," +
-        "    pa.id_parametro AS id" +
-        "    FROM parametro pa";
+        "    v_.detalle AS detalle," +
+        "    v_.numero_impresiones AS numero_impresiones," +
+        "    v_.id AS id," +
+        "    DATE_FORMAT(v_.fecha_modificacion, '%Y-%m-%d %H:%i:%s') AS fecha_modificacion," +
+        "    DATE_FORMAT(v_.fecha_fin, '%Y-%m-%d %H:%i:%s') AS fecha_fin," +
+        "    v_.id_usuario AS id_usuario," +
+        "    v_.periodicidad AS periodicidad," +
+        "    DATE_FORMAT(v_.fecha_inicio, '%Y-%m-%d %H:%i:%s') AS fecha_inicio" +
+        "    FROM v_campania_usuario v_";
 
-    public Parametro() {
-        _fechaModificacion = null;
-        _valor = null;
-        _llave = null;
+    public VwCampaniaUsuario() {
+        _detalle = null;
+        _numeroImpresiones = null;
         _id = null;
+        _fechaModificacion = null;
+        _fechaFin = null;
+        _idUsuario = null;
+        _periodicidad = null;
+        _fechaInicio = null;
 
     }
     /**
-     * @return the _fechaModificacion
+     * @return the _detalle
      */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
+    public String getDetalle() {
+        return _detalle;
     }
     /**
-     * @return the _valor
+     * @return the _numeroImpresiones
      */
-    public String getValor() {
-        return _valor;
-    }
-    /**
-     * @return the _llave
-     */
-    public String getLlave() {
-        return _llave;
+    public Short getNumeroImpresiones() {
+        return _numeroImpresiones;
     }
     /**
      * @return the _id
@@ -63,22 +69,46 @@ public class Parametro {
         return _id;
     }
     /**
-     * @param _fechaModificacion the _fechaModificacion to set
+     * @return the _fechaModificacion
      */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
+    public String getFechaModificacion() {
+        return _fechaModificacion;
     }
     /**
-     * @param _valor the _valor to set
+     * @return the _fechaFin
      */
-    public void setValor(String _valor) {
-        this._valor = _valor;
+    public String getFechaFin() {
+        return _fechaFin;
     }
     /**
-     * @param _llave the _llave to set
+     * @return the _idUsuario
      */
-    public void setLlave(String _llave) {
-        this._llave = _llave;
+    public Long getIdUsuario() {
+        return _idUsuario;
+    }
+    /**
+     * @return the _periodicidad
+     */
+    public Short getPeriodicidad() {
+        return _periodicidad;
+    }
+    /**
+     * @return the _fechaInicio
+     */
+    public String getFechaInicio() {
+        return _fechaInicio;
+    }
+    /**
+     * @param _detalle the _detalle to set
+     */
+    public void setDetalle(String _detalle) {
+        this._detalle = _detalle;
+    }
+    /**
+     * @param _numeroImpresiones the _numeroImpresiones to set
+     */
+    public void setNumeroImpresiones(Short _numeroImpresiones) {
+        this._numeroImpresiones = _numeroImpresiones;
     }
     /**
      * @param _id the _id to set
@@ -86,23 +116,57 @@ public class Parametro {
     public void setId(Long _id) {
         this._id = _id;
     }
+    /**
+     * @param _fechaModificacion the _fechaModificacion to set
+     */
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
+    }
+    /**
+     * @param _fechaFin the _fechaFin to set
+     */
+    public void setFechaFin(String _fechaFin) {
+        this._fechaFin = _fechaFin;
+    }
+    /**
+     * @param _idUsuario the _idUsuario to set
+     */
+    public void setIdUsuario(Long _idUsuario) {
+        this._idUsuario = _idUsuario;
+    }
+    /**
+     * @param _periodicidad the _periodicidad to set
+     */
+    public void setPeriodicidad(Short _periodicidad) {
+        this._periodicidad = _periodicidad;
+    }
+    /**
+     * @param _fechaInicio the _fechaInicio to set
+     */
+    public void setFechaInicio(String _fechaInicio) {
+        this._fechaInicio = _fechaInicio;
+    }
 
-    public static Parametro fromRS(ResultSet p_rs) throws SQLException {
-        Parametro ret = new Parametro();
+    public static VwCampaniaUsuario fromRS(ResultSet p_rs) throws SQLException {
+        VwCampaniaUsuario ret = new VwCampaniaUsuario();
 
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setValor(p_rs.getString("valor"));
-        ret.setLlave(p_rs.getString("llave"));
+        ret.setDetalle(p_rs.getString("detalle"));
+        ret.setNumeroImpresiones(p_rs.getShort("numero_impresiones"));
         ret.setId(p_rs.getLong("id"));
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
+        ret.setFechaFin(p_rs.getString("fecha_fin"));
+        ret.setIdUsuario(p_rs.getLong("id_usuario"));
+        ret.setPeriodicidad(p_rs.getShort("periodicidad"));
+        ret.setFechaInicio(p_rs.getString("fecha_inicio"));
 
         return ret;
     }
 
-    public static Parametro getByParameter(Connection p_conn, String p_key, String p_value) throws SQLException {
-        Parametro ret = null;
+    public static VwCampaniaUsuario getByParameter(Connection p_conn, String p_key, String p_value) throws SQLException {
+        VwCampaniaUsuario ret = null;
         
         String str_sql = _str_sql +
-            "  WHERE pa." + p_key + " = " + p_value +
+            "  WHERE v_." + p_key + " = " + p_value +
             "  LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -159,34 +223,28 @@ public class Parametro {
         return ret;        
     }
 
-    public static Parametro getById(Connection p_conn, String p_id) throws SQLException {
-        return getByParameter(p_conn, "id_parametro", p_id);
-    }
     
-    public static ArrayList<Parametro> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
+    public static ArrayList<VwCampaniaUsuario> seek(Connection p_conn, ArrayList<AbstractMap.SimpleEntry<String, String>> p_parameters, String p_order, String p_direction, int p_offset, int p_limit) throws UnsupportedParameterException, SQLException {
         Statement stmt = null;
         ResultSet rs = null;
         String str_sql;
-        ArrayList<Parametro> ret;
+        ArrayList<VwCampaniaUsuario> ret;
         
         str_sql = "";
         
         try {
             ArrayList<String> array_clauses = new ArrayList<String>();
             
-            ret = new ArrayList<Parametro>();
+            ret = new ArrayList<VwCampaniaUsuario>();
             
             str_sql = _str_sql;
             
             for (AbstractMap.SimpleEntry<String, String> p : p_parameters) {
-                if (p.getKey().equals("id_parametro")) {
-                    array_clauses.add("pa.id_parametro = " + p.getValue());
+                if (p.getKey().equals("mas reciente")) {
+                    array_clauses.add("v_.fecha_modificacion > STR_TO_DATE('" + p.getValue() + "', '%Y-%m-%d %H:%i:%s')");
                 }
                 else if (p.getKey().equals("id_usuario")) {
-                    
-                }
-                else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("pa.fecha_modificacion > STR_TO_DATE('" + p.getValue() + "', '%Y-%m-%d %H:%i:%s')");
+                    array_clauses.add("v_.id_usuario = " + p.getValue());
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -265,30 +323,31 @@ public class Parametro {
 
         return ret;
     }
-
+    // es una vista... no hay UPDATE, INSERT, DELETE, load
+    /*
     public int update(Connection p_conn) throws SQLException {
 
         int ret = -1;
         Statement stmt = null;
 
         String str_sql =
-            "    UPDATE parametro" +
+            "    UPDATE v_campania_usuario" +
             "    SET" +
+            "    detalle = " + (_detalle != null ? "'" + _detalle + "'" : "null") + "," +
+            "    numero_impresiones = " + (_numeroImpresiones != null ? _numeroImpresiones : "null") + "," +
+            "    id = " + (_id != null ? _id : "null") + "," +
             "    fecha_modificacion = " + (_fechaModificacion != null ? "STR_TO_DATE('" + _fechaModificacion + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
-            "    valor = " + (_valor != null ? "'" + _valor + "'" : "null") + "," +
-            "    llave = " + (_llave != null ? "'" + _llave + "'" : "null") +
+            "    fecha_fin = " + (_fechaFin != null ? "STR_TO_DATE('" + _fechaFin + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
+            "    id_usuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
+            "    periodicidad = " + (_periodicidad != null ? _periodicidad : "null") + "," +
+            "    fecha_inicio = " + (_fechaInicio != null ? "STR_TO_DATE('" + _fechaInicio + "', '%Y-%m-%d %H:%i:%s')" : "null") +
             "    WHERE" +
-            "    id_parametro = " + Long.toString(this._id);
+;
 
         try {
             stmt = p_conn.createStatement();
             
             ret = stmt.executeUpdate(str_sql);
-            /*
-            if (stmt.executeUpdate(str_sql) < 1) {
-                throw new Exception("No hubo filas afectadas");
-            }
-            */
             
         }
         catch (SQLException ex){
@@ -324,33 +383,28 @@ public class Parametro {
         ResultSet rs = null;
 
         String str_sql =
-            "    INSERT INTO parametro" +
+            "    INSERT INTO v_campania_usuario" +
             "    (" +
-            "    valor, " +
-            "    llave)" +
+            "    detalle, " +
+            "    numero_impresiones, " +
+            "    fecha_fin, " +
+            "    id_usuario, " +
+            "    periodicidad, " +
+            "    fecha_inicio)" +
             "    VALUES" +
             "    (" +
-            "    " + (_valor != null ? "'" + _valor + "'" : "null") + "," +
-            "    " + (_llave != null ? "'" + _llave + "'" : "null") +
+            "    " + (_detalle != null ? "'" + _detalle + "'" : "null") + "," +
+            "    " + (_numeroImpresiones != null ? "'" + _numeroImpresiones + "'" : "null") + "," +
+            "    " + (_fechaFin != null ? "STR_TO_DATE('" + _fechaFin + "', '%Y-%m-%d %H:%i:%s')" : "null") + "," +
+            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
+            "    " + (_periodicidad != null ? "'" + _periodicidad + "'" : "null") + "," +
+            "    " + (_fechaInicio != null ? "STR_TO_DATE('" + _fechaInicio + "', '%Y-%m-%d %H:%i:%s')" : "null") +
             "    )";
         
         try {
             stmt = p_conn.createStatement();
 
-            ret = stmt.executeUpdate(str_sql, Statement.RETURN_GENERATED_KEYS);
-
-            rs = stmt.getGeneratedKeys();
-
-            if (rs.next()) {
-                _id = rs.getLong(1);
-            } else {
-                // throw an exception from here
-                // throw new Exception("Error al obtener id");
-            }
-
-            rs.close();
-            rs = null;
-            //System.out.println("Key returned from getGeneratedKeys():" + _id.toString());
+            ret = stmt.executeUpdate(str_sql);
 
             load(p_conn);
 
@@ -388,16 +442,16 @@ public class Parametro {
         
         return ret;
     }
-
+	
     public int delete(Connection p_conn) throws SQLException {
 
         int ret = -1;
         Statement stmt = null;
 
         String str_sql =
-            "    DELETE FROM parametro" +
+            "    DELETE FROM v_campania_usuario" +
             "    WHERE" +
-            "    id_parametro = " + Long.toString(this._id);
+;
 
         try {
             stmt = p_conn.createStatement();
@@ -431,11 +485,11 @@ public class Parametro {
     }
 
     public void load(Connection p_conn) throws SQLException {
-        Parametro obj = null;
+        VCampaniaUsuario obj = null;
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_parametro = " + Long.toString(this._id) +
+ +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -457,9 +511,14 @@ public class Parametro {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
+                _detalle = obj.getDetalle();
+                _numeroImpresiones = obj.getNumeroImpresiones();
+                _id = obj.getId();
                 _fechaModificacion = obj.getFechaModificacion();
-                _valor = obj.getValor();
-                _llave = obj.getLlave();
+                _fechaFin = obj.getFechaFin();
+                _idUsuario = obj.getIdUsuario();
+                _periodicidad = obj.getPeriodicidad();
+                _fechaInicio = obj.getFechaInicio();
             }
         }
         catch (SQLException ex){
@@ -494,12 +553,12 @@ public class Parametro {
         }        
         
     }
-
+	
     public void save(Connection p_conn) throws SQLException {
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_parametro = " + Long.toString(this._id) +
+ +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -566,47 +625,63 @@ public class Parametro {
         }        
         
     }
-
+    */
     @Override
     public String toString() {
-        return "Parametro [" +
+        return "VCampaniaUsuario [" +
+	           "    _detalle = " + (_detalle != null ? "'" + _detalle + "'" : "null") + "," +
+	           "    _numeroImpresiones = " + (_numeroImpresiones != null ? _numeroImpresiones : "null") + "," +
+	           "    _id = " + (_id != null ? _id : "null") + "," +
 	           "    _fecha_modificacion = " + (_fechaModificacion != null ? "STR_TO_DATE(" + _fechaModificacion + ", '%Y-%m-%d %H:%i:%s')" : "null") + "," +
-	           "    _valor = " + (_valor != null ? "'" + _valor + "'" : "null") + "," +
-	           "    _llave = " + (_llave != null ? "'" + _llave + "'" : "null") + "," +
-	           "    _id = " + (_id != null ? _id : "null") +
+	           "    _fecha_fin = " + (_fechaFin != null ? "STR_TO_DATE(" + _fechaFin + ", '%Y-%m-%d %H:%i:%s')" : "null") + "," +
+	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
+	           "    _periodicidad = " + (_periodicidad != null ? _periodicidad : "null") + "," +
+	           "    _fecha_inicio = " + (_fechaInicio != null ? "STR_TO_DATE(" + _fechaInicio + ", '%Y-%m-%d %H:%i:%s')" : "null") +
 			   "]";
     }
 
 
     public String toJSON() {
-        return "Parametro : {" +
+        return "VCampaniaUsuario : {" +
+	           "    \"_detalle\" : " + (_detalle != null ? "\"" + _detalle + "\"" : "null") + "," +
+	           "    \"_numeroImpresiones\" : " + (_numeroImpresiones != null ? _numeroImpresiones : "null") + "," +
+	           "    \"_id\" : " + (_id != null ? _id : "null") + "," +
 	           "    \"_fecha_modificacion\" : " + (_fechaModificacion != null ? "\"" + _fechaModificacion + "\"" : "null") + "," +
-	           "    \"_valor\" : " + (_valor != null ? "\"" + _valor + "\"" : "null") + "," +
-	           "    \"_llave\" : " + (_llave != null ? "\"" + _llave + "\"" : "null") + "," +
-	           "    \"_id\" : " + (_id != null ? _id : "null") +
+	           "    \"_fecha_fin\" : " + (_fechaFin != null ? "\"" + _fechaFin + "\"" : "null") + "," +
+	           "    \"_idUsuario\" : " + (_idUsuario != null ? _idUsuario : "null") + "," +
+	           "    \"_periodicidad\" : " + (_periodicidad != null ? _periodicidad : "null") + "," +
+	           "    \"_fecha_inicio\" : " + (_fechaInicio != null ? "\"" + _fechaInicio + "\"" : "null") +
 			   "}";
     }
 
 
     public String toXML() {
-        return "<Parametro>" +
-	           "    <fechaModificacion" + (_fechaModificacion != null ? ">" + _fechaModificacion + "</fechaModificacion>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <valor" + (_valor != null ? ">" + _valor + "</valor>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-	           "    <llave" + (_llave != null ? ">" + _llave + "</llave>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+        return "<VCampaniaUsuario>" +
+	           "    <detalle" + (_detalle != null ? ">" + _detalle + "</detalle>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <numeroImpresiones" + (_numeroImpresiones != null ? ">" + _numeroImpresiones + "</numeroImpresiones>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
 	           "    <id" + (_id != null ? ">" + _id + "</id>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
-			   "</Parametro>";
+	           "    <fechaModificacion" + (_fechaModificacion != null ? ">" + _fechaModificacion + "</fechaModificacion>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <fechaFin" + (_fechaFin != null ? ">" + _fechaFin + "</fechaFin>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <idUsuario" + (_idUsuario != null ? ">" + _idUsuario + "</idUsuario>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <periodicidad" + (_periodicidad != null ? ">" + _periodicidad + "</periodicidad>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+	           "    <fechaInicio" + (_fechaInicio != null ? ">" + _fechaInicio + "</fechaInicio>" : " xsi:nil=\"true\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>") +
+			   "</VCampaniaUsuario>";
     }
 
 
-    public static Parametro fromXMLNode(Node xmlNode) {
-        Parametro ret = new Parametro();
+    public static VwCampaniaUsuario fromXMLNode(Node xmlNode) {
+        VwCampaniaUsuario ret = new VwCampaniaUsuario();
 
         Element element = (Element) xmlNode;
 
+        ret.setDetalle(element.getElementsByTagName("detalle").item(0).getTextContent());
+        ret.setNumeroImpresiones(Short.decode(element.getElementsByTagName("numero_impresiones").item(0).getTextContent()));
+        ret.setId(Long.decode(element.getElementsByTagName("id").item(0).getTextContent()));
         ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setValor(element.getElementsByTagName("valor").item(0).getTextContent());
-        ret.setLlave(element.getElementsByTagName("llave").item(0).getTextContent());
-        ret.setId(Long.decode(element.getElementsByTagName("id_parametro").item(0).getTextContent()));
+        ret.setFechaFin(element.getElementsByTagName("fecha_fin").item(0).getTextContent());
+        ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
+        ret.setPeriodicidad(Short.decode(element.getElementsByTagName("periodicidad").item(0).getTextContent()));
+        ret.setFechaInicio(element.getElementsByTagName("fecha_inicio").item(0).getTextContent());
 
         return ret;
     }

@@ -26,7 +26,7 @@ import cl.dsoft.car.server.db.Usuario;
 import cl.dsoft.car.server.db.Autenticacion;
 import cl.dsoft.car.server.db.Vehiculo;
 import cl.dsoft.car.server.db.MantencionPospuesta;
-import cl.dsoft.car.server.db.Notificacion;
+import cl.dsoft.car.server.db.VwCampaniaUsuario;
 import cl.dsoft.car.server.db.Parametro;
 
 
@@ -35,7 +35,7 @@ import cl.dsoft.car.server.db.Parametro;
 //Optional
 @XmlType(propOrder = { "paises", "regiones", "comunas", "usuarios", "autenticaciones", "vehiculos", "mantencionBaseHechas", "mantencionUsuarios", 
 		"mantencionUsuarioHechas", "recordatorios", "cargaCombustibles", "reparaciones", "ciaSeguross", "seguroVehiculos", "logs",
-		"mantencionPospuestas", "notificaciones", "parametros"})
+		"mantencionPospuestas", "vwCampaniaUsuarios", "parametros"})
 public class CarData {
 
 	//@XmlElement(nillable=true, required=false)
@@ -71,7 +71,7 @@ public class CarData {
 	//@XmlElement(nillable=true, required=false)
 	protected MantencionPospuestas mantencionPospuestas;
 	//@XmlElement(nillable=true, required=false)
-	protected Notificaciones notificaciones;
+	protected VwCampaniaUsuarios vwCampaniaUsuarios;
 	//@XmlElement(nillable=true, required=false)
 	protected Parametros parametros;
 	
@@ -93,7 +93,7 @@ public class CarData {
 		this.seguroVehiculos = null;
 		this.logs = null;
 		this.mantencionPospuestas = null;
-		this.notificaciones = null;
+		this.vwCampaniaUsuarios = null;
 		this.parametros = null;
 	}
 
@@ -118,7 +118,7 @@ public class CarData {
 		this.seguroVehiculos = new SeguroVehiculos(conn, idUsuario, fechaModificacion);
 		//this.logs = new Logs(conn, idUsuario, fechaModificacion);
 		this.mantencionPospuestas = new MantencionPospuestas(conn, idUsuario, fechaModificacion);
-		this.notificaciones = new Notificaciones(conn, idUsuario, fechaModificacion);
+		this.vwCampaniaUsuarios = new VwCampaniaUsuarios(conn, idUsuario, fechaModificacion);
 		this.parametros = new Parametros(conn, idUsuario, fechaModificacion);
 	}
 
@@ -147,7 +147,7 @@ public class CarData {
 			this.seguroVehiculos = new SeguroVehiculos(conn, u.getId(), "1900-01-01");
 			//this.logs = new Logs(conn, u.getId(), "1900-01-01");
 			this.mantencionPospuestas = new MantencionPospuestas(conn, u.getId(), "1900-01-01");
-			this.notificaciones = new Notificaciones(conn, u.getId(), "1900-01-01");
+			this.vwCampaniaUsuarios = new VwCampaniaUsuarios(conn, u.getId(), "1900-01-01");
 			this.parametros = new Parametros(conn, u.getId(), "1900-01-01");
 		}
 		/*
@@ -182,17 +182,17 @@ public class CarData {
 	}
 
 	/**
-	 * @return the notificaciones
+	 * @return the vwCampaniaUsuarios
 	 */
-	public Notificaciones getNotificaciones() {
-		return notificaciones;
+	public VwCampaniaUsuarios getVwCampaniaUsuarios() {
+		return vwCampaniaUsuarios;
 	}
 
 	/**
-	 * @param notificaciones the notificaciones to set
+	 * @param vwCampaniaUsuarios the vwCampaniaUsuarios to set
 	 */
-	public void setNotificaciones(Notificaciones notificaciones) {
-		this.notificaciones = notificaciones;
+	public void setVwCampaniaUsuarios(VwCampaniaUsuarios vwCampaniaUsuarios) {
+		this.vwCampaniaUsuarios = vwCampaniaUsuarios;
 	}
 
 	/**

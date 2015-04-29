@@ -499,6 +499,7 @@ public class Proveedor {
             "    detalle_html, " +
             "    url, " +
             "    nombre, " +
+            "    id_proveedor, " +
             "    existen_valores, " +
             "    calificacion, " +
             "    latitud, " +
@@ -513,6 +514,7 @@ public class Proveedor {
             "    " + (_detalleHtml != null ? "'" + _detalleHtml + "'" : "null") + "," +
             "    " + (_url != null ? "'" + _url + "'" : "null") + "," +
             "    " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
+            "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
             "    " + (_existenValores != null ? "b'" + (_existenValores ? 1 : 0) + "'" : "null") + "," +
             "    " + (_calificacion != null ? "'" + _calificacion + "'" : "null") + "," +
             "    " + (_latitud != null ? "'" + _latitud + "'" : "null") + "," +
@@ -524,20 +526,7 @@ public class Proveedor {
         try {
             stmt = p_conn.createStatement();
 
-            ret = stmt.executeUpdate(str_sql, Statement.RETURN_GENERATED_KEYS);
-
-            rs = stmt.getGeneratedKeys();
-
-            if (rs.next()) {
-                _id = rs.getInt(1);
-            } else {
-                // throw an exception from here
-                // throw new Exception("Error al obtener id");
-            }
-
-            rs.close();
-            rs = null;
-            //System.out.println("Key returned from getGeneratedKeys():" + _id.toString());
+            ret = stmt.executeUpdate(str_sql);
 
             load(p_conn);
 

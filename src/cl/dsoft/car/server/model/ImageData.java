@@ -10,6 +10,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.simpleframework.xml.Order;
 
@@ -18,7 +19,7 @@ import org.simpleframework.xml.Order;
  *
  */
 @XmlRootElement(name = "ImageData")
-@Order(elements={"id", "vigencia", "data"})
+@XmlType(propOrder = { "id", "vigencia", "data"})
 public class ImageData {
 
 	/**
