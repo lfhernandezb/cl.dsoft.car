@@ -26,10 +26,14 @@ import org.simpleframework.xml.Root;
 public class SeguroVehiculo {
     @Element(name = "idCiaSeguros")
     private Integer _idCiaSeguros;
-    @Element(name = "fechaModificacion")
-    private String _fechaModificacion;
     @Element(name = "poliza", required = false)
     private String _poliza;
+    @Element(name = "borrado")
+    private Boolean _borrado;
+    @Element(name = "observaciones", required = false)
+    private String _observaciones;
+    @Element(name = "fechaModificacion")
+    private String _fechaModificacion;
     @Element(name = "idUsuario")
     private Long _idUsuario;
     @Element(name = "fechaVencimiento", required = false)
@@ -38,37 +42,33 @@ public class SeguroVehiculo {
     private Long _idSeguroVehiculo;
     @Element(name = "idVehiculo")
     private Long _idVehiculo;
-    @Element(name = "borrado")
-    private Boolean _borrado;
-    @Element(name = "observaciones", required = false)
-    private String _observaciones;
     @Element(name = "idTipoSeguro")
     private Integer _idTipoSeguro;
 
     private final static String _str_sql = 
         "    SELECT" +
         "    se.id_cia_seguros AS id_cia_seguros," +
-        "    strftime('%Y-%m-%d %H:%M:%S', se.fecha_modificacion) AS fecha_modificacion," +
         "    se.poliza AS poliza," +
-        "    se.id_usuario AS id_usuario," +
-        "    strftime('%Y-%m-%d %H:%M:%S', se.fecha_vencimiento) AS fecha_vencimiento," +
-        "    se.id_seguro_vehiculo AS id_seguro_vehiculo," +
-        "    se.id_vehiculo AS id_vehiculo," +
         "    se.borrado AS borrado," +
         "    se.observaciones AS observaciones," +
+        "    strftime('%Y-%m-%d %H:%M:%S', se.fecha_modificacion, 'localtime') AS fecha_modificacion," +
+        "    se.id_usuario AS id_usuario," +
+        "    strftime('%Y-%m-%d', se.fecha_vencimiento, 'utc') AS fecha_vencimiento," +
+        "    se.id_seguro_vehiculo AS id_seguro_vehiculo," +
+        "    se.id_vehiculo AS id_vehiculo," +
         "    se.id_tipo_seguro AS id_tipo_seguro" +
         "    FROM seguro_vehiculo se";
 
     public SeguroVehiculo() {
         _idCiaSeguros = null;
-        _fechaModificacion = null;
         _poliza = null;
+        _borrado = null;
+        _observaciones = null;
+        _fechaModificacion = null;
         _idUsuario = null;
         _fechaVencimiento = null;
         _idSeguroVehiculo = null;
         _idVehiculo = null;
-        _borrado = null;
-        _observaciones = null;
         _idTipoSeguro = null;
 
     }
@@ -79,16 +79,28 @@ public class SeguroVehiculo {
         return _idCiaSeguros;
     }
     /**
-     * @return the _fechaModificacion
-     */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
-    }
-    /**
      * @return the _poliza
      */
     public String getPoliza() {
         return _poliza;
+    }
+    /**
+     * @return the _borrado
+     */
+    public Boolean getBorrado() {
+        return _borrado;
+    }
+    /**
+     * @return the _observaciones
+     */
+    public String getObservaciones() {
+        return _observaciones;
+    }
+    /**
+     * @return the _fechaModificacion
+     */
+    public String getFechaModificacion() {
+        return _fechaModificacion;
     }
     /**
      * @return the _idUsuario
@@ -113,18 +125,6 @@ public class SeguroVehiculo {
      */
     public Long getIdVehiculo() {
         return _idVehiculo;
-    }
-    /**
-     * @return the _borrado
-     */
-    public Boolean getBorrado() {
-        return _borrado;
-    }
-    /**
-     * @return the _observaciones
-     */
-    public String getObservaciones() {
-        return _observaciones;
     }
     /**
      * @return the _idTipoSeguro
@@ -161,16 +161,28 @@ public class SeguroVehiculo {
         this._idCiaSeguros = _idCiaSeguros;
     }
     /**
-     * @param _fechaModificacion the _fechaModificacion to set
-     */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
-    }
-    /**
      * @param _poliza the _poliza to set
      */
     public void setPoliza(String _poliza) {
         this._poliza = _poliza;
+    }
+    /**
+     * @param _borrado the _borrado to set
+     */
+    public void setBorrado(Boolean _borrado) {
+        this._borrado = _borrado;
+    }
+    /**
+     * @param _observaciones the _observaciones to set
+     */
+    public void setObservaciones(String _observaciones) {
+        this._observaciones = _observaciones;
+    }
+    /**
+     * @param _fechaModificacion the _fechaModificacion to set
+     */
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
     }
     /**
      * @param _idUsuario the _idUsuario to set
@@ -195,18 +207,6 @@ public class SeguroVehiculo {
      */
     public void setIdVehiculo(Long _idVehiculo) {
         this._idVehiculo = _idVehiculo;
-    }
-    /**
-     * @param _borrado the _borrado to set
-     */
-    public void setBorrado(Boolean _borrado) {
-        this._borrado = _borrado;
-    }
-    /**
-     * @param _observaciones the _observaciones to set
-     */
-    public void setObservaciones(String _observaciones) {
-        this._observaciones = _observaciones;
     }
     /**
      * @param _idTipoSeguro the _idTipoSeguro to set
@@ -241,14 +241,14 @@ public class SeguroVehiculo {
         SeguroVehiculo ret = new SeguroVehiculo();
 
         ret.setIdCiaSeguros(p_rs.getInt("id_cia_seguros"));
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
         ret.setPoliza(p_rs.getString("poliza"));
+        ret.setBorrado(p_rs.getString("borrado") != null ? p_rs.getString("borrado").equals("true") : null);
+        ret.setObservaciones(p_rs.getString("observaciones"));
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
         ret.setIdUsuario(p_rs.getLong("id_usuario"));
         ret.setFechaVencimiento(p_rs.getString("fecha_vencimiento"));
         ret.setIdSeguroVehiculo(p_rs.getLong("id_seguro_vehiculo"));
         ret.setIdVehiculo(p_rs.getLong("id_vehiculo"));
-        ret.setBorrado(p_rs.getString("borrado") != null ? p_rs.getString("borrado").equals("true") : null);
-        ret.setObservaciones(p_rs.getString("observaciones"));
         ret.setIdTipoSeguro(p_rs.getInt("id_tipo_seguro"));
 
         return ret;
@@ -503,11 +503,11 @@ public class SeguroVehiculo {
         String str_sql =
             "    UPDATE seguro_vehiculo" +
             "    SET" +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
             "    poliza = " + (_poliza != null ? "'" + _poliza + "'" : "null") + "," +
-            "    fecha_vencimiento = " + (_fechaVencimiento != null ? "date('" + _fechaVencimiento + "', 'localtime')" : "null") + "," +
             "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
-            "    observaciones = " + (_observaciones != null ? "'" + _observaciones + "'" : "null") +
+            "    observaciones = " + (_observaciones != null ? "'" + _observaciones + "'" : "null") + "," +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
+            "    fecha_vencimiento = " + (_fechaVencimiento != null ? "date('" + _fechaVencimiento + "', 'utc')" : "null") +
             "    WHERE" +
             "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
             "    id_seguro_vehiculo = " + Long.toString(this._idSeguroVehiculo);
@@ -566,26 +566,26 @@ public class SeguroVehiculo {
             "    INSERT INTO seguro_vehiculo" +
             "    (" +
             "    id_cia_seguros, " +
-            "    fecha_modificacion, " +
             "    poliza, " +
+            "    borrado, " +
+            "    observaciones, " +
+            "    fecha_modificacion, " +
             "    id_usuario, " +
             "    fecha_vencimiento, " +
             "    id_seguro_vehiculo, " +
             "    id_vehiculo, " +
-            "    borrado, " +
-            "    observaciones, " +
             "    id_tipo_seguro)" +
             "    VALUES" +
             "    (" +
             "    " + (_idCiaSeguros != null ? "'" + _idCiaSeguros + "'" : "null") + "," +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
             "    " + (_poliza != null ? "'" + _poliza + "'" : "null") + "," +
-            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
-            "    " + (_fechaVencimiento != null ? "date('" + _fechaVencimiento + "', 'localtime')" : "null") + "," +
-            "    " + (_idSeguroVehiculo != null ? "'" + _idSeguroVehiculo + "'" : "null") + "," +
-            "    " + (_idVehiculo != null ? "'" + _idVehiculo + "'" : "null") + "," +
             "    " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
             "    " + (_observaciones != null ? "'" + _observaciones + "'" : "null") + "," +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
+            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
+            "    " + (_fechaVencimiento != null ? "date('" + _fechaVencimiento + "', 'utc')" : "null") + "," +
+            "    " + (_idSeguroVehiculo != null ? "'" + _idSeguroVehiculo + "'" : "null") + "," +
+            "    " + (_idVehiculo != null ? "'" + _idVehiculo + "'" : "null") + "," +
             "    " + (_idTipoSeguro != null ? "'" + _idTipoSeguro + "'" : "null") +
             "    )";
         
@@ -702,12 +702,12 @@ public class SeguroVehiculo {
                 //System.out.println("fromRS(rs) ok");
 
                 _idCiaSeguros = obj.getIdCiaSeguros();
-                _fechaModificacion = obj.getFechaModificacion();
                 _poliza = obj.getPoliza();
-                _fechaVencimiento = obj.getFechaVencimiento();
-                _idVehiculo = obj.getIdVehiculo();
                 _borrado = obj.getBorrado();
                 _observaciones = obj.getObservaciones();
+                _fechaModificacion = obj.getFechaModificacion();
+                _fechaVencimiento = obj.getFechaVencimiento();
+                _idVehiculo = obj.getIdVehiculo();
                 _idTipoSeguro = obj.getIdTipoSeguro();
             }
         }
@@ -821,14 +821,14 @@ public class SeguroVehiculo {
     public String toString() {
         return "SeguroVehiculo [" +
 	           "    _idCiaSeguros = " + (_idCiaSeguros != null ? _idCiaSeguros : "null") + "," +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
 	           "    _poliza = " + (_poliza != null ? "'" + _poliza + "'" : "null") + "," +
+	           "    _borrado = " + (_borrado != null ? _borrado : "null") + "," +
+	           "    _observaciones = " + (_observaciones != null ? "'" + _observaciones + "'" : "null") + "," +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
 	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
 	           "    _fechaVencimiento = " + (_fechaVencimiento != null ? "'" + _fechaVencimiento + "'" : "null") + "," +
 	           "    _idSeguroVehiculo = " + (_idSeguroVehiculo != null ? _idSeguroVehiculo : "null") + "," +
 	           "    _idVehiculo = " + (_idVehiculo != null ? _idVehiculo : "null") + "," +
-	           "    _borrado = " + (_borrado != null ? _borrado : "null") + "," +
-	           "    _observaciones = " + (_observaciones != null ? "'" + _observaciones + "'" : "null") + "," +
 	           "    _idTipoSeguro = " + (_idTipoSeguro != null ? _idTipoSeguro : "null") +
 			   "]";
     }
@@ -841,14 +841,14 @@ public class SeguroVehiculo {
         Element element = (Element) xmlNode;
 
         ret.setIdCiaSeguros(Integer.decode(element.getElementsByTagName("id_cia_seguros").item(0).getTextContent()));
-        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
         ret.setPoliza(element.getElementsByTagName("poliza").item(0).getTextContent());
+        ret.setBorrado(element.getElementsByTagName("borrado").item(0).getTextContent());
+        ret.setObservaciones(element.getElementsByTagName("observaciones").item(0).getTextContent());
+        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
         ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
         ret.setFechaVencimiento(element.getElementsByTagName("fecha_vencimiento").item(0).getTextContent());
         ret.setIdSeguroVehiculo(Long.decode(element.getElementsByTagName("id_seguro_vehiculo").item(0).getTextContent()));
         ret.setIdVehiculo(Long.decode(element.getElementsByTagName("id_vehiculo").item(0).getTextContent()));
-        ret.setBorrado(element.getElementsByTagName("borrado").item(0).getTextContent());
-        ret.setObservaciones(element.getElementsByTagName("observaciones").item(0).getTextContent());
         ret.setIdTipoSeguro(Integer.decode(element.getElementsByTagName("id_tipo_seguro").item(0).getTextContent()));
 
         return ret;

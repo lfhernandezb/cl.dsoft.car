@@ -33,7 +33,7 @@ public class Traccion {
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    strftime('%Y-%m-%d %H:%M:%S', tr.fecha_modificacion) AS fecha_modificacion," +
+        "    strftime('%Y-%m-%d %H:%M:%S', tr.fecha_modificacion, 'localtime') AS fecha_modificacion," +
         "    tr.descripcion AS descripcion," +
         "    tr.id_traccion AS id" +
         "    FROM traccion tr";

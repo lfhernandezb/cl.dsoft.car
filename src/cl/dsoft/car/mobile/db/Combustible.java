@@ -33,7 +33,7 @@ public class Combustible {
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    strftime('%Y-%m-%d %H:%M:%S', co.fecha_modificacion) AS fecha_modificacion," +
+        "    strftime('%Y-%m-%d %H:%M:%S', co.fecha_modificacion, 'localtime') AS fecha_modificacion," +
         "    co.descripcion AS descripcion," +
         "    co.id_combustible AS id" +
         "    FROM combustible co";

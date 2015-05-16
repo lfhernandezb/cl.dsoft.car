@@ -69,13 +69,13 @@ public class Vehiculo {
         "    ve.aire_acondicionado AS aire_acondicionado," +
         "    ve.alias AS alias," +
         "    ve.borrado AS borrado," +
-        "    strftime('%Y-%m-%d %H:%M:%S', ve.fecha_ultimo_km) AS fecha_ultimo_km," +
+        "    strftime('%Y-%m-%d', ve.fecha_ultimo_km, 'utc') AS fecha_ultimo_km," +
         "    ve.id_traccion AS id_traccion," +
         "    ve.km AS km," +
         "    ve.alza_vidrios AS alza_vidrios," +
-        "    strftime('%Y-%m-%d %H:%M:%S', ve.fecha_modificacion) AS fecha_modificacion," +
+        "    strftime('%Y-%m-%d %H:%M:%S', ve.fecha_modificacion, 'localtime') AS fecha_modificacion," +
         "    ve.id_usuario AS id_usuario," +
-        "    strftime('%Y-%m-%d %H:%M:%S', ve.fecha_ultima_calibracion) AS fecha_ultima_calibracion," +
+        "    strftime('%Y-%m-%d', ve.fecha_ultima_calibracion, 'utc') AS fecha_ultima_calibracion," +
         "    ve.id_vehiculo AS id_vehiculo," +
         "    ve.patente AS patente," +
         "    ve.id_modelo AS id_modelo," +
@@ -691,12 +691,12 @@ public class Vehiculo {
             "    km_anuales = " + (_kmAnuales != null ? "'" + _kmAnuales + "'" : "null") + "," +
             "    aire_acondicionado = " + (_aireAcondicionado != null ? "'" + _aireAcondicionado + "'" : "null") + "," +
             "    alias = " + (_alias != null ? "'" + _alias + "'" : "null") + "," +
-            "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'0'") + "," +
-            "    fecha_ultimo_km = " + (_fechaUltimoKm != null ? "date('" + _fechaUltimoKm + "', 'localtime')" : "null") + "," +
+            "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
+            "    fecha_ultimo_km = " + (_fechaUltimoKm != null ? "date('" + _fechaUltimoKm + "', 'utc')" : "null") + "," +
             "    km = " + (_km != null ? "'" + _km + "'" : "null") + "," +
             "    alza_vidrios = " + (_alzaVidrios != null ? "'" + _alzaVidrios + "'" : "null") + "," +
             "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    fecha_ultima_calibracion = " + (_fechaUltimaCalibracion != null ? "date('" + _fechaUltimaCalibracion + "', 'localtime')" : "null") + "," +
+            "    fecha_ultima_calibracion = " + (_fechaUltimaCalibracion != null ? "date('" + _fechaUltimaCalibracion + "', 'utc')" : "null") + "," +
             "    patente = " + (_patente != null ? "'" + _patente + "'" : "null") +
             "    WHERE" +
             "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
@@ -780,14 +780,14 @@ public class Vehiculo {
             "    " + (_kmAnuales != null ? "'" + _kmAnuales + "'" : "null") + "," +
             "    " + (_aireAcondicionado != null ? "'" + _aireAcondicionado + "'" : "null") + "," +
             "    " + (_alias != null ? "'" + _alias + "'" : "null") + "," +
-            "    " + (_borrado != null ? "'" + _borrado + "'" : "'0'") + "," +
-            "    " + (_fechaUltimoKm != null ? "date('" + _fechaUltimoKm + "', 'localtime')" : "null") + "," +
+            "    " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
+            "    " + (_fechaUltimoKm != null ? "date('" + _fechaUltimoKm + "', 'utc')" : "null") + "," +
             "    " + (_idTraccion != null ? "'" + _idTraccion + "'" : "null") + "," +
             "    " + (_km != null ? "'" + _km + "'" : "null") + "," +
             "    " + (_alzaVidrios != null ? "'" + _alzaVidrios + "'" : "null") + "," +
             "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
             "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
-            "    " + (_fechaUltimaCalibracion != null ? "date('" + _fechaUltimaCalibracion + "', 'localtime')" : "null") + "," +
+            "    " + (_fechaUltimaCalibracion != null ? "date('" + _fechaUltimaCalibracion + "', 'utc')" : "null") + "," +
             "    " + (_idVehiculo != null ? "'" + _idVehiculo + "'" : "null") + "," +
             "    " + (_patente != null ? "'" + _patente + "'" : "null") + "," +
             "    " + (_idModelo != null ? "'" + _idModelo + "'" : "null") + "," +

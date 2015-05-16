@@ -24,12 +24,12 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class Autenticacion {
-    @Element(name = "fechaModificacion")
-    private String _fechaModificacion;
     @Element(name = "fecha", required = false)
     private String _fecha;
     @Element(name = "idRedSocial")
     private Long _idRedSocial;
+    @Element(name = "fechaModificacion")
+    private String _fechaModificacion;
     @Element(name = "token", required = false)
     private String _token;
     @Element(name = "idUsuario")
@@ -39,28 +39,22 @@ public class Autenticacion {
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    strftime('%Y-%m-%d %H:%M:%S', au.fecha_modificacion) AS fecha_modificacion," +
-        "    strftime('%Y-%m-%d %H:%M:%S', au.fecha) AS fecha," +
+        "    strftime('%Y-%m-%d', au.fecha, 'utc') AS fecha," +
         "    au.id_red_social AS id_red_social," +
+        "    strftime('%Y-%m-%d %H:%M:%S', au.fecha_modificacion, 'localtime') AS fecha_modificacion," +
         "    au.token AS token," +
         "    au.id_usuario AS id_usuario," +
         "    au.id_autenticacion AS id" +
         "    FROM autenticacion au";
 
     public Autenticacion() {
-        _fechaModificacion = null;
         _fecha = null;
         _idRedSocial = null;
+        _fechaModificacion = null;
         _token = null;
         _idUsuario = null;
         _id = null;
 
-    }
-    /**
-     * @return the _fechaModificacion
-     */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
     }
     /**
      * @return the _fecha
@@ -73,6 +67,12 @@ public class Autenticacion {
      */
     public Long getIdRedSocial() {
         return _idRedSocial;
+    }
+    /**
+     * @return the _fechaModificacion
+     */
+    public String getFechaModificacion() {
+        return _fechaModificacion;
     }
     /**
      * @return the _token
@@ -115,12 +115,6 @@ public class Autenticacion {
         return d;
     }
     /**
-     * @param _fechaModificacion the _fechaModificacion to set
-     */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
-    }
-    /**
      * @param _fecha the _fecha to set
      */
     public void setFecha(String _fecha) {
@@ -131,6 +125,12 @@ public class Autenticacion {
      */
     public void setIdRedSocial(Long _idRedSocial) {
         this._idRedSocial = _idRedSocial;
+    }
+    /**
+     * @param _fechaModificacion the _fechaModificacion to set
+     */
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
     }
     /**
      * @param _token the _token to set
@@ -176,9 +176,9 @@ public class Autenticacion {
     public static Autenticacion fromRS(ResultSet p_rs) throws SQLException {
         Autenticacion ret = new Autenticacion();
 
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
         ret.setFecha(p_rs.getString("fecha"));
         ret.setIdRedSocial(p_rs.getLong("id_red_social"));
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
         ret.setToken(p_rs.getString("token"));
         ret.setIdUsuario(p_rs.getLong("id_usuario"));
         ret.setId(p_rs.getLong("id"));
@@ -429,9 +429,10 @@ public class Autenticacion {
         String str_sql =
             "    UPDATE autenticacion" +
             "    SET" +
+            "    fecha = " + (_fecha != null ? "date('" + _fecha + "', 'utc')" : "null") + "," +
             "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    fecha = " + (_fecha != null ? "date('" + _fecha + "', 'localtime')" : "null") + "," +
-            "    token = " + (_token != null ? "'" + _token + "'" : "null") +
+            "    token = " + (_token != null ? "'" + _token + "'" : "null") + "," +
+            "    id_usuario = " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") +
             "    WHERE" +
             "    id_autenticacion = " + Long.toString(this._id);
 
@@ -488,17 +489,17 @@ public class Autenticacion {
         String str_sql =
             "    INSERT INTO autenticacion" +
             "    (" +
-            "    fecha_modificacion, " +
             "    fecha, " +
             "    id_red_social, " +
+            "    fecha_modificacion, " +
             "    token, " +
             "    id_usuario, " +
             "    id_autenticacion)" +
             "    VALUES" +
             "    (" +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    " + (_fecha != null ? "date('" + _fecha + "', 'localtime')" : "null") + "," +
+            "    " + (_fecha != null ? "date('" + _fecha + "', 'utc')" : "null") + "," +
             "    " + (_idRedSocial != null ? "'" + _idRedSocial + "'" : "null") + "," +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
             "    " + (_token != null ? "'" + _token + "'" : "null") + "," +
             "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
             "    " + (_id != null ? "'" + _id + "'" : "null") +
@@ -614,9 +615,9 @@ public class Autenticacion {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
-                _fechaModificacion = obj.getFechaModificacion();
                 _fecha = obj.getFecha();
                 _idRedSocial = obj.getIdRedSocial();
+                _fechaModificacion = obj.getFechaModificacion();
                 _token = obj.getToken();
                 _idUsuario = obj.getIdUsuario();
             }
@@ -729,9 +730,9 @@ public class Autenticacion {
 @Override
     public String toString() {
         return "Autenticacion [" +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
 	           "    _fecha = " + (_fecha != null ? "'" + _fecha + "'" : "null") + "," +
 	           "    _idRedSocial = " + (_idRedSocial != null ? _idRedSocial : "null") + "," +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
 	           "    _token = " + (_token != null ? "'" + _token + "'" : "null") + "," +
 	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
 	           "    _id = " + (_id != null ? _id : "null") +
@@ -745,9 +746,9 @@ public class Autenticacion {
 
         Element element = (Element) xmlNode;
 
-        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
         ret.setFecha(element.getElementsByTagName("fecha").item(0).getTextContent());
         ret.setIdRedSocial(Long.decode(element.getElementsByTagName("id_red_social").item(0).getTextContent()));
+        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
         ret.setToken(element.getElementsByTagName("token").item(0).getTextContent());
         ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
         ret.setId(Long.decode(element.getElementsByTagName("id_autenticacion").item(0).getTextContent()));

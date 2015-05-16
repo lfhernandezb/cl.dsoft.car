@@ -33,7 +33,7 @@ public class TipoTransmision {
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    strftime('%Y-%m-%d %H:%M:%S', ti.fecha_modificacion) AS fecha_modificacion," +
+        "    strftime('%Y-%m-%d %H:%M:%S', ti.fecha_modificacion, 'localtime') AS fecha_modificacion," +
         "    ti.descripcion AS descripcion," +
         "    ti.id_tipo_transmision AS id" +
         "    FROM tipo_transmision ti";

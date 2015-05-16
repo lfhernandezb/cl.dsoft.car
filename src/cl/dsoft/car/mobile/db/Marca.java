@@ -39,7 +39,7 @@ public class Marca {
         "    SELECT" +
         "    ma.id_tipo_vehiculo AS id_tipo_vehiculo," +
         "    ma.id_pais AS id_pais," +
-        "    strftime('%Y-%m-%d %H:%M:%S', ma.fecha_modificacion) AS fecha_modificacion," +
+        "    strftime('%Y-%m-%d %H:%M:%S', ma.fecha_modificacion, 'localtime') AS fecha_modificacion," +
         "    ma.descripcion AS descripcion," +
         "    ma.id_marca AS id" +
         "    FROM marca ma";

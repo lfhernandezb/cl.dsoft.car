@@ -38,7 +38,7 @@ public class Region {
         "    re.region AS region," +
         "    re.id_region AS id," +
         "    re.id_pais AS id_pais," +
-        "    strftime('%Y-%m-%d %H:%M:%S', re.fecha_modificacion) AS fecha_modificacion" +
+        "    strftime('%Y-%m-%d %H:%M:%S', re.fecha_modificacion, 'localtime') AS fecha_modificacion" +
         "    FROM region re";
 
     public Region() {

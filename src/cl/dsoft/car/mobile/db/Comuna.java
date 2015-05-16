@@ -37,7 +37,7 @@ public class Comuna {
         "    SELECT" +
         "    co.id_region AS id_region," +
         "    co.comuna AS comuna," +
-        "    strftime('%Y-%m-%d %H:%M:%S', co.fecha_modificacion) AS fecha_modificacion," +
+        "    strftime('%Y-%m-%d %H:%M:%S', co.fecha_modificacion, 'localtime') AS fecha_modificacion," +
         "    co.id_comuna AS id" +
         "    FROM comuna co";
 

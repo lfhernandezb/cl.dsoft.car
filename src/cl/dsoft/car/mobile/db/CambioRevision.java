@@ -35,8 +35,8 @@ public class CambioRevision {
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    strftime('%Y-%m-%d %H:%M:%S', ca.fecha_modificacion) AS fecha_modificacion," +
         "    ca.id_cambio AS id_cambio," +
+        "    strftime('%Y-%m-%d %H:%M:%S', ca.fecha_modificacion, 'localtime') AS fecha_modificacion," +
         "    ca.id_revision AS id_revision," +
         "    ca.id_cambio_revision AS id" +
         "    FROM cambio_revision ca";

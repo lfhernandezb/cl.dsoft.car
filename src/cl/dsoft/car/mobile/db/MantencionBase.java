@@ -51,17 +51,17 @@ public class MantencionBase {
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    ma.nombre AS nombre," +
-        "    ma.descripcion_item AS descripcion_item," +
-        "    ma.traccion AS traccion," +
-        "    strftime('%Y-%m-%d %H:%M:%S', ma.fecha_modificacion) AS fecha_modificacion," +
         "    ma.combustible AS combustible," +
-        "    ma.id_mantencion_base AS id," +
         "    ma.km_entre_mantenciones AS km_entre_mantenciones," +
         "    ma.meses_entre_mantenciones AS meses_entre_mantenciones," +
         "    ma.depende_km AS depende_km," +
         "    ma.accion AS accion," +
         "    ma.url AS url," +
+        "    ma.nombre AS nombre," +
+        "    ma.descripcion_item AS descripcion_item," +
+        "    ma.traccion AS traccion," +
+        "    strftime('%Y-%m-%d %H:%M:%S', ma.fecha_modificacion, 'localtime') AS fecha_modificacion," +
+        "    ma.id_mantencion_base AS id," +
         "    ma.beneficios AS beneficios" +
         "    FROM mantencion_base ma";
 

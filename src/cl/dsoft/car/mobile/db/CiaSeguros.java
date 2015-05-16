@@ -35,10 +35,10 @@ public class CiaSeguros {
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    ci.nombre AS nombre," +
         "    ci.id_cia_seguros AS id," +
-        "    strftime('%Y-%m-%d %H:%M:%S', ci.fecha_modificacion) AS fecha_modificacion," +
-        "    ci.datos_anexos AS datos_anexos" +
+        "    ci.datos_anexos AS datos_anexos," +
+        "    ci.nombre AS nombre," +
+        "    strftime('%Y-%m-%d %H:%M:%S', ci.fecha_modificacion, 'localtime') AS fecha_modificacion" +
         "    FROM cia_seguros ci";
 
     public CiaSeguros() {

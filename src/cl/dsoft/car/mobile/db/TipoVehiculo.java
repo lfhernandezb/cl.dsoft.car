@@ -34,7 +34,7 @@ public class TipoVehiculo {
     private final static String _str_sql = 
         "    SELECT" +
         "    ti.id_tipo_vehiculo AS id," +
-        "    strftime('%Y-%m-%d %H:%M:%S', ti.fecha_modificacion) AS fecha_modificacion," +
+        "    strftime('%Y-%m-%d %H:%M:%S', ti.fecha_modificacion, 'localtime') AS fecha_modificacion," +
         "    ti.descripcion AS descripcion" +
         "    FROM tipo_vehiculo ti";
 

@@ -48,15 +48,15 @@ public class Usuario {
     private final static String _str_sql = 
         "    SELECT" +
         "    us.nombre AS nombre," +
-        "    strftime('%Y-%m-%d %H:%M:%S', us.fecha_modificacion) AS fecha_modificacion," +
-        "    strftime('%Y-%m-%d %H:%M:%S', us.fecha_vencimiento_licencia) AS fecha_vencimiento_licencia," +
+        "    strftime('%Y-%m-%d %H:%M:%S', us.fecha_modificacion, 'localtime') AS fecha_modificacion," +
+        "    strftime('%Y-%m-%d', us.fecha_vencimiento_licencia, 'utc') AS fecha_vencimiento_licencia," +
         "    us.id_usuario AS id," +
         "    us.hombre AS hombre," +
         "    us.id_comuna AS id_comuna," +
         "    us.borrado AS borrado," +
         "    us.telefono AS telefono," +
         "    us.correo AS correo," +
-        "    strftime('%Y-%m-%d %H:%M:%S', us.fecha_nacimiento) AS fecha_nacimiento" +
+        "    strftime('%Y-%m-%d', us.fecha_nacimiento, 'utc') AS fecha_nacimiento" +
         "    FROM usuario us";
 
     public Usuario() {
@@ -551,12 +551,12 @@ public class Usuario {
             "    SET" +
             "    nombre = " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
             "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    fecha_vencimiento_licencia = " + (_fechaVencimientoLicencia != null ? "date('" + _fechaVencimientoLicencia + "', 'localtime')" : "null") + "," +
+            "    fecha_vencimiento_licencia = " + (_fechaVencimientoLicencia != null ? "date('" + _fechaVencimientoLicencia + "', 'utc')" : "null") + "," +
             "    hombre = " + (_hombre != null ? "'" + _hombre + "'" : "null") + "," +
             "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
             "    telefono = " + (_telefono != null ? "'" + _telefono + "'" : "null") + "," +
             "    correo = " + (_correo != null ? "'" + _correo + "'" : "null") + "," +
-            "    fecha_nacimiento = " + (_fechaNacimiento != null ? "date('" + _fechaNacimiento + "', 'localtime')" : "null") +
+            "    fecha_nacimiento = " + (_fechaNacimiento != null ? "date('" + _fechaNacimiento + "', 'utc')" : "null") +
             "    WHERE" +
             "    id_usuario = " + Long.toString(this._id);
 
@@ -627,14 +627,14 @@ public class Usuario {
             "    (" +
             "    " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
             "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    " + (_fechaVencimientoLicencia != null ? "date('" + _fechaVencimientoLicencia + "', 'localtime')" : "null") + "," +
+            "    " + (_fechaVencimientoLicencia != null ? "date('" + _fechaVencimientoLicencia + "', 'utc')" : "null") + "," +
             "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
             "    " + (_hombre != null ? "'" + _hombre + "'" : "null") + "," +
             "    " + (_idComuna != null ? "'" + _idComuna + "'" : "null") + "," +
             "    " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
             "    " + (_telefono != null ? "'" + _telefono + "'" : "null") + "," +
             "    " + (_correo != null ? "'" + _correo + "'" : "null") + "," +
-            "    " + (_fechaNacimiento != null ? "date('" + _fechaNacimiento + "', 'localtime')" : "null") +
+            "    " + (_fechaNacimiento != null ? "date('" + _fechaNacimiento + "', 'utc')" : "null") +
             "    )";
         
         try {

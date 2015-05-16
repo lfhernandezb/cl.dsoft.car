@@ -34,7 +34,7 @@ public class Pais {
     private final static String _str_sql = 
         "    SELECT" +
         "    pa.id_pais AS id," +
-        "    strftime('%Y-%m-%d %H:%M:%S', pa.fecha_modificacion) AS fecha_modificacion," +
+        "    strftime('%Y-%m-%d %H:%M:%S', pa.fecha_modificacion, 'localtime') AS fecha_modificacion," +
         "    pa.pais AS pais" +
         "    FROM pais pa";
 

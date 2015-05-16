@@ -17,6 +17,7 @@ import cl.dsoft.car.misc.MyCarException;
 import cl.dsoft.car.server.db.Comuna;
 import cl.dsoft.car.server.db.ConsultaProveedor;
 import cl.dsoft.car.server.db.Proveedor;
+import cl.dsoft.car.server.db.ProveedorMantencionBase;
 
 @XmlType(name = "Proveedores", propOrder = {
 	    "proveedores"
@@ -56,7 +57,7 @@ public class Proveedores {
     	
     	ArrayList<AbstractMap.SimpleEntry<String, String>> listParameters;
     	TreeMap<Double, Proveedor> treeMap;
-    	ArrayList<Proveedor> lst_proveedor;
+    	ArrayList<ProveedorMantencionBase> lst_pmb;
     	Properties prop = new Properties();
     	InputStream input = null;
     	
@@ -74,12 +75,13 @@ public class Proveedores {
     		//load a properties file from class path, inside static method
     		prop.load(input);
     		
-			//listParameters.add(new AbstractMap.SimpleEntry<String, String>("id_usuario", String.valueOf(idUsuario)));
+			listParameters.add(new AbstractMap.SimpleEntry<String, String>("id_mantencion_base", String.valueOf(consultaProveedor.getIdMantencionBase())));
 			//listParameters.add(new AbstractMap.SimpleEntry<String, String>("mas reciente", fechaModificacion));
 			
-			lst_proveedor = Proveedor.seek(conn, listParameters, null, null, 0, 10000);
+			lst_pmb = ProveedorMantencionBase.seek(conn, listParameters, null, null, 0, 10000);
 			
-			for (Proveedor p : lst_proveedor) {
+			for (ProveedorMantencionBase pmb : lst_pmb) {
+				Proveedor p = Proveedor.getById(conn, String.valueOf(pmb.getIdProveedor()));
 				// calculo la distancia entre el proveedor y el usuario
 				double distance = CarUtil.distFrom(consultaProveedor.getLatitud(), consultaProveedor.getLongitud(), p.getLatitud(), p.getLongitud());
 				// agrego el par ditancia, proveedor a un arreglo ordenado

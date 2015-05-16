@@ -33,7 +33,7 @@ public class RedSocial {
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    strftime('%Y-%m-%d %H:%M:%S', re.fecha_modificacion) AS fecha_modificacion," +
+        "    strftime('%Y-%m-%d %H:%M:%S', re.fecha_modificacion, 'localtime') AS fecha_modificacion," +
         "    re.id_red_social AS id," +
         "    re.red_social AS red_social" +
         "    FROM red_social re";

@@ -31,29 +31,30 @@ public class InfoSincro {
     private Byte _sentido;
     @Element(name = "usuarioIdUsuario")
     private Long _usuarioIdUsuario;
-
-    private final static String _str_sql = 
-        "    SELECT" +
-        "    isc.id_info_sincro AS id," +
-        "    strftime('%Y-%m-%d %H:%M:%S', isc.fecha) AS fecha," +
-        "    isc.sentido AS sentido," +
-        "    isc.usuario_id_usuario AS usuario_id_usuario" +
-        "    FROM info_sincro isc";
-
+    
     public enum tipoSincro {
     	SERVER_TO_PHONE((byte) 2),
     	PHONE_TO_SERVER((byte) 1);
-    	
+
     	private byte code;
-    	 
+    	    	 
     	private tipoSincro(byte c) {
     		code = c;
     	}
-     
+    	     
     	public byte getCode() {
     		return code;
     	}
     }
+
+
+    private final static String _str_sql = 
+        "    SELECT" +
+        "    strftime('%Y-%m-%d %H:%M:%S', isc.fecha, 'localtime') AS fecha," +
+        "    isc.sentido AS sentido," +
+        "    isc.usuario_id_usuario AS usuario_id_usuario," +
+        "    isc.id_info_sincro AS id" +
+        "    FROM info_sincro isc";
 
     public InfoSincro() {
         _id = null;

@@ -35,7 +35,7 @@ public class Modelo {
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    strftime('%Y-%m-%d %H:%M:%S', mo.fecha_modificacion) AS fecha_modificacion," +
+        "    strftime('%Y-%m-%d %H:%M:%S', mo.fecha_modificacion, 'localtime') AS fecha_modificacion," +
         "    mo.descripcion AS descripcion," +
         "    mo.id_modelo AS id," +
         "    mo.id_marca AS id_marca" +

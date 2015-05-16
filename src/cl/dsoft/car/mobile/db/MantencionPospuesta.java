@@ -43,10 +43,10 @@ public class MantencionPospuesta {
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    strftime('%Y-%m-%d %H:%M:%S', ma.fecha) AS fecha," +
+        "    strftime('%Y-%m-%d', ma.fecha, 'utc') AS fecha," +
         "    ma.borrado AS borrado," +
         "    ma.km AS km," +
-        "    strftime('%Y-%m-%d %H:%M:%S', ma.fecha_modificacion) AS fecha_modificacion," +
+        "    strftime('%Y-%m-%d %H:%M:%S', ma.fecha_modificacion, 'localtime') AS fecha_modificacion," +
         "    ma.id_usuario AS id_usuario," +
         "    ma.id_mantencion_pospuesta AS id_mantencion_pospuesta," +
         "    ma.id_mantencion_base AS id_mantencion_base," +
@@ -466,8 +466,8 @@ public class MantencionPospuesta {
         String str_sql =
             "    UPDATE mantencion_pospuesta" +
             "    SET" +
-            "    fecha = " + (_fecha != null ? "date('" + _fecha + "', 'localtime')" : "null") + "," +
-            "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'0'") + "," +
+            "    fecha = " + (_fecha != null ? "date('" + _fecha + "', 'utc')" : "null") + "," +
+            "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
             "    km = " + (_km != null ? "'" + _km + "'" : "null") + "," +
             "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") +
             "    WHERE" +
@@ -537,8 +537,8 @@ public class MantencionPospuesta {
             "    id_vehiculo)" +
             "    VALUES" +
             "    (" +
-            "    " + (_fecha != null ? "date('" + _fecha + "', 'localtime')" : "null") + "," +
-            "    " + (_borrado != null ? "'" + _borrado + "'" : "'0'") + "," +
+            "    " + (_fecha != null ? "date('" + _fecha + "', 'utc')" : "null") + "," +
+            "    " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
             "    " + (_km != null ? "'" + _km + "'" : "null") + "," +
             "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
             "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +

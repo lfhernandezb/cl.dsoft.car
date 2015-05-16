@@ -36,7 +36,7 @@ public class Parametro {
     private final static String _str_sql = 
         "    SELECT" +
         "    pa.id_parametro AS id," +
-        "    strftime('%Y-%m-%d %H:%M:%S', pa.fecha_modificacion) AS fecha_modificacion," +
+        "    strftime('%Y-%m-%d %H:%M:%S', pa.fecha_modificacion, 'localtime') AS fecha_modificacion," +
         "    pa.valor AS valor," +
         "    pa.llave AS llave" +
         "    FROM parametro pa";

@@ -46,11 +46,11 @@ public class VwCampaniaUsuario {
         "    vw.detalle AS detalle," +
         "    vw.numero_impresiones AS numero_impresiones," +
         "    vw.id AS id," +
-        "    strftime('%Y-%m-%d %H:%M:%S', vw.fecha_modificacion) AS fecha_modificacion," +
-        "    strftime('%Y-%m-%d %H:%M:%S', vw.fecha_fin) AS fecha_fin," +
+        "    strftime('%Y-%m-%d %H:%M:%S', vw.fecha_modificacion, 'localtime') AS fecha_modificacion," +
+        "    strftime('%Y-%m-%d', vw.fecha_fin, 'utc') AS fecha_fin," +
         "    vw.id_usuario AS id_usuario," +
         "    vw.periodicidad AS periodicidad," +
-        "    strftime('%Y-%m-%d %H:%M:%S', vw.fecha_inicio) AS fecha_inicio" +
+        "    strftime('%Y-%m-%d', vw.fecha_inicio, 'utc') AS fecha_inicio" +
         "    FROM vw_campania_usuario vw";
 
     public VwCampaniaUsuario() {
@@ -348,6 +348,15 @@ public class VwCampaniaUsuario {
                 if (p.getKey().equals("id")) {
                     array_clauses.add("vw.id = " + p.getValue());
                 }
+                else if (p.getKey().equals("id_usuario")) {
+                    array_clauses.add("vw.id_usuario = " + p.getValue());
+                }
+                else if (p.getKey().equals("nuevas")) {
+                    array_clauses.add("vw.numero_impresiones > 0");
+                }
+                else if (p.getKey().equals("viejas")) {
+                    array_clauses.add("vw.numero_impresiones <= 0");
+                }
                 else if (p.getKey().equals("mas reciente")) {
                     array_clauses.add("vw.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
                 }
@@ -501,10 +510,10 @@ public class VwCampaniaUsuario {
             "    detalle = " + (_detalle != null ? "'" + _detalle + "'" : "null") + "," +
             "    numero_impresiones = " + (_numeroImpresiones != null ? "'" + _numeroImpresiones + "'" : "null") + "," +
             "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "null") + "," +
-            "    fecha_fin = " + (_fechaFin != null ? "date('" + _fechaFin + "', 'localtime')" : "null") + "," +
+            "    fecha_fin = " + (_fechaFin != null ? "date('" + _fechaFin + "', 'utc')" : "null") + "," +
             "    id_usuario = " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
             "    periodicidad = " + (_periodicidad != null ? "'" + _periodicidad + "'" : "null") + "," +
-            "    fecha_inicio = " + (_fechaInicio != null ? "date('" + _fechaInicio + "', 'localtime')" : "null") +
+            "    fecha_inicio = " + (_fechaInicio != null ? "date('" + _fechaInicio + "', 'utc')" : "null") +
             "    WHERE" +
             "    id = " + Long.toString(this._id);
 
@@ -575,10 +584,10 @@ public class VwCampaniaUsuario {
             "    " + (_numeroImpresiones != null ? "'" + _numeroImpresiones + "'" : "null") + "," +
             "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
             "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "null") + "," +
-            "    " + (_fechaFin != null ? "date('" + _fechaFin + "', 'localtime')" : "null") + "," +
+            "    " + (_fechaFin != null ? "date('" + _fechaFin + "', 'utc')" : "null") + "," +
             "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
             "    " + (_periodicidad != null ? "'" + _periodicidad + "'" : "null") + "," +
-            "    " + (_fechaInicio != null ? "date('" + _fechaInicio + "', 'localtime')" : "null") +
+            "    " + (_fechaInicio != null ? "date('" + _fechaInicio + "', 'utc')" : "null") +
             "    )";
         
         try {
@@ -821,8 +830,8 @@ public class VwCampaniaUsuario {
 
 
 /*
-    public static VCampaniaUsuario fromXMLNode(Node xmlNode) {
-        VCampaniaUsuario ret = new VCampaniaUsuario();
+    public static VwCampaniaUsuario fromXMLNode(Node xmlNode) {
+        VwCampaniaUsuario ret = new VwCampaniaUsuario();
 
         Element element = (Element) xmlNode;
 

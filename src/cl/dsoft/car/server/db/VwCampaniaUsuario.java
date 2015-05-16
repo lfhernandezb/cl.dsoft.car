@@ -29,15 +29,15 @@ public class VwCampaniaUsuario {
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    v_.detalle AS detalle," +
-        "    v_.numero_impresiones AS numero_impresiones," +
-        "    v_.id AS id," +
-        "    DATE_FORMAT(v_.fecha_modificacion, '%Y-%m-%d %H:%i:%s') AS fecha_modificacion," +
-        "    DATE_FORMAT(v_.fecha_fin, '%Y-%m-%d %H:%i:%s') AS fecha_fin," +
-        "    v_.id_usuario AS id_usuario," +
-        "    v_.periodicidad AS periodicidad," +
-        "    DATE_FORMAT(v_.fecha_inicio, '%Y-%m-%d %H:%i:%s') AS fecha_inicio" +
-        "    FROM v_campania_usuario v_";
+        "    vw.detalle AS detalle," +
+        "    vw.numero_impresiones AS numero_impresiones," +
+        "    vw.id AS id," +
+        "    DATE_FORMAT(vw.fecha_modificacion, '%Y-%m-%d %H:%i:%s') AS fecha_modificacion," +
+        "    DATE_FORMAT(vw.fecha_fin, '%Y-%m-%d %H:%i:%s') AS fecha_fin," +
+        "    vw.id_usuario AS id_usuario," +
+        "    vw.periodicidad AS periodicidad," +
+        "    DATE_FORMAT(vw.fecha_inicio, '%Y-%m-%d %H:%i:%s') AS fecha_inicio" +
+        "    FROM vw_campania_usuario vw";
 
     public VwCampaniaUsuario() {
         _detalle = null;
@@ -166,7 +166,7 @@ public class VwCampaniaUsuario {
         VwCampaniaUsuario ret = null;
         
         String str_sql = _str_sql +
-            "  WHERE v_." + p_key + " = " + p_value +
+            "  WHERE vw." + p_key + " = " + p_value +
             "  LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -241,10 +241,10 @@ public class VwCampaniaUsuario {
             
             for (AbstractMap.SimpleEntry<String, String> p : p_parameters) {
                 if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("v_.fecha_modificacion > STR_TO_DATE('" + p.getValue() + "', '%Y-%m-%d %H:%i:%s')");
+                    array_clauses.add("vw.fecha_modificacion > STR_TO_DATE('" + p.getValue() + "', '%Y-%m-%d %H:%i:%s')");
                 }
                 else if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("v_.id_usuario = " + p.getValue());
+                    array_clauses.add("vw.id_usuario = " + p.getValue());
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -331,7 +331,7 @@ public class VwCampaniaUsuario {
         Statement stmt = null;
 
         String str_sql =
-            "    UPDATE v_campania_usuario" +
+            "    UPDATE vw_campania_usuario" +
             "    SET" +
             "    detalle = " + (_detalle != null ? "'" + _detalle + "'" : "null") + "," +
             "    numero_impresiones = " + (_numeroImpresiones != null ? _numeroImpresiones : "null") + "," +
@@ -383,7 +383,7 @@ public class VwCampaniaUsuario {
         ResultSet rs = null;
 
         String str_sql =
-            "    INSERT INTO v_campania_usuario" +
+            "    INSERT INTO vw_campania_usuario" +
             "    (" +
             "    detalle, " +
             "    numero_impresiones, " +
@@ -449,7 +449,7 @@ public class VwCampaniaUsuario {
         Statement stmt = null;
 
         String str_sql =
-            "    DELETE FROM v_campania_usuario" +
+            "    DELETE FROM vw_campania_usuario" +
             "    WHERE" +
 ;
 

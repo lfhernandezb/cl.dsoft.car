@@ -49,9 +49,6 @@ public class MantencionUsuario {
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    ma.nombre AS nombre," +
-        "    strftime('%Y-%m-%d %H:%M:%S', ma.fecha_modificacion) AS fecha_modificacion," +
-        "    ma.id_usuario AS id_usuario," +
         "    ma.borrado AS borrado," +
         "    ma.descripcion AS descripcion," +
         "    ma.id_mantencion_usuario AS id_mantencion_usuario," +
@@ -59,6 +56,9 @@ public class MantencionUsuario {
         "    ma.meses_entre_mantenciones AS meses_entre_mantenciones," +
         "    ma.depende_km AS depende_km," +
         "    ma.url AS url," +
+        "    ma.nombre AS nombre," +
+        "    strftime('%Y-%m-%d %H:%M:%S', ma.fecha_modificacion, 'localtime') AS fecha_modificacion," +
+        "    ma.id_usuario AS id_usuario," +
         "    ma.beneficios AS beneficios" +
         "    FROM mantencion_usuario ma";
 

@@ -41,10 +41,10 @@ public class Log {
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    strftime('%Y-%m-%d %H:%M:%S', lo.fecha_modificacion) AS fecha_modificacion," +
-        "    lo.id_usuario AS id_usuario," +
         "    lo.borrado AS borrado," +
         "    lo.data AS data," +
+        "    strftime('%Y-%m-%d %H:%M:%S', lo.fecha_modificacion, 'localtime') AS fecha_modificacion," +
+        "    lo.id_usuario AS id_usuario," +
         "    lo.latitud AS latitud," +
         "    lo.id_log AS id_log," +
         "    lo.longitud AS longitud" +
