@@ -33,9 +33,9 @@ import cl.dsoft.car.server.db.Parametro;
 @XmlRootElement(name = "CarData")
 //If you want you can define the order in which the fields are written
 //Optional
-@XmlType(propOrder = { "paises", "regiones", "comunas", "usuarios", "autenticaciones", "vehiculos", "mantencionBaseHechas", "mantencionUsuarios", 
-		"mantencionUsuarioHechas", "recordatorios", "cargaCombustibles", "reparaciones", "ciaSeguross", "seguroVehiculos", "logs",
-		"mantencionPospuestas", "vwCampaniaUsuarios", "parametros"})
+@XmlType(propOrder = { "paises", "regiones", "comunas", "usuarios", "autenticaciones", "vehiculos", "mantencionBases", "cambioRevisions", 
+		"mantencionBaseHechas", "mantencionUsuarios", "mantencionUsuarioHechas", "recordatorios", "cargaCombustibles", "reparaciones", 
+		"ciaSeguross", "seguroVehiculos", "logs", "mantencionPospuestas", "vwCampaniaUsuarios", "parametros"})
 public class CarData {
 
 	//@XmlElement(nillable=true, required=false)
@@ -50,6 +50,10 @@ public class CarData {
 	protected Autenticaciones autenticaciones;
 	//@XmlElement(nillable=true, required=false)
 	protected Vehiculos vehiculos;
+	//@XmlElement(nillable=true, required=false)
+	protected MantencionBases mantencionBases;
+	//@XmlElement(nillable=true, required=false)
+	protected CambioRevisions cambioRevisions;
 	//@XmlElement(nillable=true, required=false)
 	protected MantencionBaseHechas mantencionBaseHechas;
 	//@XmlElement(nillable=true, required=false)
@@ -83,6 +87,8 @@ public class CarData {
 		this.usuarios = null;
 		this.autenticaciones = null;
 		this.vehiculos = null;
+		this.mantencionBases = null;
+		this.cambioRevisions = null;
 		this.mantencionBaseHechas = null;
 		this.mantencionUsuarios = null;
 		this.mantencionUsuarioHechas = null;
@@ -108,6 +114,8 @@ public class CarData {
 		this.usuarios = new Usuarios(conn, idUsuario, fechaModificacion);
 		this.autenticaciones = new Autenticaciones(conn, idUsuario, fechaModificacion);
 		this.vehiculos = new Vehiculos(conn, idUsuario, fechaModificacion);
+		this.mantencionBases = new MantencionBases(conn, idUsuario, fechaModificacion);
+		this.cambioRevisions = new CambioRevisions(conn, idUsuario, fechaModificacion);
 		this.mantencionBaseHechas = new MantencionBaseHechas(conn, idUsuario, fechaModificacion);
 		this.mantencionUsuarios = new MantencionUsuarios(conn, idUsuario, fechaModificacion);
 		this.mantencionUsuarioHechas = new MantencionUsuarioHechas(conn, idUsuario, fechaModificacion);
@@ -137,6 +145,8 @@ public class CarData {
 			this.regiones = new Regiones(conn, u.getId(), "1900-01-01");
 			this.comunas = new Comunas(conn, u.getId(), "1900-01-01");
 			this.vehiculos = new Vehiculos(conn, u.getId(), "1900-01-01");
+			this.mantencionBases = new MantencionBases(conn, u.getId(), "1900-01-01");
+			this.cambioRevisions = new CambioRevisions(conn, u.getId(), "1900-01-01");
 			this.mantencionBaseHechas = new MantencionBaseHechas(conn, u.getId(), "1900-01-01");
 			this.mantencionUsuarios = new MantencionUsuarios(conn, u.getId(), "1900-01-01");
 			this.mantencionUsuarioHechas = new MantencionUsuarioHechas(conn, u.getId(), "1900-01-01");
@@ -165,6 +175,34 @@ public class CarData {
 			this.reparaciones = new Reparaciones();
 		}
 		*/
+	}
+
+	/**
+	 * @return the mantencionBases
+	 */
+	public MantencionBases getMantencionBases() {
+		return mantencionBases;
+	}
+
+	/**
+	 * @param mantencionBases the mantencionBases to set
+	 */
+	public void setMantencionBases(MantencionBases mantencionBases) {
+		this.mantencionBases = mantencionBases;
+	}
+
+	/**
+	 * @return the cambioRevisions
+	 */
+	public CambioRevisions getCambioRevisions() {
+		return cambioRevisions;
+	}
+
+	/**
+	 * @param cambioRevisions the cambioRevisions to set
+	 */
+	public void setCambioRevisions(CambioRevisions cambioRevisions) {
+		this.cambioRevisions = cambioRevisions;
 	}
 
 	/**

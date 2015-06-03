@@ -24,31 +24,25 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class RedSocial {
-    @Element(name = "fechaModificacion")
-    private String _fechaModificacion;
     @Element(name = "id")
     private Long _id;
     @Element(name = "redSocial")
     private String _redSocial;
+    @Element(name = "fechaModificacion")
+    private String _fechaModificacion;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    strftime('%Y-%m-%d %H:%M:%S', re.fecha_modificacion, 'localtime') AS fecha_modificacion," +
         "    re.id_red_social AS id," +
-        "    re.red_social AS red_social" +
+        "    re.red_social AS red_social," +
+        "    strftime('%Y-%m-%d %H:%M:%S', re.fecha_modificacion) AS fecha_modificacion" +
         "    FROM red_social re";
 
     public RedSocial() {
-        _fechaModificacion = null;
         _id = null;
         _redSocial = null;
+        _fechaModificacion = null;
 
-    }
-    /**
-     * @return the _fechaModificacion
-     */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
     }
     /**
      * @return the _id
@@ -63,10 +57,10 @@ public class RedSocial {
         return _redSocial;
     }
     /**
-     * @param _fechaModificacion the _fechaModificacion to set
+     * @return the _fechaModificacion
      */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
+    public String getFechaModificacion() {
+        return _fechaModificacion;
     }
     /**
      * @param _id the _id to set
@@ -80,13 +74,19 @@ public class RedSocial {
     public void setRedSocial(String _redSocial) {
         this._redSocial = _redSocial;
     }
+    /**
+     * @param _fechaModificacion the _fechaModificacion to set
+     */
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
+    }
 
     public static RedSocial fromRS(ResultSet p_rs) throws SQLException {
         RedSocial ret = new RedSocial();
 
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
         ret.setId(p_rs.getLong("id"));
         ret.setRedSocial(p_rs.getString("red_social"));
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
 
         return ret;
     }
@@ -176,7 +176,7 @@ public class RedSocial {
                     array_clauses.add("re.id_red_social = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("re.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
+                    array_clauses.add("re.fecha_modificacion > datetime('" + p.getValue() + "')");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -325,8 +325,8 @@ public class RedSocial {
         String str_sql =
             "    UPDATE red_social" +
             "    SET" +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    red_social = " + (_redSocial != null ? "'" + _redSocial + "'" : "null") +
+            "    red_social = " + (_redSocial != null ? "'" + _redSocial + "'" : "null") + "," +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    WHERE" +
             "    id_red_social = " + Long.toString(this._id);
 
@@ -383,14 +383,14 @@ public class RedSocial {
         String str_sql =
             "    INSERT INTO red_social" +
             "    (" +
-            "    fecha_modificacion, " +
             "    id_red_social, " +
-            "    red_social)" +
+            "    red_social, " +
+            "    fecha_modificacion)" +
             "    VALUES" +
             "    (" +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
             "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
-            "    " + (_redSocial != null ? "'" + _redSocial + "'" : "null") +
+            "    " + (_redSocial != null ? "'" + _redSocial + "'" : "null") + "," +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    )";
         
         try {
@@ -503,8 +503,8 @@ public class RedSocial {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
-                _fechaModificacion = obj.getFechaModificacion();
                 _redSocial = obj.getRedSocial();
+                _fechaModificacion = obj.getFechaModificacion();
             }
         }
         catch (SQLException ex){
@@ -615,9 +615,9 @@ public class RedSocial {
 @Override
     public String toString() {
         return "RedSocial [" +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
 	           "    _id = " + (_id != null ? _id : "null") + "," +
-	           "    _redSocial = " + (_redSocial != null ? "'" + _redSocial + "'" : "null") +
+	           "    _redSocial = " + (_redSocial != null ? "'" + _redSocial + "'" : "null") + "," +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") +
 			   "]";
     }
 
@@ -628,9 +628,9 @@ public class RedSocial {
 
         Element element = (Element) xmlNode;
 
-        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
         ret.setId(Long.decode(element.getElementsByTagName("id_red_social").item(0).getTextContent()));
         ret.setRedSocial(element.getElementsByTagName("red_social").item(0).getTextContent());
+        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
 
         return ret;
     }

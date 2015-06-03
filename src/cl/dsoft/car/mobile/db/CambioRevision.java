@@ -24,35 +24,35 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class CambioRevision {
-    @Element(name = "fechaModificacion")
-    private String _fechaModificacion;
+    @Element(name = "id")
+    private Integer _id;
     @Element(name = "idCambio", required = false)
     private Long _idCambio;
     @Element(name = "idRevision", required = false)
     private Long _idRevision;
-    @Element(name = "id")
-    private Integer _id;
+    @Element(name = "fechaModificacion")
+    private String _fechaModificacion;
 
     private final static String _str_sql = 
         "    SELECT" +
+        "    ca.id_cambio_revision AS id," +
         "    ca.id_cambio AS id_cambio," +
-        "    strftime('%Y-%m-%d %H:%M:%S', ca.fecha_modificacion, 'localtime') AS fecha_modificacion," +
         "    ca.id_revision AS id_revision," +
-        "    ca.id_cambio_revision AS id" +
+        "    strftime('%Y-%m-%d %H:%M:%S', ca.fecha_modificacion) AS fecha_modificacion" +
         "    FROM cambio_revision ca";
 
     public CambioRevision() {
-        _fechaModificacion = null;
+        _id = null;
         _idCambio = null;
         _idRevision = null;
-        _id = null;
+        _fechaModificacion = null;
 
     }
     /**
-     * @return the _fechaModificacion
+     * @return the _id
      */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
+    public Integer getId() {
+        return _id;
     }
     /**
      * @return the _idCambio
@@ -67,16 +67,16 @@ public class CambioRevision {
         return _idRevision;
     }
     /**
-     * @return the _id
+     * @return the _fechaModificacion
      */
-    public Integer getId() {
-        return _id;
+    public String getFechaModificacion() {
+        return _fechaModificacion;
     }
     /**
-     * @param _fechaModificacion the _fechaModificacion to set
+     * @param _id the _id to set
      */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
+    public void setId(Integer _id) {
+        this._id = _id;
     }
     /**
      * @param _idCambio the _idCambio to set
@@ -91,19 +91,19 @@ public class CambioRevision {
         this._idRevision = _idRevision;
     }
     /**
-     * @param _id the _id to set
+     * @param _fechaModificacion the _fechaModificacion to set
      */
-    public void setId(Integer _id) {
-        this._id = _id;
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
     }
 
     public static CambioRevision fromRS(ResultSet p_rs) throws SQLException {
         CambioRevision ret = new CambioRevision();
 
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
+        ret.setId(p_rs.getInt("id"));
         ret.setIdCambio(p_rs.getLong("id_cambio"));
         ret.setIdRevision(p_rs.getLong("id_revision"));
-        ret.setId(p_rs.getInt("id"));
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
 
         return ret;
     }
@@ -192,14 +192,14 @@ public class CambioRevision {
                 if (p.getKey().equals("id_cambio_revision")) {
                     array_clauses.add("ca.id_cambio_revision = " + p.getValue());
                 }
-                else if (p.getKey().equals("id_cambio")) {
-                    array_clauses.add("ca.id_cambio = " + p.getValue());
-                }
                 else if (p.getKey().equals("id_revision")) {
                     array_clauses.add("ca.id_revision = " + p.getValue());
                 }
+                else if (p.getKey().equals("id_cambio")) {
+                    array_clauses.add("ca.id_cambio = " + p.getValue());
+                }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("ca.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
+                    array_clauses.add("ca.fecha_modificacion > datetime('" + p.getValue() + "')");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -348,7 +348,7 @@ public class CambioRevision {
         String str_sql =
             "    UPDATE cambio_revision" +
             "    SET" +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    WHERE" +
             "    id_cambio_revision = " + Integer.toString(this._id);
 
@@ -405,16 +405,16 @@ public class CambioRevision {
         String str_sql =
             "    INSERT INTO cambio_revision" +
             "    (" +
-            "    fecha_modificacion, " +
+            "    id_cambio_revision, " +
             "    id_cambio, " +
             "    id_revision, " +
-            "    id_cambio_revision)" +
+            "    fecha_modificacion)" +
             "    VALUES" +
             "    (" +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
+            "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
             "    " + (_idCambio != null ? "'" + _idCambio + "'" : "null") + "," +
             "    " + (_idRevision != null ? "'" + _idRevision + "'" : "null") + "," +
-            "    " + (_id != null ? "'" + _id + "'" : "null") +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    )";
         
         try {
@@ -527,9 +527,9 @@ public class CambioRevision {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
-                _fechaModificacion = obj.getFechaModificacion();
                 _idCambio = obj.getIdCambio();
                 _idRevision = obj.getIdRevision();
+                _fechaModificacion = obj.getFechaModificacion();
             }
         }
         catch (SQLException ex){
@@ -640,10 +640,10 @@ public class CambioRevision {
 @Override
     public String toString() {
         return "CambioRevision [" +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
+	           "    _id = " + (_id != null ? _id : "null") + "," +
 	           "    _idCambio = " + (_idCambio != null ? _idCambio : "null") + "," +
 	           "    _idRevision = " + (_idRevision != null ? _idRevision : "null") + "," +
-	           "    _id = " + (_id != null ? _id : "null") +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") +
 			   "]";
     }
 
@@ -654,10 +654,10 @@ public class CambioRevision {
 
         Element element = (Element) xmlNode;
 
-        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
+        ret.setId(Integer.decode(element.getElementsByTagName("id_cambio_revision").item(0).getTextContent()));
         ret.setIdCambio(Long.decode(element.getElementsByTagName("id_cambio").item(0).getTextContent()));
         ret.setIdRevision(Long.decode(element.getElementsByTagName("id_revision").item(0).getTextContent()));
-        ret.setId(Integer.decode(element.getElementsByTagName("id_cambio_revision").item(0).getTextContent()));
+        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
 
         return ret;
     }

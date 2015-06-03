@@ -26,22 +26,22 @@ import org.simpleframework.xml.Root;
 public class TipoVehiculo {
     @Element(name = "id")
     private Byte _id;
-    @Element(name = "fechaModificacion")
-    private String _fechaModificacion;
     @Element(name = "descripcion")
     private String _descripcion;
+    @Element(name = "fechaModificacion")
+    private String _fechaModificacion;
 
     private final static String _str_sql = 
         "    SELECT" +
         "    ti.id_tipo_vehiculo AS id," +
-        "    strftime('%Y-%m-%d %H:%M:%S', ti.fecha_modificacion, 'localtime') AS fecha_modificacion," +
-        "    ti.descripcion AS descripcion" +
+        "    ti.descripcion AS descripcion," +
+        "    strftime('%Y-%m-%d %H:%M:%S', ti.fecha_modificacion) AS fecha_modificacion" +
         "    FROM tipo_vehiculo ti";
 
     public TipoVehiculo() {
         _id = null;
-        _fechaModificacion = null;
         _descripcion = null;
+        _fechaModificacion = null;
 
     }
     /**
@@ -51,16 +51,16 @@ public class TipoVehiculo {
         return _id;
     }
     /**
-     * @return the _fechaModificacion
-     */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
-    }
-    /**
      * @return the _descripcion
      */
     public String getDescripcion() {
         return _descripcion;
+    }
+    /**
+     * @return the _fechaModificacion
+     */
+    public String getFechaModificacion() {
+        return _fechaModificacion;
     }
     /**
      * @param _id the _id to set
@@ -69,24 +69,24 @@ public class TipoVehiculo {
         this._id = _id;
     }
     /**
-     * @param _fechaModificacion the _fechaModificacion to set
-     */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
-    }
-    /**
      * @param _descripcion the _descripcion to set
      */
     public void setDescripcion(String _descripcion) {
         this._descripcion = _descripcion;
+    }
+    /**
+     * @param _fechaModificacion the _fechaModificacion to set
+     */
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
     }
 
     public static TipoVehiculo fromRS(ResultSet p_rs) throws SQLException {
         TipoVehiculo ret = new TipoVehiculo();
 
         ret.setId(p_rs.getByte("id"));
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
         ret.setDescripcion(p_rs.getString("descripcion"));
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
 
         return ret;
     }
@@ -176,7 +176,7 @@ public class TipoVehiculo {
                     array_clauses.add("ti.id_tipo_vehiculo = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("ti.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
+                    array_clauses.add("ti.fecha_modificacion > datetime('" + p.getValue() + "')");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -325,8 +325,8 @@ public class TipoVehiculo {
         String str_sql =
             "    UPDATE tipo_vehiculo" +
             "    SET" +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") +
+            "    descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    WHERE" +
             "    id_tipo_vehiculo = " + Byte.toString(this._id);
 
@@ -384,13 +384,13 @@ public class TipoVehiculo {
             "    INSERT INTO tipo_vehiculo" +
             "    (" +
             "    id_tipo_vehiculo, " +
-            "    fecha_modificacion, " +
-            "    descripcion)" +
+            "    descripcion, " +
+            "    fecha_modificacion)" +
             "    VALUES" +
             "    (" +
             "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    " + (_descripcion != null ? "'" + _descripcion + "'" : "null") +
+            "    " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    )";
         
         try {
@@ -503,8 +503,8 @@ public class TipoVehiculo {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
-                _fechaModificacion = obj.getFechaModificacion();
                 _descripcion = obj.getDescripcion();
+                _fechaModificacion = obj.getFechaModificacion();
             }
         }
         catch (SQLException ex){
@@ -616,8 +616,8 @@ public class TipoVehiculo {
     public String toString() {
         return "TipoVehiculo [" +
 	           "    _id = " + (_id != null ? _id : "null") + "," +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
-	           "    _descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") +
+	           "    _descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") +
 			   "]";
     }
 
@@ -629,8 +629,8 @@ public class TipoVehiculo {
         Element element = (Element) xmlNode;
 
         ret.setId(Byte.decode(element.getElementsByTagName("id_tipo_vehiculo").item(0).getTextContent()));
-        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
         ret.setDescripcion(element.getElementsByTagName("descripcion").item(0).getTextContent());
+        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
 
         return ret;
     }

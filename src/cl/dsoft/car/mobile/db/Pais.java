@@ -26,22 +26,22 @@ import org.simpleframework.xml.Root;
 public class Pais {
     @Element(name = "id")
     private Long _id;
-    @Element(name = "fechaModificacion")
-    private String _fechaModificacion;
     @Element(name = "pais")
     private String _pais;
+    @Element(name = "fechaModificacion")
+    private String _fechaModificacion;
 
     private final static String _str_sql = 
         "    SELECT" +
         "    pa.id_pais AS id," +
-        "    strftime('%Y-%m-%d %H:%M:%S', pa.fecha_modificacion, 'localtime') AS fecha_modificacion," +
-        "    pa.pais AS pais" +
+        "    pa.pais AS pais," +
+        "    strftime('%Y-%m-%d %H:%M:%S', pa.fecha_modificacion) AS fecha_modificacion" +
         "    FROM pais pa";
 
     public Pais() {
         _id = null;
-        _fechaModificacion = null;
         _pais = null;
+        _fechaModificacion = null;
 
     }
     /**
@@ -51,16 +51,16 @@ public class Pais {
         return _id;
     }
     /**
-     * @return the _fechaModificacion
-     */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
-    }
-    /**
      * @return the _pais
      */
     public String getPais() {
         return _pais;
+    }
+    /**
+     * @return the _fechaModificacion
+     */
+    public String getFechaModificacion() {
+        return _fechaModificacion;
     }
     /**
      * @param _id the _id to set
@@ -69,24 +69,24 @@ public class Pais {
         this._id = _id;
     }
     /**
-     * @param _fechaModificacion the _fechaModificacion to set
-     */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
-    }
-    /**
      * @param _pais the _pais to set
      */
     public void setPais(String _pais) {
         this._pais = _pais;
+    }
+    /**
+     * @param _fechaModificacion the _fechaModificacion to set
+     */
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
     }
 
     public static Pais fromRS(ResultSet p_rs) throws SQLException {
         Pais ret = new Pais();
 
         ret.setId(p_rs.getLong("id"));
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
         ret.setPais(p_rs.getString("pais"));
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
 
         return ret;
     }
@@ -176,7 +176,7 @@ public class Pais {
                     array_clauses.add("pa.id_pais = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("pa.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
+                    array_clauses.add("pa.fecha_modificacion > datetime('" + p.getValue() + "')");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -325,8 +325,8 @@ public class Pais {
         String str_sql =
             "    UPDATE pais" +
             "    SET" +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    pais = " + (_pais != null ? "'" + _pais + "'" : "null") +
+            "    pais = " + (_pais != null ? "'" + _pais + "'" : "null") + "," +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    WHERE" +
             "    id_pais = " + Long.toString(this._id);
 
@@ -384,13 +384,13 @@ public class Pais {
             "    INSERT INTO pais" +
             "    (" +
             "    id_pais, " +
-            "    fecha_modificacion, " +
-            "    pais)" +
+            "    pais, " +
+            "    fecha_modificacion)" +
             "    VALUES" +
             "    (" +
             "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    " + (_pais != null ? "'" + _pais + "'" : "null") +
+            "    " + (_pais != null ? "'" + _pais + "'" : "null") + "," +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    )";
         
         try {
@@ -503,8 +503,8 @@ public class Pais {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
-                _fechaModificacion = obj.getFechaModificacion();
                 _pais = obj.getPais();
+                _fechaModificacion = obj.getFechaModificacion();
             }
         }
         catch (SQLException ex){
@@ -616,8 +616,8 @@ public class Pais {
     public String toString() {
         return "Pais [" +
 	           "    _id = " + (_id != null ? _id : "null") + "," +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
-	           "    _pais = " + (_pais != null ? "'" + _pais + "'" : "null") +
+	           "    _pais = " + (_pais != null ? "'" + _pais + "'" : "null") + "," +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") +
 			   "]";
     }
 
@@ -629,8 +629,8 @@ public class Pais {
         Element element = (Element) xmlNode;
 
         ret.setId(Long.decode(element.getElementsByTagName("id_pais").item(0).getTextContent()));
-        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
         ret.setPais(element.getElementsByTagName("pais").item(0).getTextContent());
+        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
 
         return ret;
     }

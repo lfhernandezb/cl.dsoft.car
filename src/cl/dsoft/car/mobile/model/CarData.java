@@ -11,6 +11,7 @@ import org.simpleframework.xml.Order;
 import org.simpleframework.xml.Root;
 
 import cl.dsoft.car.mobile.db.Autenticacion;
+import cl.dsoft.car.mobile.db.CambioRevision;
 import cl.dsoft.car.mobile.db.CargaCombustible;
 import cl.dsoft.car.mobile.db.CiaSeguros;
 import cl.dsoft.car.mobile.db.Comuna;
@@ -32,9 +33,9 @@ import cl.dsoft.car.mobile.db.VwCampaniaUsuario;
 import cl.dsoft.car.mobile.db.Parametro;
 
 @Root(name = "CarData")
-@Order(elements={"paises", "regiones", "comunas", "usuarios", "autenticaciones", "vehiculos", "mantencionBaseHechas", "mantencionUsuarios", 
-		"mantencionUsuarioHechas", "recordatorios", "cargaCombustibles", "reparaciones", "ciaSeguross", "seguroVehiculos", "logs", 
-		"mantencionPospuestas", "vwCampaniaUsuarios", "parametros"})
+@Order(elements={"paises", "regiones", "comunas", "usuarios", "autenticaciones", "vehiculos", "mantencionBases", "cambioRevisions",
+		"mantencionBaseHechas", "mantencionUsuarios", "mantencionUsuarioHechas", "recordatorios", "cargaCombustibles", 
+		"reparaciones", "ciaSeguross", "seguroVehiculos", "logs", "mantencionPospuestas", "vwCampaniaUsuarios", "parametros"})
 //If you want you can define the order in which the fields are written
 //Optional
 //@Order(elements = { "usuarios", "vehiculos", "mantencionUsuarios", "mantencionUsuarioHechas", "recordatorios", "rendimientos", "reparaciones" })
@@ -52,6 +53,10 @@ public class CarData {
 	protected ArrayList<Autenticacion> autenticaciones;
 	@ElementList(required=false)
 	protected ArrayList<Vehiculo> vehiculos;
+	@ElementList(required=false)
+	protected ArrayList<MantencionBase> mantencionBases;
+	@ElementList(required=false)
+	protected ArrayList<CambioRevision> cambioRevisions;
 	@ElementList(required=false)
 	protected ArrayList<MantencionBaseHecha> mantencionBaseHechas;
 	@ElementList(required=false)
@@ -85,6 +90,8 @@ public class CarData {
 		this.usuarios = null;
 		this.autenticaciones = null;
 		this.vehiculos = null;
+		this.mantencionBases = null;
+		this.cambioRevisions = null;
 		this.mantencionBaseHechas = null;
 		this.mantencionUsuarios = null;
 		this.mantencionUsuarioHechas = null;
@@ -156,6 +163,49 @@ public class CarData {
 
 	}
 	
+	/**
+	 * @return the mantencionBases
+	 */
+	public ArrayList<MantencionBase> getMantencionBases() {
+		return mantencionBases;
+	}
+
+	/**
+	 * @param mantencionBases the mantencionBases to set
+	 */
+	public void setMantencionBases(ArrayList<MantencionBase> mantencionBases) {
+		this.mantencionBases = mantencionBases;
+	}
+
+	/**
+	 * @return the cambioRevisions
+	 */
+	public ArrayList<CambioRevision> getCambioRevisions() {
+		return cambioRevisions;
+	}
+
+	/**
+	 * @param cambioRevisions the cambioRevisions to set
+	 */
+	public void setCambioRevisions(ArrayList<CambioRevision> cambioRevisions) {
+		this.cambioRevisions = cambioRevisions;
+	}
+
+	/**
+	 * @return the mantencionPospuestas
+	 */
+	public ArrayList<MantencionPospuesta> getMantencionPospuestas() {
+		return mantencionPospuestas;
+	}
+
+	/**
+	 * @param mantencionPospuestas the mantencionPospuestas to set
+	 */
+	public void setMantencionPospuestas(
+			ArrayList<MantencionPospuesta> mantencionPospuestas) {
+		this.mantencionPospuestas = mantencionPospuestas;
+	}
+
 	/**
 	 * @return the parametros
 	 */
@@ -450,6 +500,18 @@ public class CarData {
 			for (Vehiculo vehiculo : this.getVehiculos()) {
 				
 				vehiculo.save(conn);
+			}
+		}
+		if (this.getMantencionBases() != null) {
+			for (MantencionBase mantencionBase : this.getMantencionBases()) {
+				
+				mantencionBase.save(conn);
+			}
+		}
+		if (this.getCambioRevisions() != null) {
+			for (CambioRevision cambioRevision : this.getCambioRevisions()) {
+				
+				cambioRevision.save(conn);
 			}
 		}
 		if (this.getMantencionBaseHechas() != null) {

@@ -24,75 +24,45 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class MantencionPospuesta {
-    @Element(name = "fecha", required = false)
-    private String _fecha;
-    @Element(name = "borrado")
-    private Boolean _borrado;
-    @Element(name = "km", required = false)
-    private Integer _km;
-    @Element(name = "fechaModificacion")
-    private String _fechaModificacion;
-    @Element(name = "idUsuario")
-    private Long _idUsuario;
     @Element(name = "idMantencionPospuesta")
     private Integer _idMantencionPospuesta;
-    @Element(name = "idMantencionBase")
-    private Long _idMantencionBase;
+    @Element(name = "idUsuario")
+    private Long _idUsuario;
     @Element(name = "idVehiculo")
     private Long _idVehiculo;
+    @Element(name = "idMantencionBase")
+    private Long _idMantencionBase;
+    @Element(name = "km", required = false)
+    private Integer _km;
+    @Element(name = "fecha", required = false)
+    private String _fecha;
+    @Element(name = "fechaModificacion")
+    private String _fechaModificacion;
+    @Element(name = "borrado")
+    private Boolean _borrado;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    strftime('%Y-%m-%d', ma.fecha, 'utc') AS fecha," +
-        "    ma.borrado AS borrado," +
-        "    ma.km AS km," +
-        "    strftime('%Y-%m-%d %H:%M:%S', ma.fecha_modificacion, 'localtime') AS fecha_modificacion," +
-        "    ma.id_usuario AS id_usuario," +
         "    ma.id_mantencion_pospuesta AS id_mantencion_pospuesta," +
+        "    ma.id_usuario AS id_usuario," +
+        "    ma.id_vehiculo AS id_vehiculo," +
         "    ma.id_mantencion_base AS id_mantencion_base," +
-        "    ma.id_vehiculo AS id_vehiculo" +
+        "    ma.km AS km," +
+        "    strftime('%Y-%m-%d', ma.fecha) AS fecha," +
+        "    strftime('%Y-%m-%d %H:%M:%S', ma.fecha_modificacion) AS fecha_modificacion," +
+        "    ma.borrado AS borrado" +
         "    FROM mantencion_pospuesta ma";
 
     public MantencionPospuesta() {
-        _fecha = null;
-        _borrado = null;
-        _km = null;
-        _fechaModificacion = null;
-        _idUsuario = null;
         _idMantencionPospuesta = null;
-        _idMantencionBase = null;
+        _idUsuario = null;
         _idVehiculo = null;
+        _idMantencionBase = null;
+        _km = null;
+        _fecha = null;
+        _fechaModificacion = null;
+        _borrado = null;
 
-    }
-    /**
-     * @return the _fecha
-     */
-    public String getFecha() {
-        return _fecha;
-    }
-    /**
-     * @return the _borrado
-     */
-    public Boolean getBorrado() {
-        return _borrado;
-    }
-    /**
-     * @return the _km
-     */
-    public Integer getKm() {
-        return _km;
-    }
-    /**
-     * @return the _fechaModificacion
-     */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
-    }
-    /**
-     * @return the _idUsuario
-     */
-    public Long getIdUsuario() {
-        return _idUsuario;
     }
     /**
      * @return the _idMantencionPospuesta
@@ -101,16 +71,46 @@ public class MantencionPospuesta {
         return _idMantencionPospuesta;
     }
     /**
-     * @return the _idMantencionBase
+     * @return the _idUsuario
      */
-    public Long getIdMantencionBase() {
-        return _idMantencionBase;
+    public Long getIdUsuario() {
+        return _idUsuario;
     }
     /**
      * @return the _idVehiculo
      */
     public Long getIdVehiculo() {
         return _idVehiculo;
+    }
+    /**
+     * @return the _idMantencionBase
+     */
+    public Long getIdMantencionBase() {
+        return _idMantencionBase;
+    }
+    /**
+     * @return the _km
+     */
+    public Integer getKm() {
+        return _km;
+    }
+    /**
+     * @return the _fecha
+     */
+    public String getFecha() {
+        return _fecha;
+    }
+    /**
+     * @return the _fechaModificacion
+     */
+    public String getFechaModificacion() {
+        return _fechaModificacion;
+    }
+    /**
+     * @return the _borrado
+     */
+    public Boolean getBorrado() {
+        return _borrado;
     }
     /**
      * @return the _fecha as seconds from January 1, 1970, 00:00:00 GMT
@@ -135,28 +135,10 @@ public class MantencionPospuesta {
         return d;
     }
     /**
-     * @param _fecha the _fecha to set
+     * @param _idMantencionPospuesta the _idMantencionPospuesta to set
      */
-    public void setFecha(String _fecha) {
-        this._fecha = _fecha;
-    }
-    /**
-     * @param _borrado the _borrado to set
-     */
-    public void setBorrado(Boolean _borrado) {
-        this._borrado = _borrado;
-    }
-    /**
-     * @param _km the _km to set
-     */
-    public void setKm(Integer _km) {
-        this._km = _km;
-    }
-    /**
-     * @param _fechaModificacion the _fechaModificacion to set
-     */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
+    public void setIdMantencionPospuesta(Integer _idMantencionPospuesta) {
+        this._idMantencionPospuesta = _idMantencionPospuesta;
     }
     /**
      * @param _idUsuario the _idUsuario to set
@@ -165,10 +147,10 @@ public class MantencionPospuesta {
         this._idUsuario = _idUsuario;
     }
     /**
-     * @param _idMantencionPospuesta the _idMantencionPospuesta to set
+     * @param _idVehiculo the _idVehiculo to set
      */
-    public void setIdMantencionPospuesta(Integer _idMantencionPospuesta) {
-        this._idMantencionPospuesta = _idMantencionPospuesta;
+    public void setIdVehiculo(Long _idVehiculo) {
+        this._idVehiculo = _idVehiculo;
     }
     /**
      * @param _idMantencionBase the _idMantencionBase to set
@@ -177,10 +159,28 @@ public class MantencionPospuesta {
         this._idMantencionBase = _idMantencionBase;
     }
     /**
-     * @param _idVehiculo the _idVehiculo to set
+     * @param _km the _km to set
      */
-    public void setIdVehiculo(Long _idVehiculo) {
-        this._idVehiculo = _idVehiculo;
+    public void setKm(Integer _km) {
+        this._km = _km;
+    }
+    /**
+     * @param _fecha the _fecha to set
+     */
+    public void setFecha(String _fecha) {
+        this._fecha = _fecha;
+    }
+    /**
+     * @param _fechaModificacion the _fechaModificacion to set
+     */
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
+    }
+    /**
+     * @param _borrado the _borrado to set
+     */
+    public void setBorrado(Boolean _borrado) {
+        this._borrado = _borrado;
     }
     /**
      * @param _fecha the _fecha to set as seconds from January 1, 1970, 00:00:00 GMT
@@ -208,14 +208,14 @@ public class MantencionPospuesta {
     public static MantencionPospuesta fromRS(ResultSet p_rs) throws SQLException {
         MantencionPospuesta ret = new MantencionPospuesta();
 
-        ret.setFecha(p_rs.getString("fecha"));
-        ret.setBorrado(p_rs.getString("borrado") != null ? p_rs.getString("borrado").equals("true") : null);
-        ret.setKm(p_rs.getInt("km"));
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setIdUsuario(p_rs.getLong("id_usuario"));
         ret.setIdMantencionPospuesta(p_rs.getInt("id_mantencion_pospuesta"));
-        ret.setIdMantencionBase(p_rs.getLong("id_mantencion_base"));
+        ret.setIdUsuario(p_rs.getLong("id_usuario"));
         ret.setIdVehiculo(p_rs.getLong("id_vehiculo"));
+        ret.setIdMantencionBase(p_rs.getLong("id_mantencion_base"));
+        ret.setKm(p_rs.getInt("km"));
+        ret.setFecha(p_rs.getString("fecha"));
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
+        ret.setBorrado(p_rs.getString("borrado") != null ? p_rs.getString("borrado").equals("true") : null);
 
         return ret;
     }
@@ -298,20 +298,20 @@ public class MantencionPospuesta {
             str_sql = _str_sql;
             
             for (AbstractMap.SimpleEntry<String, String> p : p_parameters) {
-                if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("ma.id_usuario = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_mantencion_pospuesta")) {
+                if (p.getKey().equals("id_mantencion_pospuesta")) {
                     array_clauses.add("ma.id_mantencion_pospuesta = " + p.getValue());
                 }
-                else if (p.getKey().equals("id_mantencion_base")) {
-                    array_clauses.add("ma.id_mantencion_base = " + p.getValue());
+                else if (p.getKey().equals("id_usuario")) {
+                    array_clauses.add("ma.id_usuario = " + p.getValue());
                 }
                 else if (p.getKey().equals("id_vehiculo")) {
                     array_clauses.add("ma.id_vehiculo = " + p.getValue());
                 }
+                else if (p.getKey().equals("id_mantencion_base")) {
+                    array_clauses.add("ma.id_mantencion_base = " + p.getValue());
+                }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("ma.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
+                    array_clauses.add("ma.fecha_modificacion > datetime('" + p.getValue() + "')");
                 }
                 else if (p.getKey().equals("no borrado")) {
                     array_clauses.add("ma.borrado = 'false'");
@@ -466,13 +466,13 @@ public class MantencionPospuesta {
         String str_sql =
             "    UPDATE mantencion_pospuesta" +
             "    SET" +
-            "    fecha = " + (_fecha != null ? "date('" + _fecha + "', 'utc')" : "null") + "," +
-            "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
             "    km = " + (_km != null ? "'" + _km + "'" : "null") + "," +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") +
+            "    fecha = " + (_fecha != null ? "date('" + _fecha + "')" : "null") + "," +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") + "," +
+            "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'false'") +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_mantencion_pospuesta = " + Integer.toString(this._idMantencionPospuesta);
+            "    id_mantencion_pospuesta = " + Integer.toString(this._idMantencionPospuesta) + " AND" +
+            "    id_usuario = " + Long.toString(this._idUsuario);
 
         try {
             stmt = p_conn.createStatement();
@@ -527,24 +527,24 @@ public class MantencionPospuesta {
         String str_sql =
             "    INSERT INTO mantencion_pospuesta" +
             "    (" +
-            "    fecha, " +
-            "    borrado, " +
-            "    km, " +
-            "    fecha_modificacion, " +
-            "    id_usuario, " +
             "    id_mantencion_pospuesta, " +
+            "    id_usuario, " +
+            "    id_vehiculo, " +
             "    id_mantencion_base, " +
-            "    id_vehiculo)" +
+            "    km, " +
+            "    fecha, " +
+            "    fecha_modificacion, " +
+            "    borrado)" +
             "    VALUES" +
             "    (" +
-            "    " + (_fecha != null ? "date('" + _fecha + "', 'utc')" : "null") + "," +
-            "    " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
-            "    " + (_km != null ? "'" + _km + "'" : "null") + "," +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
             "    " + (_idMantencionPospuesta != null ? "'" + _idMantencionPospuesta + "'" : "null") + "," +
+            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
+            "    " + (_idVehiculo != null ? "'" + _idVehiculo + "'" : "null") + "," +
             "    " + (_idMantencionBase != null ? "'" + _idMantencionBase + "'" : "null") + "," +
-            "    " + (_idVehiculo != null ? "'" + _idVehiculo + "'" : "null") +
+            "    " + (_km != null ? "'" + _km + "'" : "null") + "," +
+            "    " + (_fecha != null ? "date('" + _fecha + "')" : "null") + "," +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") + "," +
+            "    " + (_borrado != null ? "'" + _borrado + "'" : "'false'") +
             "    )";
         
         try {
@@ -597,8 +597,8 @@ public class MantencionPospuesta {
         String str_sql =
             "    DELETE FROM mantencion_pospuesta" +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_mantencion_pospuesta = " + Integer.toString(this._idMantencionPospuesta);
+            "    id_mantencion_pospuesta = " + Integer.toString(this._idMantencionPospuesta) + " AND" +
+            "    id_usuario = " + Long.toString(this._idUsuario);
 
         try {
             stmt = p_conn.createStatement();
@@ -636,8 +636,8 @@ public class MantencionPospuesta {
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_mantencion_pospuesta = " + Integer.toString(this._idMantencionPospuesta) +
+            "    id_mantencion_pospuesta = " + Integer.toString(this._idMantencionPospuesta) + " AND" +
+            "    id_usuario = " + Long.toString(this._idUsuario) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -659,12 +659,12 @@ public class MantencionPospuesta {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
-                _fecha = obj.getFecha();
-                _borrado = obj.getBorrado();
-                _km = obj.getKm();
-                _fechaModificacion = obj.getFechaModificacion();
-                _idMantencionBase = obj.getIdMantencionBase();
                 _idVehiculo = obj.getIdVehiculo();
+                _idMantencionBase = obj.getIdMantencionBase();
+                _km = obj.getKm();
+                _fecha = obj.getFecha();
+                _fechaModificacion = obj.getFechaModificacion();
+                _borrado = obj.getBorrado();
             }
         }
         catch (SQLException ex){
@@ -704,8 +704,8 @@ public class MantencionPospuesta {
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_mantencion_pospuesta = " + Integer.toString(this._idMantencionPospuesta) +
+            "    id_mantencion_pospuesta = " + Integer.toString(this._idMantencionPospuesta) + " AND" +
+            "    id_usuario = " + Long.toString(this._idUsuario) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -776,14 +776,14 @@ public class MantencionPospuesta {
 @Override
     public String toString() {
         return "MantencionPospuesta [" +
-	           "    _fecha = " + (_fecha != null ? "'" + _fecha + "'" : "null") + "," +
-	           "    _borrado = " + (_borrado != null ? _borrado : "null") + "," +
-	           "    _km = " + (_km != null ? _km : "null") + "," +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
-	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
 	           "    _idMantencionPospuesta = " + (_idMantencionPospuesta != null ? _idMantencionPospuesta : "null") + "," +
+	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
+	           "    _idVehiculo = " + (_idVehiculo != null ? _idVehiculo : "null") + "," +
 	           "    _idMantencionBase = " + (_idMantencionBase != null ? _idMantencionBase : "null") + "," +
-	           "    _idVehiculo = " + (_idVehiculo != null ? _idVehiculo : "null") +
+	           "    _km = " + (_km != null ? _km : "null") + "," +
+	           "    _fecha = " + (_fecha != null ? "'" + _fecha + "'" : "null") + "," +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
+	           "    _borrado = " + (_borrado != null ? _borrado : "null") +
 			   "]";
     }
 
@@ -794,14 +794,14 @@ public class MantencionPospuesta {
 
         Element element = (Element) xmlNode;
 
-        ret.setFecha(element.getElementsByTagName("fecha").item(0).getTextContent());
-        ret.setBorrado(element.getElementsByTagName("borrado").item(0).getTextContent());
-        ret.setKm(Integer.decode(element.getElementsByTagName("km").item(0).getTextContent()));
-        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
         ret.setIdMantencionPospuesta(Integer.decode(element.getElementsByTagName("id_mantencion_pospuesta").item(0).getTextContent()));
-        ret.setIdMantencionBase(Long.decode(element.getElementsByTagName("id_mantencion_base").item(0).getTextContent()));
+        ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
         ret.setIdVehiculo(Long.decode(element.getElementsByTagName("id_vehiculo").item(0).getTextContent()));
+        ret.setIdMantencionBase(Long.decode(element.getElementsByTagName("id_mantencion_base").item(0).getTextContent()));
+        ret.setKm(Integer.decode(element.getElementsByTagName("km").item(0).getTextContent()));
+        ret.setFecha(element.getElementsByTagName("fecha").item(0).getTextContent());
+        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
+        ret.setBorrado(element.getElementsByTagName("borrado").item(0).getTextContent());
 
         return ret;
     }

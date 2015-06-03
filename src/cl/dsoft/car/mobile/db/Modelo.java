@@ -24,41 +24,29 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class Modelo {
-    @Element(name = "fechaModificacion")
-    private String _fechaModificacion;
-    @Element(name = "descripcion")
-    private String _descripcion;
     @Element(name = "id")
     private Long _id;
     @Element(name = "idMarca")
     private Short _idMarca;
+    @Element(name = "descripcion")
+    private String _descripcion;
+    @Element(name = "fechaModificacion")
+    private String _fechaModificacion;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    strftime('%Y-%m-%d %H:%M:%S', mo.fecha_modificacion, 'localtime') AS fecha_modificacion," +
-        "    mo.descripcion AS descripcion," +
         "    mo.id_modelo AS id," +
-        "    mo.id_marca AS id_marca" +
+        "    mo.id_marca AS id_marca," +
+        "    mo.descripcion AS descripcion," +
+        "    strftime('%Y-%m-%d %H:%M:%S', mo.fecha_modificacion) AS fecha_modificacion" +
         "    FROM modelo mo";
 
     public Modelo() {
-        _fechaModificacion = null;
-        _descripcion = null;
         _id = null;
         _idMarca = null;
+        _descripcion = null;
+        _fechaModificacion = null;
 
-    }
-    /**
-     * @return the _fechaModificacion
-     */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
-    }
-    /**
-     * @return the _descripcion
-     */
-    public String getDescripcion() {
-        return _descripcion;
     }
     /**
      * @return the _id
@@ -73,16 +61,16 @@ public class Modelo {
         return _idMarca;
     }
     /**
-     * @param _fechaModificacion the _fechaModificacion to set
+     * @return the _descripcion
      */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
+    public String getDescripcion() {
+        return _descripcion;
     }
     /**
-     * @param _descripcion the _descripcion to set
+     * @return the _fechaModificacion
      */
-    public void setDescripcion(String _descripcion) {
-        this._descripcion = _descripcion;
+    public String getFechaModificacion() {
+        return _fechaModificacion;
     }
     /**
      * @param _id the _id to set
@@ -96,14 +84,26 @@ public class Modelo {
     public void setIdMarca(Short _idMarca) {
         this._idMarca = _idMarca;
     }
+    /**
+     * @param _descripcion the _descripcion to set
+     */
+    public void setDescripcion(String _descripcion) {
+        this._descripcion = _descripcion;
+    }
+    /**
+     * @param _fechaModificacion the _fechaModificacion to set
+     */
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
+    }
 
     public static Modelo fromRS(ResultSet p_rs) throws SQLException {
         Modelo ret = new Modelo();
 
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setDescripcion(p_rs.getString("descripcion"));
         ret.setId(p_rs.getLong("id"));
         ret.setIdMarca(p_rs.getShort("id_marca"));
+        ret.setDescripcion(p_rs.getString("descripcion"));
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
 
         return ret;
     }
@@ -196,7 +196,7 @@ public class Modelo {
                     array_clauses.add("mo.id_marca = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("mo.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
+                    array_clauses.add("mo.fecha_modificacion > datetime('" + p.getValue() + "')");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -345,8 +345,8 @@ public class Modelo {
         String str_sql =
             "    UPDATE modelo" +
             "    SET" +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") +
+            "    descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    WHERE" +
             "    id_modelo = " + Long.toString(this._id);
 
@@ -403,16 +403,16 @@ public class Modelo {
         String str_sql =
             "    INSERT INTO modelo" +
             "    (" +
-            "    fecha_modificacion, " +
-            "    descripcion, " +
             "    id_modelo, " +
-            "    id_marca)" +
+            "    id_marca, " +
+            "    descripcion, " +
+            "    fecha_modificacion)" +
             "    VALUES" +
             "    (" +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
             "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
-            "    " + (_idMarca != null ? "'" + _idMarca + "'" : "null") +
+            "    " + (_idMarca != null ? "'" + _idMarca + "'" : "null") + "," +
+            "    " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    )";
         
         try {
@@ -525,9 +525,9 @@ public class Modelo {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
-                _fechaModificacion = obj.getFechaModificacion();
-                _descripcion = obj.getDescripcion();
                 _idMarca = obj.getIdMarca();
+                _descripcion = obj.getDescripcion();
+                _fechaModificacion = obj.getFechaModificacion();
             }
         }
         catch (SQLException ex){
@@ -638,10 +638,10 @@ public class Modelo {
 @Override
     public String toString() {
         return "Modelo [" +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
-	           "    _descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
 	           "    _id = " + (_id != null ? _id : "null") + "," +
-	           "    _idMarca = " + (_idMarca != null ? _idMarca : "null") +
+	           "    _idMarca = " + (_idMarca != null ? _idMarca : "null") + "," +
+	           "    _descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") +
 			   "]";
     }
 
@@ -652,10 +652,10 @@ public class Modelo {
 
         Element element = (Element) xmlNode;
 
-        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setDescripcion(element.getElementsByTagName("descripcion").item(0).getTextContent());
         ret.setId(Long.decode(element.getElementsByTagName("id_modelo").item(0).getTextContent()));
         ret.setIdMarca(Short.decode(element.getElementsByTagName("id_marca").item(0).getTextContent()));
+        ret.setDescripcion(element.getElementsByTagName("descripcion").item(0).getTextContent());
+        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
 
         return ret;
     }

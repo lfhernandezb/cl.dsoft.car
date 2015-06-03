@@ -24,35 +24,29 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class Region {
-    @Element(name = "region")
-    private String _region;
     @Element(name = "id")
     private Long _id;
     @Element(name = "idPais")
     private Long _idPais;
+    @Element(name = "region")
+    private String _region;
     @Element(name = "fechaModificacion")
     private String _fechaModificacion;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    re.region AS region," +
         "    re.id_region AS id," +
         "    re.id_pais AS id_pais," +
-        "    strftime('%Y-%m-%d %H:%M:%S', re.fecha_modificacion, 'localtime') AS fecha_modificacion" +
+        "    re.region AS region," +
+        "    strftime('%Y-%m-%d %H:%M:%S', re.fecha_modificacion) AS fecha_modificacion" +
         "    FROM region re";
 
     public Region() {
-        _region = null;
         _id = null;
         _idPais = null;
+        _region = null;
         _fechaModificacion = null;
 
-    }
-    /**
-     * @return the _region
-     */
-    public String getRegion() {
-        return _region;
     }
     /**
      * @return the _id
@@ -67,16 +61,16 @@ public class Region {
         return _idPais;
     }
     /**
+     * @return the _region
+     */
+    public String getRegion() {
+        return _region;
+    }
+    /**
      * @return the _fechaModificacion
      */
     public String getFechaModificacion() {
         return _fechaModificacion;
-    }
-    /**
-     * @param _region the _region to set
-     */
-    public void setRegion(String _region) {
-        this._region = _region;
     }
     /**
      * @param _id the _id to set
@@ -91,6 +85,12 @@ public class Region {
         this._idPais = _idPais;
     }
     /**
+     * @param _region the _region to set
+     */
+    public void setRegion(String _region) {
+        this._region = _region;
+    }
+    /**
      * @param _fechaModificacion the _fechaModificacion to set
      */
     public void setFechaModificacion(String _fechaModificacion) {
@@ -100,9 +100,9 @@ public class Region {
     public static Region fromRS(ResultSet p_rs) throws SQLException {
         Region ret = new Region();
 
-        ret.setRegion(p_rs.getString("region"));
         ret.setId(p_rs.getLong("id"));
         ret.setIdPais(p_rs.getLong("id_pais"));
+        ret.setRegion(p_rs.getString("region"));
         ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
 
         return ret;
@@ -196,7 +196,7 @@ public class Region {
                     array_clauses.add("re.id_pais = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("re.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
+                    array_clauses.add("re.fecha_modificacion > datetime('" + p.getValue() + "')");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -346,7 +346,7 @@ public class Region {
             "    UPDATE region" +
             "    SET" +
             "    region = " + (_region != null ? "'" + _region + "'" : "null") + "," +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    WHERE" +
             "    id_region = " + Long.toString(this._id);
 
@@ -403,16 +403,16 @@ public class Region {
         String str_sql =
             "    INSERT INTO region" +
             "    (" +
-            "    region, " +
             "    id_region, " +
             "    id_pais, " +
+            "    region, " +
             "    fecha_modificacion)" +
             "    VALUES" +
             "    (" +
-            "    " + (_region != null ? "'" + _region + "'" : "null") + "," +
             "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
             "    " + (_idPais != null ? "'" + _idPais + "'" : "null") + "," +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") +
+            "    " + (_region != null ? "'" + _region + "'" : "null") + "," +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    )";
         
         try {
@@ -525,8 +525,8 @@ public class Region {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
-                _region = obj.getRegion();
                 _idPais = obj.getIdPais();
+                _region = obj.getRegion();
                 _fechaModificacion = obj.getFechaModificacion();
             }
         }
@@ -638,9 +638,9 @@ public class Region {
 @Override
     public String toString() {
         return "Region [" +
-	           "    _region = " + (_region != null ? "'" + _region + "'" : "null") + "," +
 	           "    _id = " + (_id != null ? _id : "null") + "," +
 	           "    _idPais = " + (_idPais != null ? _idPais : "null") + "," +
+	           "    _region = " + (_region != null ? "'" + _region + "'" : "null") + "," +
 	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") +
 			   "]";
     }
@@ -652,9 +652,9 @@ public class Region {
 
         Element element = (Element) xmlNode;
 
-        ret.setRegion(element.getElementsByTagName("region").item(0).getTextContent());
         ret.setId(Long.decode(element.getElementsByTagName("id_region").item(0).getTextContent()));
         ret.setIdPais(Long.decode(element.getElementsByTagName("id_pais").item(0).getTextContent()));
+        ret.setRegion(element.getElementsByTagName("region").item(0).getTextContent());
         ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
 
         return ret;

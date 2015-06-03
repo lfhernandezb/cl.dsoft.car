@@ -24,37 +24,25 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class Traccion {
-    @Element(name = "fechaModificacion")
-    private String _fechaModificacion;
-    @Element(name = "descripcion")
-    private String _descripcion;
     @Element(name = "id")
     private Byte _id;
+    @Element(name = "descripcion")
+    private String _descripcion;
+    @Element(name = "fechaModificacion")
+    private String _fechaModificacion;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    strftime('%Y-%m-%d %H:%M:%S', tr.fecha_modificacion, 'localtime') AS fecha_modificacion," +
+        "    tr.id_traccion AS id," +
         "    tr.descripcion AS descripcion," +
-        "    tr.id_traccion AS id" +
+        "    strftime('%Y-%m-%d %H:%M:%S', tr.fecha_modificacion) AS fecha_modificacion" +
         "    FROM traccion tr";
 
     public Traccion() {
-        _fechaModificacion = null;
-        _descripcion = null;
         _id = null;
+        _descripcion = null;
+        _fechaModificacion = null;
 
-    }
-    /**
-     * @return the _fechaModificacion
-     */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
-    }
-    /**
-     * @return the _descripcion
-     */
-    public String getDescripcion() {
-        return _descripcion;
     }
     /**
      * @return the _id
@@ -63,10 +51,22 @@ public class Traccion {
         return _id;
     }
     /**
-     * @param _fechaModificacion the _fechaModificacion to set
+     * @return the _descripcion
      */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
+    public String getDescripcion() {
+        return _descripcion;
+    }
+    /**
+     * @return the _fechaModificacion
+     */
+    public String getFechaModificacion() {
+        return _fechaModificacion;
+    }
+    /**
+     * @param _id the _id to set
+     */
+    public void setId(Byte _id) {
+        this._id = _id;
     }
     /**
      * @param _descripcion the _descripcion to set
@@ -75,18 +75,18 @@ public class Traccion {
         this._descripcion = _descripcion;
     }
     /**
-     * @param _id the _id to set
+     * @param _fechaModificacion the _fechaModificacion to set
      */
-    public void setId(Byte _id) {
-        this._id = _id;
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
     }
 
     public static Traccion fromRS(ResultSet p_rs) throws SQLException {
         Traccion ret = new Traccion();
 
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setDescripcion(p_rs.getString("descripcion"));
         ret.setId(p_rs.getByte("id"));
+        ret.setDescripcion(p_rs.getString("descripcion"));
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
 
         return ret;
     }
@@ -176,7 +176,7 @@ public class Traccion {
                     array_clauses.add("tr.id_traccion = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("tr.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
+                    array_clauses.add("tr.fecha_modificacion > datetime('" + p.getValue() + "')");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -325,8 +325,8 @@ public class Traccion {
         String str_sql =
             "    UPDATE traccion" +
             "    SET" +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") +
+            "    descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    WHERE" +
             "    id_traccion = " + Byte.toString(this._id);
 
@@ -383,14 +383,14 @@ public class Traccion {
         String str_sql =
             "    INSERT INTO traccion" +
             "    (" +
-            "    fecha_modificacion, " +
+            "    id_traccion, " +
             "    descripcion, " +
-            "    id_traccion)" +
+            "    fecha_modificacion)" +
             "    VALUES" +
             "    (" +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
+            "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
             "    " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
-            "    " + (_id != null ? "'" + _id + "'" : "null") +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    )";
         
         try {
@@ -503,8 +503,8 @@ public class Traccion {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
-                _fechaModificacion = obj.getFechaModificacion();
                 _descripcion = obj.getDescripcion();
+                _fechaModificacion = obj.getFechaModificacion();
             }
         }
         catch (SQLException ex){
@@ -615,9 +615,9 @@ public class Traccion {
 @Override
     public String toString() {
         return "Traccion [" +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
+	           "    _id = " + (_id != null ? _id : "null") + "," +
 	           "    _descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
-	           "    _id = " + (_id != null ? _id : "null") +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") +
 			   "]";
     }
 
@@ -628,9 +628,9 @@ public class Traccion {
 
         Element element = (Element) xmlNode;
 
-        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setDescripcion(element.getElementsByTagName("descripcion").item(0).getTextContent());
         ret.setId(Byte.decode(element.getElementsByTagName("id_traccion").item(0).getTextContent()));
+        ret.setDescripcion(element.getElementsByTagName("descripcion").item(0).getTextContent());
+        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
 
         return ret;
     }

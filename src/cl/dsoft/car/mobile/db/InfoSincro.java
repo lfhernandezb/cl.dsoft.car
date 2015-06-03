@@ -7,15 +7,16 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+
+import cl.dsoft.car.misc.UnsupportedParameterException;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
-
-import cl.dsoft.car.misc.UnsupportedParameterException;
 
 /**
  * @author Luis Hernandez
@@ -25,42 +26,41 @@ import cl.dsoft.car.misc.UnsupportedParameterException;
 public class InfoSincro {
     @Element(name = "id")
     private Integer _id;
-    @Element(name = "fecha")
-    private String _fecha;
-    @Element(name = "sentido")
-    private Byte _sentido;
     @Element(name = "usuarioIdUsuario")
     private Long _usuarioIdUsuario;
-    
+    @Element(name = "sentido")
+    private Byte _sentido;
+    @Element(name = "fecha")
+    private String _fecha;
+
     public enum tipoSincro {
     	SERVER_TO_PHONE((byte) 2),
     	PHONE_TO_SERVER((byte) 1);
 
     	private byte code;
-    	    	 
+
     	private tipoSincro(byte c) {
     		code = c;
     	}
-    	     
+
     	public byte getCode() {
     		return code;
     	}
     }
 
-
     private final static String _str_sql = 
         "    SELECT" +
-        "    strftime('%Y-%m-%d %H:%M:%S', isc.fecha, 'localtime') AS fecha," +
-        "    isc.sentido AS sentido," +
+        "    isc.id_info_sincro AS id," +
         "    isc.usuario_id_usuario AS usuario_id_usuario," +
-        "    isc.id_info_sincro AS id" +
+        "    isc.sentido AS sentido," +
+        "    strftime('%Y-%m-%d %H:%M:%S', isc.fecha) AS fecha" +
         "    FROM info_sincro isc";
 
     public InfoSincro() {
         _id = null;
-        _fecha = null;
-        _sentido = null;
         _usuarioIdUsuario = null;
+        _sentido = null;
+        _fecha = null;
 
     }
     /**
@@ -70,10 +70,10 @@ public class InfoSincro {
         return _id;
     }
     /**
-     * @return the _fecha
+     * @return the _usuarioIdUsuario
      */
-    public String getFecha() {
-        return _fecha;
+    public Long getUsuarioIdUsuario() {
+        return _usuarioIdUsuario;
     }
     /**
      * @return the _sentido
@@ -82,10 +82,30 @@ public class InfoSincro {
         return _sentido;
     }
     /**
-     * @return the _usuarioIdUsuario
+     * @return the _fecha
      */
-    public Long getUsuarioIdUsuario() {
-        return _usuarioIdUsuario;
+    public String getFecha() {
+        return _fecha;
+    }
+    /**
+     * @param _fecha the _fecha to set as seconds from January 1, 1970, 00:00:00 GMT
+     */
+    public void setFecha(long _timeStamp) {
+    	Date d;
+    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    	d = new Date((long)_timeStamp*1000);
+
+    	this._fecha = formatter.format(d);
+    }
+    /**
+     * @param _fecha the _fecha to set as Date
+     */
+    public void setFecha(Date _fecha) {
+
+    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    	this._fecha = formatter.format(_fecha);
     }
     /**
      * @param _id the _id to set
@@ -94,31 +114,11 @@ public class InfoSincro {
         this._id = _id;
     }
     /**
-     * @param _fecha the _fecha to set
+     * @param _usuarioIdUsuario the _usuarioIdUsuario to set
      */
-    public void setFecha(String _fecha) {
-        this._fecha = _fecha;
+    public void setUsuarioIdUsuario(Long _usuarioIdUsuario) {
+        this._usuarioIdUsuario = _usuarioIdUsuario;
     }
-    /**
-    * @param _fecha the _fecha to set as seconds from January 1, 1970, 00:00:00 GMT
-    */
-   public void setFecha(long _timeStamp) {
-       Date d;
-       SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-       d = new Date((long)_timeStamp*1000);
-
-       this._fecha = formatter.format(d);
-   }
-   /**
-   * @param _fecha the _fecha to set as Date
-   */
-  public void setFecha(Date _fecha) {
-      
-      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-      this._fecha = formatter.format(_fecha);
-  }
     /**
      * @param _sentido the _sentido to set
      */
@@ -126,19 +126,19 @@ public class InfoSincro {
         this._sentido = _sentido;
     }
     /**
-     * @param _usuarioIdUsuario the _usuarioIdUsuario to set
+     * @param _fecha the _fecha to set
      */
-    public void setUsuarioIdUsuario(Long _usuarioIdUsuario) {
-        this._usuarioIdUsuario = _usuarioIdUsuario;
+    public void setFecha(String _fecha) {
+        this._fecha = _fecha;
     }
 
     public static InfoSincro fromRS(ResultSet p_rs) throws SQLException {
         InfoSincro ret = new InfoSincro();
 
         ret.setId(p_rs.getInt("id"));
-        ret.setFecha(p_rs.getString("fecha"));
-        ret.setSentido(p_rs.getByte("sentido"));
         ret.setUsuarioIdUsuario(p_rs.getLong("usuario_id_usuario"));
+        ret.setSentido(p_rs.getByte("sentido"));
+        ret.setFecha(p_rs.getString("fecha"));
 
         return ret;
     }
@@ -380,8 +380,9 @@ public class InfoSincro {
         String str_sql =
             "    UPDATE info_sincro" +
             "    SET" +
-            "    fecha = " + (_fecha != null ? "datetime('" + _fecha + "', 'localtime')" : "null") + "," +
-            "    sentido = " + (_sentido != null ? "'" + _sentido + "'" : "null") +
+            "    usuario_id_usuario = " + (_usuarioIdUsuario != null ? "'" + _usuarioIdUsuario + "'" : "null") + "," +
+            "    sentido = " + (_sentido != null ? "'" + _sentido + "'" : "null") + "," +
+            "    fecha = " + (_fecha != null ? "datetime('" + _fecha + "')" : "null") +
             "    WHERE" +
             "    id_info_sincro = " + Integer.toString(this._id);
 
@@ -439,15 +440,15 @@ public class InfoSincro {
             "    INSERT INTO info_sincro" +
             "    (" +
             "    id_info_sincro, " +
-            "    fecha, " +
+            "    usuario_id_usuario, " +
             "    sentido, " +
-            "    usuario_id_usuario)" +
+            "    fecha)" +
             "    VALUES" +
             "    (" +
             "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
-            "    " + (_fecha != null ? "datetime('" + _fecha + "', 'localtime')" : "null") + "," +
+            "    " + (_usuarioIdUsuario != null ? "'" + _usuarioIdUsuario + "'" : "null") + "," +
             "    " + (_sentido != null ? "'" + _sentido + "'" : "null") + "," +
-            "    " + (_usuarioIdUsuario != null ? "'" + _usuarioIdUsuario + "'" : "null") +
+            "    " + (_fecha != null ? "datetime('" + _fecha + "')" : "null") +
             "    )";
         
         try {
@@ -560,9 +561,9 @@ public class InfoSincro {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
-                _fecha = obj.getFecha();
-                _sentido = obj.getSentido();
                 _usuarioIdUsuario = obj.getUsuarioIdUsuario();
+                _sentido = obj.getSentido();
+                _fecha = obj.getFecha();
             }
         }
         catch (SQLException ex){
@@ -674,9 +675,9 @@ public class InfoSincro {
     public String toString() {
         return "InfoSincro [" +
 	           "    _id = " + (_id != null ? _id : "null") + "," +
-	           "    _fecha = " + (_fecha != null ? "'" + _fecha + "'" : "null") + "," +
+	           "    _usuarioIdUsuario = " + (_usuarioIdUsuario != null ? _usuarioIdUsuario : "null") + "," +
 	           "    _sentido = " + (_sentido != null ? _sentido : "null") + "," +
-	           "    _usuarioIdUsuario = " + (_usuarioIdUsuario != null ? _usuarioIdUsuario : "null") +
+	           "    _fecha = " + (_fecha != null ? "'" + _fecha + "'" : "null") +
 			   "]";
     }
 
@@ -688,9 +689,9 @@ public class InfoSincro {
         Element element = (Element) xmlNode;
 
         ret.setId(Integer.decode(element.getElementsByTagName("id_info_sincro").item(0).getTextContent()));
-        ret.setFecha(element.getElementsByTagName("fecha").item(0).getTextContent());
-        ret.setSentido(Byte.decode(element.getElementsByTagName("sentido").item(0).getTextContent()));
         ret.setUsuarioIdUsuario(Long.decode(element.getElementsByTagName("usuario_id_usuario").item(0).getTextContent()));
+        ret.setSentido(Byte.decode(element.getElementsByTagName("sentido").item(0).getTextContent()));
+        ret.setFecha(element.getElementsByTagName("fecha").item(0).getTextContent());
 
         return ret;
     }

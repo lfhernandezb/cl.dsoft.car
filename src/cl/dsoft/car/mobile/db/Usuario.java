@@ -24,71 +24,53 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class Usuario {
-    @Element(name = "nombre", required = false)
-    private String _nombre;
-    @Element(name = "fechaModificacion")
-    private String _fechaModificacion;
-    @Element(name = "fechaVencimientoLicencia", required = false)
-    private String _fechaVencimientoLicencia;
     @Element(name = "id")
     private Long _id;
-    @Element(name = "hombre", required = false)
-    private Boolean _hombre;
     @Element(name = "idComuna")
     private Long _idComuna;
-    @Element(name = "borrado")
-    private Boolean _borrado;
-    @Element(name = "telefono", required = false)
-    private String _telefono;
+    @Element(name = "nombre", required = false)
+    private String _nombre;
     @Element(name = "correo", required = false)
     private String _correo;
     @Element(name = "fechaNacimiento", required = false)
     private String _fechaNacimiento;
+    @Element(name = "hombre", required = false)
+    private Boolean _hombre;
+    @Element(name = "telefono", required = false)
+    private String _telefono;
+    @Element(name = "fechaVencimientoLicencia", required = false)
+    private String _fechaVencimientoLicencia;
+    @Element(name = "fechaModificacion")
+    private String _fechaModificacion;
+    @Element(name = "borrado")
+    private Boolean _borrado;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    us.nombre AS nombre," +
-        "    strftime('%Y-%m-%d %H:%M:%S', us.fecha_modificacion, 'localtime') AS fecha_modificacion," +
-        "    strftime('%Y-%m-%d', us.fecha_vencimiento_licencia, 'utc') AS fecha_vencimiento_licencia," +
         "    us.id_usuario AS id," +
-        "    us.hombre AS hombre," +
         "    us.id_comuna AS id_comuna," +
-        "    us.borrado AS borrado," +
-        "    us.telefono AS telefono," +
+        "    us.nombre AS nombre," +
         "    us.correo AS correo," +
-        "    strftime('%Y-%m-%d', us.fecha_nacimiento, 'utc') AS fecha_nacimiento" +
+        "    strftime('%Y-%m-%d', us.fecha_nacimiento) AS fecha_nacimiento," +
+        "    us.hombre AS hombre," +
+        "    us.telefono AS telefono," +
+        "    strftime('%Y-%m-%d', us.fecha_vencimiento_licencia) AS fecha_vencimiento_licencia," +
+        "    strftime('%Y-%m-%d %H:%M:%S', us.fecha_modificacion) AS fecha_modificacion," +
+        "    us.borrado AS borrado" +
         "    FROM usuario us";
 
     public Usuario() {
-        _nombre = null;
-        _fechaModificacion = null;
-        _fechaVencimientoLicencia = null;
         _id = null;
-        _hombre = null;
         _idComuna = null;
-        _borrado = null;
-        _telefono = null;
+        _nombre = null;
         _correo = null;
         _fechaNacimiento = null;
+        _hombre = null;
+        _telefono = null;
+        _fechaVencimientoLicencia = null;
+        _fechaModificacion = null;
+        _borrado = null;
 
-    }
-    /**
-     * @return the _nombre
-     */
-    public String getNombre() {
-        return _nombre;
-    }
-    /**
-     * @return the _fechaModificacion
-     */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
-    }
-    /**
-     * @return the _fechaVencimientoLicencia
-     */
-    public String getFechaVencimientoLicencia() {
-        return _fechaVencimientoLicencia;
     }
     /**
      * @return the _id
@@ -97,28 +79,16 @@ public class Usuario {
         return _id;
     }
     /**
-     * @return the _hombre
-     */
-    public Boolean getHombre() {
-        return _hombre;
-    }
-    /**
      * @return the _idComuna
      */
     public Long getIdComuna() {
         return _idComuna;
     }
     /**
-     * @return the _borrado
+     * @return the _nombre
      */
-    public Boolean getBorrado() {
-        return _borrado;
-    }
-    /**
-     * @return the _telefono
-     */
-    public String getTelefono() {
-        return _telefono;
+    public String getNombre() {
+        return _nombre;
     }
     /**
      * @return the _correo
@@ -133,15 +103,34 @@ public class Usuario {
         return _fechaNacimiento;
     }
     /**
-     * @return the _fechaVencimientoLicencia as seconds from January 1, 1970, 00:00:00 GMT
+     * @return the _hombre
      */
-    public long getFechaVencimientoLicenciaAsLong() throws ParseException {
-        Date d;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        d = formatter.parse(_fechaVencimientoLicencia);
-
-        return (long)d.getTime() / 1000L;
+    public Boolean getHombre() {
+        return _hombre;
+    }
+    /**
+     * @return the _telefono
+     */
+    public String getTelefono() {
+        return _telefono;
+    }
+    /**
+     * @return the _fechaVencimientoLicencia
+     */
+    public String getFechaVencimientoLicencia() {
+        return _fechaVencimientoLicencia;
+    }
+    /**
+     * @return the _fechaModificacion
+     */
+    public String getFechaModificacion() {
+        return _fechaModificacion;
+    }
+    /**
+     * @return the _borrado
+     */
+    public Boolean getBorrado() {
+        return _borrado;
     }
     /**
      * @return the _fechaNacimiento as seconds from January 1, 1970, 00:00:00 GMT
@@ -155,15 +144,15 @@ public class Usuario {
         return (long)d.getTime() / 1000L;
     }
     /**
-     * @return the _fechaVencimientoLicencia as Date
+     * @return the _fechaVencimientoLicencia as seconds from January 1, 1970, 00:00:00 GMT
      */
-    public Date getFechaVencimientoLicenciaAsDate() throws ParseException {
+    public long getFechaVencimientoLicenciaAsLong() throws ParseException {
         Date d;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         d = formatter.parse(_fechaVencimientoLicencia);
 
-        return d;
+        return (long)d.getTime() / 1000L;
     }
     /**
      * @return the _fechaNacimiento as Date
@@ -177,22 +166,15 @@ public class Usuario {
         return d;
     }
     /**
-     * @param _nombre the _nombre to set
+     * @return the _fechaVencimientoLicencia as Date
      */
-    public void setNombre(String _nombre) {
-        this._nombre = _nombre;
-    }
-    /**
-     * @param _fechaModificacion the _fechaModificacion to set
-     */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
-    }
-    /**
-     * @param _fechaVencimientoLicencia the _fechaVencimientoLicencia to set
-     */
-    public void setFechaVencimientoLicencia(String _fechaVencimientoLicencia) {
-        this._fechaVencimientoLicencia = _fechaVencimientoLicencia;
+    public Date getFechaVencimientoLicenciaAsDate() throws ParseException {
+        Date d;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        d = formatter.parse(_fechaVencimientoLicencia);
+
+        return d;
     }
     /**
      * @param _id the _id to set
@@ -201,28 +183,16 @@ public class Usuario {
         this._id = _id;
     }
     /**
-     * @param _hombre the _hombre to set
-     */
-    public void setHombre(Boolean _hombre) {
-        this._hombre = _hombre;
-    }
-    /**
      * @param _idComuna the _idComuna to set
      */
     public void setIdComuna(Long _idComuna) {
         this._idComuna = _idComuna;
     }
     /**
-     * @param _borrado the _borrado to set
+     * @param _nombre the _nombre to set
      */
-    public void setBorrado(Boolean _borrado) {
-        this._borrado = _borrado;
-    }
-    /**
-     * @param _telefono the _telefono to set
-     */
-    public void setTelefono(String _telefono) {
-        this._telefono = _telefono;
+    public void setNombre(String _nombre) {
+        this._nombre = _nombre;
     }
     /**
      * @param _correo the _correo to set
@@ -237,16 +207,34 @@ public class Usuario {
         this._fechaNacimiento = _fechaNacimiento;
     }
     /**
-     * @param _fechaVencimientoLicencia the _fechaVencimientoLicencia to set as seconds from January 1, 1970, 00:00:00 GMT
+     * @param _hombre the _hombre to set
      */
-    public void setFechaVencimientoLicencia(long _timestamp) {
-        Date d;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        d = new Date((long)_timestamp*1000);
-
-        this._fechaVencimientoLicencia = formatter.format(d);
-;
+    public void setHombre(Boolean _hombre) {
+        this._hombre = _hombre;
+    }
+    /**
+     * @param _telefono the _telefono to set
+     */
+    public void setTelefono(String _telefono) {
+        this._telefono = _telefono;
+    }
+    /**
+     * @param _fechaVencimientoLicencia the _fechaVencimientoLicencia to set
+     */
+    public void setFechaVencimientoLicencia(String _fechaVencimientoLicencia) {
+        this._fechaVencimientoLicencia = _fechaVencimientoLicencia;
+    }
+    /**
+     * @param _fechaModificacion the _fechaModificacion to set
+     */
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
+    }
+    /**
+     * @param _borrado the _borrado to set
+     */
+    public void setBorrado(Boolean _borrado) {
+        this._borrado = _borrado;
     }
     /**
      * @param _fechaNacimiento the _fechaNacimiento to set as seconds from January 1, 1970, 00:00:00 GMT
@@ -261,13 +249,15 @@ public class Usuario {
 ;
     }
     /**
-     * @param _fechaVencimientoLicencia the _fechaVencimientoLicencia to set as java.util.Date
+     * @param _fechaVencimientoLicencia the _fechaVencimientoLicencia to set as seconds from January 1, 1970, 00:00:00 GMT
      */
-    public void setFechaVencimientoLicencia(Date _fecha) {
-
+    public void setFechaVencimientoLicencia(long _timestamp) {
+        Date d;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-        this._fechaVencimientoLicencia = formatter.format(_fecha);
+        d = new Date((long)_timestamp*1000);
+
+        this._fechaVencimientoLicencia = formatter.format(d);
 ;
     }
     /**
@@ -280,20 +270,30 @@ public class Usuario {
         this._fechaNacimiento = formatter.format(_fecha);
 ;
     }
+    /**
+     * @param _fechaVencimientoLicencia the _fechaVencimientoLicencia to set as java.util.Date
+     */
+    public void setFechaVencimientoLicencia(Date _fecha) {
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        this._fechaVencimientoLicencia = formatter.format(_fecha);
+;
+    }
 
     public static Usuario fromRS(ResultSet p_rs) throws SQLException {
         Usuario ret = new Usuario();
 
-        ret.setNombre(p_rs.getString("nombre"));
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setFechaVencimientoLicencia(p_rs.getString("fecha_vencimiento_licencia"));
         ret.setId(p_rs.getLong("id"));
-        ret.setHombre(p_rs.getString("hombre") != null ? p_rs.getString("hombre").equals("true") : null);
         ret.setIdComuna(p_rs.getLong("id_comuna"));
-        ret.setBorrado(p_rs.getString("borrado") != null ? p_rs.getString("borrado").equals("true") : null);
-        ret.setTelefono(p_rs.getString("telefono"));
+        ret.setNombre(p_rs.getString("nombre"));
         ret.setCorreo(p_rs.getString("correo"));
         ret.setFechaNacimiento(p_rs.getString("fecha_nacimiento"));
+        ret.setHombre(p_rs.getString("hombre") != null ? p_rs.getString("hombre").equals("true") : null);
+        ret.setTelefono(p_rs.getString("telefono"));
+        ret.setFechaVencimientoLicencia(p_rs.getString("fecha_vencimiento_licencia"));
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
+        ret.setBorrado(p_rs.getString("borrado") != null ? p_rs.getString("borrado").equals("true") : null);
 
         return ret;
     }
@@ -394,7 +394,7 @@ public class Usuario {
                     array_clauses.add("a.token = '" + p.getValue() + "'");
                 }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("us.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
+                    array_clauses.add("us.fecha_modificacion > datetime('" + p.getValue() + "')");
                 }
                 else if (p.getKey().equals("no borrado")) {
                     array_clauses.add("us.borrado = 'false'");
@@ -550,13 +550,13 @@ public class Usuario {
             "    UPDATE usuario" +
             "    SET" +
             "    nombre = " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    fecha_vencimiento_licencia = " + (_fechaVencimientoLicencia != null ? "date('" + _fechaVencimientoLicencia + "', 'utc')" : "null") + "," +
-            "    hombre = " + (_hombre != null ? "'" + _hombre + "'" : "null") + "," +
-            "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
-            "    telefono = " + (_telefono != null ? "'" + _telefono + "'" : "null") + "," +
             "    correo = " + (_correo != null ? "'" + _correo + "'" : "null") + "," +
-            "    fecha_nacimiento = " + (_fechaNacimiento != null ? "date('" + _fechaNacimiento + "', 'utc')" : "null") +
+            "    fecha_nacimiento = " + (_fechaNacimiento != null ? "date('" + _fechaNacimiento + "')" : "null") + "," +
+            "    hombre = " + (_hombre != null ? "'" + _hombre + "'" : "null") + "," +
+            "    telefono = " + (_telefono != null ? "'" + _telefono + "'" : "null") + "," +
+            "    fecha_vencimiento_licencia = " + (_fechaVencimientoLicencia != null ? "date('" + _fechaVencimientoLicencia + "')" : "null") + "," +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") + "," +
+            "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'false'") +
             "    WHERE" +
             "    id_usuario = " + Long.toString(this._id);
 
@@ -613,28 +613,28 @@ public class Usuario {
         String str_sql =
             "    INSERT INTO usuario" +
             "    (" +
-            "    nombre, " +
-            "    fecha_modificacion, " +
-            "    fecha_vencimiento_licencia, " +
             "    id_usuario, " +
-            "    hombre, " +
             "    id_comuna, " +
-            "    borrado, " +
-            "    telefono, " +
+            "    nombre, " +
             "    correo, " +
-            "    fecha_nacimiento)" +
+            "    fecha_nacimiento, " +
+            "    hombre, " +
+            "    telefono, " +
+            "    fecha_vencimiento_licencia, " +
+            "    fecha_modificacion, " +
+            "    borrado)" +
             "    VALUES" +
             "    (" +
-            "    " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    " + (_fechaVencimientoLicencia != null ? "date('" + _fechaVencimientoLicencia + "', 'utc')" : "null") + "," +
             "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
-            "    " + (_hombre != null ? "'" + _hombre + "'" : "null") + "," +
             "    " + (_idComuna != null ? "'" + _idComuna + "'" : "null") + "," +
-            "    " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
-            "    " + (_telefono != null ? "'" + _telefono + "'" : "null") + "," +
+            "    " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
             "    " + (_correo != null ? "'" + _correo + "'" : "null") + "," +
-            "    " + (_fechaNacimiento != null ? "date('" + _fechaNacimiento + "', 'utc')" : "null") +
+            "    " + (_fechaNacimiento != null ? "date('" + _fechaNacimiento + "')" : "null") + "," +
+            "    " + (_hombre != null ? "'" + _hombre + "'" : "null") + "," +
+            "    " + (_telefono != null ? "'" + _telefono + "'" : "null") + "," +
+            "    " + (_fechaVencimientoLicencia != null ? "date('" + _fechaVencimientoLicencia + "')" : "null") + "," +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") + "," +
+            "    " + (_borrado != null ? "'" + _borrado + "'" : "'false'") +
             "    )";
         
         try {
@@ -747,15 +747,15 @@ public class Usuario {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
-                _nombre = obj.getNombre();
-                _fechaModificacion = obj.getFechaModificacion();
-                _fechaVencimientoLicencia = obj.getFechaVencimientoLicencia();
-                _hombre = obj.getHombre();
                 _idComuna = obj.getIdComuna();
-                _borrado = obj.getBorrado();
-                _telefono = obj.getTelefono();
+                _nombre = obj.getNombre();
                 _correo = obj.getCorreo();
                 _fechaNacimiento = obj.getFechaNacimiento();
+                _hombre = obj.getHombre();
+                _telefono = obj.getTelefono();
+                _fechaVencimientoLicencia = obj.getFechaVencimientoLicencia();
+                _fechaModificacion = obj.getFechaModificacion();
+                _borrado = obj.getBorrado();
             }
         }
         catch (SQLException ex){
@@ -866,16 +866,16 @@ public class Usuario {
 @Override
     public String toString() {
         return "Usuario [" +
-	           "    _nombre = " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
-	           "    _fechaVencimientoLicencia = " + (_fechaVencimientoLicencia != null ? "'" + _fechaVencimientoLicencia + "'" : "null") + "," +
 	           "    _id = " + (_id != null ? _id : "null") + "," +
-	           "    _hombre = " + (_hombre != null ? _hombre : "null") + "," +
 	           "    _idComuna = " + (_idComuna != null ? _idComuna : "null") + "," +
-	           "    _borrado = " + (_borrado != null ? _borrado : "null") + "," +
-	           "    _telefono = " + (_telefono != null ? "'" + _telefono + "'" : "null") + "," +
+	           "    _nombre = " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
 	           "    _correo = " + (_correo != null ? "'" + _correo + "'" : "null") + "," +
-	           "    _fechaNacimiento = " + (_fechaNacimiento != null ? "'" + _fechaNacimiento + "'" : "null") +
+	           "    _fechaNacimiento = " + (_fechaNacimiento != null ? "'" + _fechaNacimiento + "'" : "null") + "," +
+	           "    _hombre = " + (_hombre != null ? _hombre : "null") + "," +
+	           "    _telefono = " + (_telefono != null ? "'" + _telefono + "'" : "null") + "," +
+	           "    _fechaVencimientoLicencia = " + (_fechaVencimientoLicencia != null ? "'" + _fechaVencimientoLicencia + "'" : "null") + "," +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
+	           "    _borrado = " + (_borrado != null ? _borrado : "null") +
 			   "]";
     }
 
@@ -886,16 +886,16 @@ public class Usuario {
 
         Element element = (Element) xmlNode;
 
-        ret.setNombre(element.getElementsByTagName("nombre").item(0).getTextContent());
-        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setFechaVencimientoLicencia(element.getElementsByTagName("fecha_vencimiento_licencia").item(0).getTextContent());
         ret.setId(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
-        ret.setHombre(element.getElementsByTagName("hombre").item(0).getTextContent());
         ret.setIdComuna(Long.decode(element.getElementsByTagName("id_comuna").item(0).getTextContent()));
-        ret.setBorrado(element.getElementsByTagName("borrado").item(0).getTextContent());
-        ret.setTelefono(element.getElementsByTagName("telefono").item(0).getTextContent());
+        ret.setNombre(element.getElementsByTagName("nombre").item(0).getTextContent());
         ret.setCorreo(element.getElementsByTagName("correo").item(0).getTextContent());
         ret.setFechaNacimiento(element.getElementsByTagName("fecha_nacimiento").item(0).getTextContent());
+        ret.setHombre(element.getElementsByTagName("hombre").item(0).getTextContent());
+        ret.setTelefono(element.getElementsByTagName("telefono").item(0).getTextContent());
+        ret.setFechaVencimientoLicencia(element.getElementsByTagName("fecha_vencimiento_licencia").item(0).getTextContent());
+        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
+        ret.setBorrado(element.getElementsByTagName("borrado").item(0).getTextContent());
 
         return ret;
     }

@@ -24,35 +24,29 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class CiaSeguros {
-    @Element(name = "nombre")
-    private String _nombre;
     @Element(name = "id")
     private Integer _id;
-    @Element(name = "fechaModificacion")
-    private String _fechaModificacion;
+    @Element(name = "nombre")
+    private String _nombre;
     @Element(name = "datosAnexos", required = false)
     private String _datosAnexos;
+    @Element(name = "fechaModificacion")
+    private String _fechaModificacion;
 
     private final static String _str_sql = 
         "    SELECT" +
         "    ci.id_cia_seguros AS id," +
-        "    ci.datos_anexos AS datos_anexos," +
         "    ci.nombre AS nombre," +
-        "    strftime('%Y-%m-%d %H:%M:%S', ci.fecha_modificacion, 'localtime') AS fecha_modificacion" +
+        "    ci.datos_anexos AS datos_anexos," +
+        "    strftime('%Y-%m-%d %H:%M:%S', ci.fecha_modificacion) AS fecha_modificacion" +
         "    FROM cia_seguros ci";
 
     public CiaSeguros() {
-        _nombre = null;
         _id = null;
-        _fechaModificacion = null;
+        _nombre = null;
         _datosAnexos = null;
+        _fechaModificacion = null;
 
-    }
-    /**
-     * @return the _nombre
-     */
-    public String getNombre() {
-        return _nombre;
     }
     /**
      * @return the _id
@@ -61,10 +55,10 @@ public class CiaSeguros {
         return _id;
     }
     /**
-     * @return the _fechaModificacion
+     * @return the _nombre
      */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
+    public String getNombre() {
+        return _nombre;
     }
     /**
      * @return the _datosAnexos
@@ -73,10 +67,10 @@ public class CiaSeguros {
         return _datosAnexos;
     }
     /**
-     * @param _nombre the _nombre to set
+     * @return the _fechaModificacion
      */
-    public void setNombre(String _nombre) {
-        this._nombre = _nombre;
+    public String getFechaModificacion() {
+        return _fechaModificacion;
     }
     /**
      * @param _id the _id to set
@@ -85,10 +79,10 @@ public class CiaSeguros {
         this._id = _id;
     }
     /**
-     * @param _fechaModificacion the _fechaModificacion to set
+     * @param _nombre the _nombre to set
      */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
+    public void setNombre(String _nombre) {
+        this._nombre = _nombre;
     }
     /**
      * @param _datosAnexos the _datosAnexos to set
@@ -96,14 +90,20 @@ public class CiaSeguros {
     public void setDatosAnexos(String _datosAnexos) {
         this._datosAnexos = _datosAnexos;
     }
+    /**
+     * @param _fechaModificacion the _fechaModificacion to set
+     */
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
+    }
 
     public static CiaSeguros fromRS(ResultSet p_rs) throws SQLException {
         CiaSeguros ret = new CiaSeguros();
 
-        ret.setNombre(p_rs.getString("nombre"));
         ret.setId(p_rs.getInt("id"));
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
+        ret.setNombre(p_rs.getString("nombre"));
         ret.setDatosAnexos(p_rs.getString("datos_anexos"));
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
 
         return ret;
     }
@@ -193,7 +193,7 @@ public class CiaSeguros {
                     array_clauses.add("ci.id_cia_seguros = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("ci.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
+                    array_clauses.add("ci.fecha_modificacion > datetime('" + p.getValue() + "')");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -343,8 +343,8 @@ public class CiaSeguros {
             "    UPDATE cia_seguros" +
             "    SET" +
             "    nombre = " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "null") + "," +
-            "    datos_anexos = " + (_datosAnexos != null ? "'" + _datosAnexos + "'" : "null") +
+            "    datos_anexos = " + (_datosAnexos != null ? "'" + _datosAnexos + "'" : "null") + "," +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    WHERE" +
             "    id_cia_seguros = " + Integer.toString(this._id);
 
@@ -401,16 +401,16 @@ public class CiaSeguros {
         String str_sql =
             "    INSERT INTO cia_seguros" +
             "    (" +
-            "    nombre, " +
             "    id_cia_seguros, " +
-            "    fecha_modificacion, " +
-            "    datos_anexos)" +
+            "    nombre, " +
+            "    datos_anexos, " +
+            "    fecha_modificacion)" +
             "    VALUES" +
             "    (" +
-            "    " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
             "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "null") + "," +
-            "    " + (_datosAnexos != null ? "'" + _datosAnexos + "'" : "null") +
+            "    " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
+            "    " + (_datosAnexos != null ? "'" + _datosAnexos + "'" : "null") + "," +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    )";
         
         try {
@@ -524,8 +524,8 @@ public class CiaSeguros {
                 //System.out.println("fromRS(rs) ok");
 
                 _nombre = obj.getNombre();
-                _fechaModificacion = obj.getFechaModificacion();
                 _datosAnexos = obj.getDatosAnexos();
+                _fechaModificacion = obj.getFechaModificacion();
             }
         }
         catch (SQLException ex){
@@ -636,10 +636,10 @@ public class CiaSeguros {
 @Override
     public String toString() {
         return "CiaSeguros [" +
-	           "    _nombre = " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
 	           "    _id = " + (_id != null ? _id : "null") + "," +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
-	           "    _datosAnexos = " + (_datosAnexos != null ? "'" + _datosAnexos + "'" : "null") +
+	           "    _nombre = " + (_nombre != null ? "'" + _nombre + "'" : "null") + "," +
+	           "    _datosAnexos = " + (_datosAnexos != null ? "'" + _datosAnexos + "'" : "null") + "," +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") +
 			   "]";
     }
 
@@ -650,10 +650,10 @@ public class CiaSeguros {
 
         Element element = (Element) xmlNode;
 
-        ret.setNombre(element.getElementsByTagName("nombre").item(0).getTextContent());
         ret.setId(Integer.decode(element.getElementsByTagName("id_cia_seguros").item(0).getTextContent()));
-        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
+        ret.setNombre(element.getElementsByTagName("nombre").item(0).getTextContent());
         ret.setDatosAnexos(element.getElementsByTagName("datos_anexos").item(0).getTextContent());
+        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
 
         return ret;
     }

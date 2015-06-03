@@ -26,26 +26,26 @@ import org.simpleframework.xml.Root;
 public class Parametro {
     @Element(name = "id")
     private Long _id;
-    @Element(name = "fechaModificacion")
-    private String _fechaModificacion;
-    @Element(name = "valor")
-    private String _valor;
     @Element(name = "llave")
     private String _llave;
+    @Element(name = "valor")
+    private String _valor;
+    @Element(name = "fechaModificacion")
+    private String _fechaModificacion;
 
     private final static String _str_sql = 
         "    SELECT" +
         "    pa.id_parametro AS id," +
-        "    strftime('%Y-%m-%d %H:%M:%S', pa.fecha_modificacion, 'localtime') AS fecha_modificacion," +
+        "    pa.llave AS llave," +
         "    pa.valor AS valor," +
-        "    pa.llave AS llave" +
+        "    strftime('%Y-%m-%d %H:%M:%S', pa.fecha_modificacion) AS fecha_modificacion" +
         "    FROM parametro pa";
 
     public Parametro() {
         _id = null;
-        _fechaModificacion = null;
-        _valor = null;
         _llave = null;
+        _valor = null;
+        _fechaModificacion = null;
 
     }
     /**
@@ -55,10 +55,10 @@ public class Parametro {
         return _id;
     }
     /**
-     * @return the _fechaModificacion
+     * @return the _llave
      */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
+    public String getLlave() {
+        return _llave;
     }
     /**
      * @return the _valor
@@ -67,10 +67,10 @@ public class Parametro {
         return _valor;
     }
     /**
-     * @return the _llave
+     * @return the _fechaModificacion
      */
-    public String getLlave() {
-        return _llave;
+    public String getFechaModificacion() {
+        return _fechaModificacion;
     }
     /**
      * @param _id the _id to set
@@ -79,10 +79,10 @@ public class Parametro {
         this._id = _id;
     }
     /**
-     * @param _fechaModificacion the _fechaModificacion to set
+     * @param _llave the _llave to set
      */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
+    public void setLlave(String _llave) {
+        this._llave = _llave;
     }
     /**
      * @param _valor the _valor to set
@@ -91,19 +91,19 @@ public class Parametro {
         this._valor = _valor;
     }
     /**
-     * @param _llave the _llave to set
+     * @param _fechaModificacion the _fechaModificacion to set
      */
-    public void setLlave(String _llave) {
-        this._llave = _llave;
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
     }
 
     public static Parametro fromRS(ResultSet p_rs) throws SQLException {
         Parametro ret = new Parametro();
 
         ret.setId(p_rs.getLong("id"));
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setValor(p_rs.getString("valor"));
         ret.setLlave(p_rs.getString("llave"));
+        ret.setValor(p_rs.getString("valor"));
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
 
         return ret;
     }
@@ -345,9 +345,9 @@ public class Parametro {
         String str_sql =
             "    UPDATE parametro" +
             "    SET" +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
+            "    llave = " + (_llave != null ? "'" + _llave + "'" : "null") + "," +
             "    valor = " + (_valor != null ? "'" + _valor + "'" : "null") + "," +
-            "    llave = " + (_llave != null ? "'" + _llave + "'" : "null") +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    WHERE" +
             "    id_parametro = " + Long.toString(this._id);
 
@@ -405,15 +405,15 @@ public class Parametro {
             "    INSERT INTO parametro" +
             "    (" +
             "    id_parametro, " +
-            "    fecha_modificacion, " +
+            "    llave, " +
             "    valor, " +
-            "    llave)" +
+            "    fecha_modificacion)" +
             "    VALUES" +
             "    (" +
             "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
+            "    " + (_llave != null ? "'" + _llave + "'" : "null") + "," +
             "    " + (_valor != null ? "'" + _valor + "'" : "null") + "," +
-            "    " + (_llave != null ? "'" + _llave + "'" : "null") +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    )";
         
         try {
@@ -526,9 +526,9 @@ public class Parametro {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
-                _fechaModificacion = obj.getFechaModificacion();
-                _valor = obj.getValor();
                 _llave = obj.getLlave();
+                _valor = obj.getValor();
+                _fechaModificacion = obj.getFechaModificacion();
             }
         }
         catch (SQLException ex){
@@ -640,9 +640,9 @@ public class Parametro {
     public String toString() {
         return "Parametro [" +
 	           "    _id = " + (_id != null ? _id : "null") + "," +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
+	           "    _llave = " + (_llave != null ? "'" + _llave + "'" : "null") + "," +
 	           "    _valor = " + (_valor != null ? "'" + _valor + "'" : "null") + "," +
-	           "    _llave = " + (_llave != null ? "'" + _llave + "'" : "null") +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") +
 			   "]";
     }
 
@@ -654,9 +654,9 @@ public class Parametro {
         Element element = (Element) xmlNode;
 
         ret.setId(Long.decode(element.getElementsByTagName("id_parametro").item(0).getTextContent()));
-        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setValor(element.getElementsByTagName("valor").item(0).getTextContent());
         ret.setLlave(element.getElementsByTagName("llave").item(0).getTextContent());
+        ret.setValor(element.getElementsByTagName("valor").item(0).getTextContent());
+        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
 
         return ret;
     }

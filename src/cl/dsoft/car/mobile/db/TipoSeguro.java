@@ -24,27 +24,21 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class TipoSeguro {
-    @Element(name = "descripcion")
-    private String _descripcion;
     @Element(name = "id")
     private Integer _id;
+    @Element(name = "descripcion")
+    private String _descripcion;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    ti.descripcion AS descripcion," +
-        "    ti.id_tipo_seguro AS id" +
+        "    ti.id_tipo_seguro AS id," +
+        "    ti.descripcion AS descripcion" +
         "    FROM tipo_seguro ti";
 
     public TipoSeguro() {
-        _descripcion = null;
         _id = null;
+        _descripcion = null;
 
-    }
-    /**
-     * @return the _descripcion
-     */
-    public String getDescripcion() {
-        return _descripcion;
     }
     /**
      * @return the _id
@@ -53,10 +47,10 @@ public class TipoSeguro {
         return _id;
     }
     /**
-     * @param _descripcion the _descripcion to set
+     * @return the _descripcion
      */
-    public void setDescripcion(String _descripcion) {
-        this._descripcion = _descripcion;
+    public String getDescripcion() {
+        return _descripcion;
     }
     /**
      * @param _id the _id to set
@@ -64,12 +58,18 @@ public class TipoSeguro {
     public void setId(Integer _id) {
         this._id = _id;
     }
+    /**
+     * @param _descripcion the _descripcion to set
+     */
+    public void setDescripcion(String _descripcion) {
+        this._descripcion = _descripcion;
+    }
 
     public static TipoSeguro fromRS(ResultSet p_rs) throws SQLException {
         TipoSeguro ret = new TipoSeguro();
 
-        ret.setDescripcion(p_rs.getString("descripcion"));
         ret.setId(p_rs.getInt("id"));
+        ret.setDescripcion(p_rs.getString("descripcion"));
 
         return ret;
     }
@@ -362,12 +362,12 @@ public class TipoSeguro {
         String str_sql =
             "    INSERT INTO tipo_seguro" +
             "    (" +
-            "    descripcion, " +
-            "    id_tipo_seguro)" +
+            "    id_tipo_seguro, " +
+            "    descripcion)" +
             "    VALUES" +
             "    (" +
-            "    " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
-            "    " + (_id != null ? "'" + _id + "'" : "null") +
+            "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
+            "    " + (_descripcion != null ? "'" + _descripcion + "'" : "null") +
             "    )";
         
         try {
@@ -591,8 +591,8 @@ public class TipoSeguro {
 @Override
     public String toString() {
         return "TipoSeguro [" +
-	           "    _descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") + "," +
-	           "    _id = " + (_id != null ? _id : "null") +
+	           "    _id = " + (_id != null ? _id : "null") + "," +
+	           "    _descripcion = " + (_descripcion != null ? "'" + _descripcion + "'" : "null") +
 			   "]";
     }
 
@@ -603,8 +603,8 @@ public class TipoSeguro {
 
         Element element = (Element) xmlNode;
 
-        ret.setDescripcion(element.getElementsByTagName("descripcion").item(0).getTextContent());
         ret.setId(Integer.decode(element.getElementsByTagName("id_tipo_seguro").item(0).getTextContent()));
+        ret.setDescripcion(element.getElementsByTagName("descripcion").item(0).getTextContent());
 
         return ret;
     }

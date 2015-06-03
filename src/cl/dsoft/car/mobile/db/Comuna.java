@@ -24,29 +24,35 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class Comuna {
+    @Element(name = "id")
+    private Long _id;
     @Element(name = "idRegion")
     private Long _idRegion;
     @Element(name = "comuna")
     private String _comuna;
     @Element(name = "fechaModificacion")
     private String _fechaModificacion;
-    @Element(name = "id")
-    private Long _id;
 
     private final static String _str_sql = 
         "    SELECT" +
+        "    co.id_comuna AS id," +
         "    co.id_region AS id_region," +
         "    co.comuna AS comuna," +
-        "    strftime('%Y-%m-%d %H:%M:%S', co.fecha_modificacion, 'localtime') AS fecha_modificacion," +
-        "    co.id_comuna AS id" +
+        "    strftime('%Y-%m-%d %H:%M:%S', co.fecha_modificacion) AS fecha_modificacion" +
         "    FROM comuna co";
 
     public Comuna() {
+        _id = null;
         _idRegion = null;
         _comuna = null;
         _fechaModificacion = null;
-        _id = null;
 
+    }
+    /**
+     * @return the _id
+     */
+    public Long getId() {
+        return _id;
     }
     /**
      * @return the _idRegion
@@ -67,10 +73,10 @@ public class Comuna {
         return _fechaModificacion;
     }
     /**
-     * @return the _id
+     * @param _id the _id to set
      */
-    public Long getId() {
-        return _id;
+    public void setId(Long _id) {
+        this._id = _id;
     }
     /**
      * @param _idRegion the _idRegion to set
@@ -90,20 +96,14 @@ public class Comuna {
     public void setFechaModificacion(String _fechaModificacion) {
         this._fechaModificacion = _fechaModificacion;
     }
-    /**
-     * @param _id the _id to set
-     */
-    public void setId(Long _id) {
-        this._id = _id;
-    }
 
     public static Comuna fromRS(ResultSet p_rs) throws SQLException {
         Comuna ret = new Comuna();
 
+        ret.setId(p_rs.getLong("id"));
         ret.setIdRegion(p_rs.getLong("id_region"));
         ret.setComuna(p_rs.getString("comuna"));
         ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setId(p_rs.getLong("id"));
 
         return ret;
     }
@@ -196,7 +196,7 @@ public class Comuna {
                     array_clauses.add("co.id_region = " + p.getValue());
                 }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("co.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
+                    array_clauses.add("co.fecha_modificacion > datetime('" + p.getValue() + "')");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -346,7 +346,7 @@ public class Comuna {
             "    UPDATE comuna" +
             "    SET" +
             "    comuna = " + (_comuna != null ? "'" + _comuna + "'" : "null") + "," +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    WHERE" +
             "    id_comuna = " + Long.toString(this._id);
 
@@ -403,16 +403,16 @@ public class Comuna {
         String str_sql =
             "    INSERT INTO comuna" +
             "    (" +
+            "    id_comuna, " +
             "    id_region, " +
             "    comuna, " +
-            "    fecha_modificacion, " +
-            "    id_comuna)" +
+            "    fecha_modificacion)" +
             "    VALUES" +
             "    (" +
+            "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
             "    " + (_idRegion != null ? "'" + _idRegion + "'" : "null") + "," +
             "    " + (_comuna != null ? "'" + _comuna + "'" : "null") + "," +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    " + (_id != null ? "'" + _id + "'" : "null") +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") +
             "    )";
         
         try {
@@ -638,10 +638,10 @@ public class Comuna {
 @Override
     public String toString() {
         return "Comuna [" +
+	           "    _id = " + (_id != null ? _id : "null") + "," +
 	           "    _idRegion = " + (_idRegion != null ? _idRegion : "null") + "," +
 	           "    _comuna = " + (_comuna != null ? "'" + _comuna + "'" : "null") + "," +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
-	           "    _id = " + (_id != null ? _id : "null") +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") +
 			   "]";
     }
 
@@ -652,10 +652,10 @@ public class Comuna {
 
         Element element = (Element) xmlNode;
 
+        ret.setId(Long.decode(element.getElementsByTagName("id_comuna").item(0).getTextContent()));
         ret.setIdRegion(Long.decode(element.getElementsByTagName("id_region").item(0).getTextContent()));
         ret.setComuna(element.getElementsByTagName("comuna").item(0).getTextContent());
         ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setId(Long.decode(element.getElementsByTagName("id_comuna").item(0).getTextContent()));
 
         return ret;
     }

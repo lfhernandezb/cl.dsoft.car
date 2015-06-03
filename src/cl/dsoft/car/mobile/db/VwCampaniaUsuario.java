@@ -24,57 +24,45 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class VwCampaniaUsuario {
-    @Element(name = "detalle", required = false)
-    private String _detalle;
-    @Element(name = "numeroImpresiones", required = false)
-    private Short _numeroImpresiones;
     @Element(name = "id", required = false)
     private Long _id;
-    @Element(name = "fechaModificacion", required = false)
-    private String _fechaModificacion;
-    @Element(name = "fechaFin", required = false)
-    private String _fechaFin;
     @Element(name = "idUsuario", required = false)
     private Long _idUsuario;
-    @Element(name = "periodicidad", required = false)
-    private Short _periodicidad;
     @Element(name = "fechaInicio", required = false)
     private String _fechaInicio;
+    @Element(name = "fechaFin", required = false)
+    private String _fechaFin;
+    @Element(name = "periodicidad", required = false)
+    private Short _periodicidad;
+    @Element(name = "numeroImpresiones", required = false)
+    private Short _numeroImpresiones;
+    @Element(name = "detalle", required = false)
+    private String _detalle;
+    @Element(name = "fechaModificacion", required = false)
+    private String _fechaModificacion;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    vw.detalle AS detalle," +
-        "    vw.numero_impresiones AS numero_impresiones," +
         "    vw.id AS id," +
-        "    strftime('%Y-%m-%d %H:%M:%S', vw.fecha_modificacion, 'localtime') AS fecha_modificacion," +
-        "    strftime('%Y-%m-%d', vw.fecha_fin, 'utc') AS fecha_fin," +
         "    vw.id_usuario AS id_usuario," +
+        "    strftime('%Y-%m-%d', vw.fecha_inicio) AS fecha_inicio," +
+        "    strftime('%Y-%m-%d', vw.fecha_fin) AS fecha_fin," +
         "    vw.periodicidad AS periodicidad," +
-        "    strftime('%Y-%m-%d', vw.fecha_inicio, 'utc') AS fecha_inicio" +
+        "    vw.numero_impresiones AS numero_impresiones," +
+        "    vw.detalle AS detalle," +
+        "    strftime('%Y-%m-%d %H:%M:%S', vw.fecha_modificacion) AS fecha_modificacion" +
         "    FROM vw_campania_usuario vw";
 
     public VwCampaniaUsuario() {
-        _detalle = null;
-        _numeroImpresiones = null;
         _id = null;
-        _fechaModificacion = null;
-        _fechaFin = null;
         _idUsuario = null;
-        _periodicidad = null;
         _fechaInicio = null;
+        _fechaFin = null;
+        _periodicidad = null;
+        _numeroImpresiones = null;
+        _detalle = null;
+        _fechaModificacion = null;
 
-    }
-    /**
-     * @return the _detalle
-     */
-    public String getDetalle() {
-        return _detalle;
-    }
-    /**
-     * @return the _numeroImpresiones
-     */
-    public Short getNumeroImpresiones() {
-        return _numeroImpresiones;
     }
     /**
      * @return the _id
@@ -83,28 +71,10 @@ public class VwCampaniaUsuario {
         return _id;
     }
     /**
-     * @return the _fechaModificacion
-     */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
-    }
-    /**
-     * @return the _fechaFin
-     */
-    public String getFechaFin() {
-        return _fechaFin;
-    }
-    /**
      * @return the _idUsuario
      */
     public Long getIdUsuario() {
         return _idUsuario;
-    }
-    /**
-     * @return the _periodicidad
-     */
-    public Short getPeriodicidad() {
-        return _periodicidad;
     }
     /**
      * @return the _fechaInicio
@@ -113,15 +83,34 @@ public class VwCampaniaUsuario {
         return _fechaInicio;
     }
     /**
-     * @return the _fechaFin as seconds from January 1, 1970, 00:00:00 GMT
+     * @return the _fechaFin
      */
-    public long getFechaFinAsLong() throws ParseException {
-        Date d;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        d = formatter.parse(_fechaFin);
-
-        return (long)d.getTime() / 1000L;
+    public String getFechaFin() {
+        return _fechaFin;
+    }
+    /**
+     * @return the _periodicidad
+     */
+    public Short getPeriodicidad() {
+        return _periodicidad;
+    }
+    /**
+     * @return the _numeroImpresiones
+     */
+    public Short getNumeroImpresiones() {
+        return _numeroImpresiones;
+    }
+    /**
+     * @return the _detalle
+     */
+    public String getDetalle() {
+        return _detalle;
+    }
+    /**
+     * @return the _fechaModificacion
+     */
+    public String getFechaModificacion() {
+        return _fechaModificacion;
     }
     /**
      * @return the _fechaInicio as seconds from January 1, 1970, 00:00:00 GMT
@@ -135,15 +124,15 @@ public class VwCampaniaUsuario {
         return (long)d.getTime() / 1000L;
     }
     /**
-     * @return the _fechaFin as Date
+     * @return the _fechaFin as seconds from January 1, 1970, 00:00:00 GMT
      */
-    public Date getFechaFinAsDate() throws ParseException {
+    public long getFechaFinAsLong() throws ParseException {
         Date d;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         d = formatter.parse(_fechaFin);
 
-        return d;
+        return (long)d.getTime() / 1000L;
     }
     /**
      * @return the _fechaInicio as Date
@@ -157,16 +146,15 @@ public class VwCampaniaUsuario {
         return d;
     }
     /**
-     * @param _detalle the _detalle to set
+     * @return the _fechaFin as Date
      */
-    public void setDetalle(String _detalle) {
-        this._detalle = _detalle;
-    }
-    /**
-     * @param _numeroImpresiones the _numeroImpresiones to set
-     */
-    public void setNumeroImpresiones(Short _numeroImpresiones) {
-        this._numeroImpresiones = _numeroImpresiones;
+    public Date getFechaFinAsDate() throws ParseException {
+        Date d;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        d = formatter.parse(_fechaFin);
+
+        return d;
     }
     /**
      * @param _id the _id to set
@@ -175,28 +163,10 @@ public class VwCampaniaUsuario {
         this._id = _id;
     }
     /**
-     * @param _fechaModificacion the _fechaModificacion to set
-     */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
-    }
-    /**
-     * @param _fechaFin the _fechaFin to set
-     */
-    public void setFechaFin(String _fechaFin) {
-        this._fechaFin = _fechaFin;
-    }
-    /**
      * @param _idUsuario the _idUsuario to set
      */
     public void setIdUsuario(Long _idUsuario) {
         this._idUsuario = _idUsuario;
-    }
-    /**
-     * @param _periodicidad the _periodicidad to set
-     */
-    public void setPeriodicidad(Short _periodicidad) {
-        this._periodicidad = _periodicidad;
     }
     /**
      * @param _fechaInicio the _fechaInicio to set
@@ -205,16 +175,34 @@ public class VwCampaniaUsuario {
         this._fechaInicio = _fechaInicio;
     }
     /**
-     * @param _fechaFin the _fechaFin to set as seconds from January 1, 1970, 00:00:00 GMT
+     * @param _fechaFin the _fechaFin to set
      */
-    public void setFechaFin(long _timestamp) {
-        Date d;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        d = new Date((long)_timestamp*1000);
-
-        this._fechaFin = formatter.format(d);
-;
+    public void setFechaFin(String _fechaFin) {
+        this._fechaFin = _fechaFin;
+    }
+    /**
+     * @param _periodicidad the _periodicidad to set
+     */
+    public void setPeriodicidad(Short _periodicidad) {
+        this._periodicidad = _periodicidad;
+    }
+    /**
+     * @param _numeroImpresiones the _numeroImpresiones to set
+     */
+    public void setNumeroImpresiones(Short _numeroImpresiones) {
+        this._numeroImpresiones = _numeroImpresiones;
+    }
+    /**
+     * @param _detalle the _detalle to set
+     */
+    public void setDetalle(String _detalle) {
+        this._detalle = _detalle;
+    }
+    /**
+     * @param _fechaModificacion the _fechaModificacion to set
+     */
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
     }
     /**
      * @param _fechaInicio the _fechaInicio to set as seconds from January 1, 1970, 00:00:00 GMT
@@ -229,13 +217,15 @@ public class VwCampaniaUsuario {
 ;
     }
     /**
-     * @param _fechaFin the _fechaFin to set as java.util.Date
+     * @param _fechaFin the _fechaFin to set as seconds from January 1, 1970, 00:00:00 GMT
      */
-    public void setFechaFin(Date _fecha) {
-
+    public void setFechaFin(long _timestamp) {
+        Date d;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-        this._fechaFin = formatter.format(_fecha);
+        d = new Date((long)_timestamp*1000);
+
+        this._fechaFin = formatter.format(d);
 ;
     }
     /**
@@ -248,18 +238,28 @@ public class VwCampaniaUsuario {
         this._fechaInicio = formatter.format(_fecha);
 ;
     }
+    /**
+     * @param _fechaFin the _fechaFin to set as java.util.Date
+     */
+    public void setFechaFin(Date _fecha) {
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        this._fechaFin = formatter.format(_fecha);
+;
+    }
 
     public static VwCampaniaUsuario fromRS(ResultSet p_rs) throws SQLException {
         VwCampaniaUsuario ret = new VwCampaniaUsuario();
 
-        ret.setDetalle(p_rs.getString("detalle"));
-        ret.setNumeroImpresiones(p_rs.getShort("numero_impresiones"));
         ret.setId(p_rs.getLong("id"));
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setFechaFin(p_rs.getString("fecha_fin"));
         ret.setIdUsuario(p_rs.getLong("id_usuario"));
-        ret.setPeriodicidad(p_rs.getShort("periodicidad"));
         ret.setFechaInicio(p_rs.getString("fecha_inicio"));
+        ret.setFechaFin(p_rs.getString("fecha_fin"));
+        ret.setPeriodicidad(p_rs.getShort("periodicidad"));
+        ret.setNumeroImpresiones(p_rs.getShort("numero_impresiones"));
+        ret.setDetalle(p_rs.getString("detalle"));
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
 
         return ret;
     }
@@ -358,7 +358,7 @@ public class VwCampaniaUsuario {
                     array_clauses.add("vw.numero_impresiones <= 0");
                 }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("vw.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
+                    array_clauses.add("vw.fecha_modificacion > datetime('" + p.getValue() + "')");
                 }
                 else {
                     throw new UnsupportedParameterException("Parametro no soportado: " + p.getKey());
@@ -507,13 +507,13 @@ public class VwCampaniaUsuario {
         String str_sql =
             "    UPDATE vw_campania_usuario" +
             "    SET" +
-            "    detalle = " + (_detalle != null ? "'" + _detalle + "'" : "null") + "," +
-            "    numero_impresiones = " + (_numeroImpresiones != null ? "'" + _numeroImpresiones + "'" : "null") + "," +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "null") + "," +
-            "    fecha_fin = " + (_fechaFin != null ? "date('" + _fechaFin + "', 'utc')" : "null") + "," +
             "    id_usuario = " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
+            "    fecha_inicio = " + (_fechaInicio != null ? "date('" + _fechaInicio + "')" : "null") + "," +
+            "    fecha_fin = " + (_fechaFin != null ? "date('" + _fechaFin + "')" : "null") + "," +
             "    periodicidad = " + (_periodicidad != null ? "'" + _periodicidad + "'" : "null") + "," +
-            "    fecha_inicio = " + (_fechaInicio != null ? "date('" + _fechaInicio + "', 'utc')" : "null") +
+            "    numero_impresiones = " + (_numeroImpresiones != null ? "'" + _numeroImpresiones + "'" : "null") + "," +
+            "    detalle = " + (_detalle != null ? "'" + _detalle + "'" : "null") + "," +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "null") +
             "    WHERE" +
             "    id = " + Long.toString(this._id);
 
@@ -570,24 +570,24 @@ public class VwCampaniaUsuario {
         String str_sql =
             "    INSERT INTO vw_campania_usuario" +
             "    (" +
-            "    detalle, " +
-            "    numero_impresiones, " +
             "    id, " +
-            "    fecha_modificacion, " +
-            "    fecha_fin, " +
             "    id_usuario, " +
+            "    fecha_inicio, " +
+            "    fecha_fin, " +
             "    periodicidad, " +
-            "    fecha_inicio)" +
+            "    numero_impresiones, " +
+            "    detalle, " +
+            "    fecha_modificacion)" +
             "    VALUES" +
             "    (" +
-            "    " + (_detalle != null ? "'" + _detalle + "'" : "null") + "," +
-            "    " + (_numeroImpresiones != null ? "'" + _numeroImpresiones + "'" : "null") + "," +
             "    " + (_id != null ? "'" + _id + "'" : "null") + "," +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "null") + "," +
-            "    " + (_fechaFin != null ? "date('" + _fechaFin + "', 'utc')" : "null") + "," +
             "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
+            "    " + (_fechaInicio != null ? "date('" + _fechaInicio + "')" : "null") + "," +
+            "    " + (_fechaFin != null ? "date('" + _fechaFin + "')" : "null") + "," +
             "    " + (_periodicidad != null ? "'" + _periodicidad + "'" : "null") + "," +
-            "    " + (_fechaInicio != null ? "date('" + _fechaInicio + "', 'utc')" : "null") +
+            "    " + (_numeroImpresiones != null ? "'" + _numeroImpresiones + "'" : "null") + "," +
+            "    " + (_detalle != null ? "'" + _detalle + "'" : "null") + "," +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "null") +
             "    )";
         
         try {
@@ -700,13 +700,13 @@ public class VwCampaniaUsuario {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
-                _detalle = obj.getDetalle();
-                _numeroImpresiones = obj.getNumeroImpresiones();
-                _fechaModificacion = obj.getFechaModificacion();
-                _fechaFin = obj.getFechaFin();
                 _idUsuario = obj.getIdUsuario();
-                _periodicidad = obj.getPeriodicidad();
                 _fechaInicio = obj.getFechaInicio();
+                _fechaFin = obj.getFechaFin();
+                _periodicidad = obj.getPeriodicidad();
+                _numeroImpresiones = obj.getNumeroImpresiones();
+                _detalle = obj.getDetalle();
+                _fechaModificacion = obj.getFechaModificacion();
             }
         }
         catch (SQLException ex){
@@ -817,14 +817,14 @@ public class VwCampaniaUsuario {
 @Override
     public String toString() {
         return "VwCampaniaUsuario [" +
-	           "    _detalle = " + (_detalle != null ? "'" + _detalle + "'" : "null") + "," +
-	           "    _numeroImpresiones = " + (_numeroImpresiones != null ? _numeroImpresiones : "null") + "," +
 	           "    _id = " + (_id != null ? _id : "null") + "," +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
-	           "    _fechaFin = " + (_fechaFin != null ? "'" + _fechaFin + "'" : "null") + "," +
 	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
+	           "    _fechaInicio = " + (_fechaInicio != null ? "'" + _fechaInicio + "'" : "null") + "," +
+	           "    _fechaFin = " + (_fechaFin != null ? "'" + _fechaFin + "'" : "null") + "," +
 	           "    _periodicidad = " + (_periodicidad != null ? _periodicidad : "null") + "," +
-	           "    _fechaInicio = " + (_fechaInicio != null ? "'" + _fechaInicio + "'" : "null") +
+	           "    _numeroImpresiones = " + (_numeroImpresiones != null ? _numeroImpresiones : "null") + "," +
+	           "    _detalle = " + (_detalle != null ? "'" + _detalle + "'" : "null") + "," +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") +
 			   "]";
     }
 
@@ -835,14 +835,14 @@ public class VwCampaniaUsuario {
 
         Element element = (Element) xmlNode;
 
-        ret.setDetalle(element.getElementsByTagName("detalle").item(0).getTextContent());
-        ret.setNumeroImpresiones(Short.decode(element.getElementsByTagName("numero_impresiones").item(0).getTextContent()));
         ret.setId(Long.decode(element.getElementsByTagName("id").item(0).getTextContent()));
-        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setFechaFin(element.getElementsByTagName("fecha_fin").item(0).getTextContent());
         ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
-        ret.setPeriodicidad(Short.decode(element.getElementsByTagName("periodicidad").item(0).getTextContent()));
         ret.setFechaInicio(element.getElementsByTagName("fecha_inicio").item(0).getTextContent());
+        ret.setFechaFin(element.getElementsByTagName("fecha_fin").item(0).getTextContent());
+        ret.setPeriodicidad(Short.decode(element.getElementsByTagName("periodicidad").item(0).getTextContent()));
+        ret.setNumeroImpresiones(Short.decode(element.getElementsByTagName("numero_impresiones").item(0).getTextContent()));
+        ret.setDetalle(element.getElementsByTagName("detalle").item(0).getTextContent());
+        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
 
         return ret;
     }

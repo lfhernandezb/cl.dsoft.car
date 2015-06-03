@@ -24,71 +24,41 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class Log {
-    @Element(name = "fechaModificacion")
-    private String _fechaModificacion;
-    @Element(name = "idUsuario")
-    private Long _idUsuario;
-    @Element(name = "borrado")
-    private Boolean _borrado;
-    @Element(name = "data")
-    private String _data;
-    @Element(name = "latitud")
-    private Double _latitud;
     @Element(name = "idLog")
     private Long _idLog;
+    @Element(name = "idUsuario")
+    private Long _idUsuario;
+    @Element(name = "latitud")
+    private Double _latitud;
     @Element(name = "longitud")
     private Double _longitud;
+    @Element(name = "data")
+    private String _data;
+    @Element(name = "fechaModificacion")
+    private String _fechaModificacion;
+    @Element(name = "borrado")
+    private Boolean _borrado;
 
     private final static String _str_sql = 
         "    SELECT" +
-        "    lo.borrado AS borrado," +
-        "    lo.data AS data," +
-        "    strftime('%Y-%m-%d %H:%M:%S', lo.fecha_modificacion, 'localtime') AS fecha_modificacion," +
+        "    lo.id_log AS id_log," +
         "    lo.id_usuario AS id_usuario," +
         "    lo.latitud AS latitud," +
-        "    lo.id_log AS id_log," +
-        "    lo.longitud AS longitud" +
+        "    lo.longitud AS longitud," +
+        "    lo.data AS data," +
+        "    strftime('%Y-%m-%d %H:%M:%S', lo.fecha_modificacion) AS fecha_modificacion," +
+        "    lo.borrado AS borrado" +
         "    FROM log lo";
 
     public Log() {
-        _fechaModificacion = null;
-        _idUsuario = null;
-        _borrado = null;
-        _data = null;
-        _latitud = null;
         _idLog = null;
+        _idUsuario = null;
+        _latitud = null;
         _longitud = null;
+        _data = null;
+        _fechaModificacion = null;
+        _borrado = null;
 
-    }
-    /**
-     * @return the _fechaModificacion
-     */
-    public String getFechaModificacion() {
-        return _fechaModificacion;
-    }
-    /**
-     * @return the _idUsuario
-     */
-    public Long getIdUsuario() {
-        return _idUsuario;
-    }
-    /**
-     * @return the _borrado
-     */
-    public Boolean getBorrado() {
-        return _borrado;
-    }
-    /**
-     * @return the _data
-     */
-    public String getData() {
-        return _data;
-    }
-    /**
-     * @return the _latitud
-     */
-    public Double getLatitud() {
-        return _latitud;
     }
     /**
      * @return the _idLog
@@ -97,40 +67,40 @@ public class Log {
         return _idLog;
     }
     /**
+     * @return the _idUsuario
+     */
+    public Long getIdUsuario() {
+        return _idUsuario;
+    }
+    /**
+     * @return the _latitud
+     */
+    public Double getLatitud() {
+        return _latitud;
+    }
+    /**
      * @return the _longitud
      */
     public Double getLongitud() {
         return _longitud;
     }
     /**
-     * @param _fechaModificacion the _fechaModificacion to set
+     * @return the _data
      */
-    public void setFechaModificacion(String _fechaModificacion) {
-        this._fechaModificacion = _fechaModificacion;
+    public String getData() {
+        return _data;
     }
     /**
-     * @param _idUsuario the _idUsuario to set
+     * @return the _fechaModificacion
      */
-    public void setIdUsuario(Long _idUsuario) {
-        this._idUsuario = _idUsuario;
+    public String getFechaModificacion() {
+        return _fechaModificacion;
     }
     /**
-     * @param _borrado the _borrado to set
+     * @return the _borrado
      */
-    public void setBorrado(Boolean _borrado) {
-        this._borrado = _borrado;
-    }
-    /**
-     * @param _data the _data to set
-     */
-    public void setData(String _data) {
-        this._data = _data;
-    }
-    /**
-     * @param _latitud the _latitud to set
-     */
-    public void setLatitud(Double _latitud) {
-        this._latitud = _latitud;
+    public Boolean getBorrado() {
+        return _borrado;
     }
     /**
      * @param _idLog the _idLog to set
@@ -139,22 +109,52 @@ public class Log {
         this._idLog = _idLog;
     }
     /**
+     * @param _idUsuario the _idUsuario to set
+     */
+    public void setIdUsuario(Long _idUsuario) {
+        this._idUsuario = _idUsuario;
+    }
+    /**
+     * @param _latitud the _latitud to set
+     */
+    public void setLatitud(Double _latitud) {
+        this._latitud = _latitud;
+    }
+    /**
      * @param _longitud the _longitud to set
      */
     public void setLongitud(Double _longitud) {
         this._longitud = _longitud;
     }
+    /**
+     * @param _data the _data to set
+     */
+    public void setData(String _data) {
+        this._data = _data;
+    }
+    /**
+     * @param _fechaModificacion the _fechaModificacion to set
+     */
+    public void setFechaModificacion(String _fechaModificacion) {
+        this._fechaModificacion = _fechaModificacion;
+    }
+    /**
+     * @param _borrado the _borrado to set
+     */
+    public void setBorrado(Boolean _borrado) {
+        this._borrado = _borrado;
+    }
 
     public static Log fromRS(ResultSet p_rs) throws SQLException {
         Log ret = new Log();
 
-        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
-        ret.setIdUsuario(p_rs.getLong("id_usuario"));
-        ret.setBorrado(p_rs.getString("borrado") != null ? p_rs.getString("borrado").equals("true") : null);
-        ret.setData(p_rs.getString("data"));
-        ret.setLatitud(p_rs.getDouble("latitud"));
         ret.setIdLog(p_rs.getLong("id_log"));
+        ret.setIdUsuario(p_rs.getLong("id_usuario"));
+        ret.setLatitud(p_rs.getDouble("latitud"));
         ret.setLongitud(p_rs.getDouble("longitud"));
+        ret.setData(p_rs.getString("data"));
+        ret.setFechaModificacion(p_rs.getString("fecha_modificacion"));
+        ret.setBorrado(p_rs.getString("borrado") != null ? p_rs.getString("borrado").equals("true") : null);
 
         return ret;
     }
@@ -237,14 +237,14 @@ public class Log {
             str_sql = _str_sql;
             
             for (AbstractMap.SimpleEntry<String, String> p : p_parameters) {
-                if (p.getKey().equals("id_usuario")) {
-                    array_clauses.add("lo.id_usuario = " + p.getValue());
-                }
-                else if (p.getKey().equals("id_log")) {
+                if (p.getKey().equals("id_log")) {
                     array_clauses.add("lo.id_log = " + p.getValue());
                 }
+                else if (p.getKey().equals("id_usuario")) {
+                    array_clauses.add("lo.id_usuario = " + p.getValue());
+                }
                 else if (p.getKey().equals("mas reciente")) {
-                    array_clauses.add("lo.fecha_modificacion > datetime('" + p.getValue() + "', 'localtime')");
+                    array_clauses.add("lo.fecha_modificacion > datetime('" + p.getValue() + "')");
                 }
                 else if (p.getKey().equals("no borrado")) {
                     array_clauses.add("lo.borrado = 'false'");
@@ -399,14 +399,14 @@ public class Log {
         String str_sql =
             "    UPDATE log" +
             "    SET" +
-            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
-            "    data = " + (_data != null ? "'" + _data + "'" : "null") + "," +
             "    latitud = " + (_latitud != null ? "'" + _latitud + "'" : "null") + "," +
-            "    longitud = " + (_longitud != null ? "'" + _longitud + "'" : "null") +
+            "    longitud = " + (_longitud != null ? "'" + _longitud + "'" : "null") + "," +
+            "    data = " + (_data != null ? "'" + _data + "'" : "null") + "," +
+            "    fecha_modificacion = " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") + "," +
+            "    borrado = " + (_borrado != null ? "'" + _borrado + "'" : "'false'") +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_log = " + Long.toString(this._idLog);
+            "    id_log = " + Long.toString(this._idLog) + " AND" +
+            "    id_usuario = " + Long.toString(this._idUsuario);
 
         try {
             stmt = p_conn.createStatement();
@@ -458,25 +458,29 @@ public class Log {
             _idLog = getNextId(p_conn);
         }
 
+        if (_idUsuario == null) {
+            _idUsuario = getNextId(p_conn);
+        }
+
         String str_sql =
             "    INSERT INTO log" +
             "    (" +
-            "    fecha_modificacion, " +
-            "    id_usuario, " +
-            "    borrado, " +
-            "    data, " +
-            "    latitud, " +
             "    id_log, " +
-            "    longitud)" +
+            "    id_usuario, " +
+            "    latitud, " +
+            "    longitud, " +
+            "    data, " +
+            "    fecha_modificacion, " +
+            "    borrado)" +
             "    VALUES" +
             "    (" +
-            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "', 'localtime')" : "datetime('now', 'localtime')") + "," +
-            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
-            "    " + (_borrado != null ? "'" + _borrado + "'" : "'false'") + "," +
-            "    " + (_data != null ? "'" + _data + "'" : "null") + "," +
-            "    " + (_latitud != null ? "'" + _latitud + "'" : "null") + "," +
             "    " + (_idLog != null ? "'" + _idLog + "'" : "null") + "," +
-            "    " + (_longitud != null ? "'" + _longitud + "'" : "null") +
+            "    " + (_idUsuario != null ? "'" + _idUsuario + "'" : "null") + "," +
+            "    " + (_latitud != null ? "'" + _latitud + "'" : "null") + "," +
+            "    " + (_longitud != null ? "'" + _longitud + "'" : "null") + "," +
+            "    " + (_data != null ? "'" + _data + "'" : "null") + "," +
+            "    " + (_fechaModificacion != null ? "datetime('" + _fechaModificacion + "')" : "datetime('now', 'localtime')") + "," +
+            "    " + (_borrado != null ? "'" + _borrado + "'" : "'false'") +
             "    )";
         
         try {
@@ -529,8 +533,8 @@ public class Log {
         String str_sql =
             "    DELETE FROM log" +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_log = " + Long.toString(this._idLog);
+            "    id_log = " + Long.toString(this._idLog) + " AND" +
+            "    id_usuario = " + Long.toString(this._idUsuario);
 
         try {
             stmt = p_conn.createStatement();
@@ -568,8 +572,8 @@ public class Log {
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_log = " + Long.toString(this._idLog) +
+            "    id_log = " + Long.toString(this._idLog) + " AND" +
+            "    id_usuario = " + Long.toString(this._idUsuario) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -591,11 +595,11 @@ public class Log {
                 obj = fromRS(rs);
                 //System.out.println("fromRS(rs) ok");
 
-                _fechaModificacion = obj.getFechaModificacion();
-                _borrado = obj.getBorrado();
-                _data = obj.getData();
                 _latitud = obj.getLatitud();
                 _longitud = obj.getLongitud();
+                _data = obj.getData();
+                _fechaModificacion = obj.getFechaModificacion();
+                _borrado = obj.getBorrado();
             }
         }
         catch (SQLException ex){
@@ -635,8 +639,8 @@ public class Log {
         
         String str_sql = _str_sql +
             "    WHERE" +
-            "    id_usuario = " + Long.toString(this._idUsuario) + " AND" +
-            "    id_log = " + Long.toString(this._idLog) +
+            "    id_log = " + Long.toString(this._idLog) + " AND" +
+            "    id_usuario = " + Long.toString(this._idUsuario) +
             "    LIMIT 0, 1";
         
         //System.out.println(str_sql);
@@ -707,13 +711,13 @@ public class Log {
 @Override
     public String toString() {
         return "Log [" +
-	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
-	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
-	           "    _borrado = " + (_borrado != null ? _borrado : "null") + "," +
-	           "    _data = " + (_data != null ? "'" + _data + "'" : "null") + "," +
-	           "    _latitud = " + (_latitud != null ? _latitud : "null") + "," +
 	           "    _idLog = " + (_idLog != null ? _idLog : "null") + "," +
-	           "    _longitud = " + (_longitud != null ? _longitud : "null") +
+	           "    _idUsuario = " + (_idUsuario != null ? _idUsuario : "null") + "," +
+	           "    _latitud = " + (_latitud != null ? _latitud : "null") + "," +
+	           "    _longitud = " + (_longitud != null ? _longitud : "null") + "," +
+	           "    _data = " + (_data != null ? "'" + _data + "'" : "null") + "," +
+	           "    _fechaModificacion = " + (_fechaModificacion != null ? "'" + _fechaModificacion + "'" : "null") + "," +
+	           "    _borrado = " + (_borrado != null ? _borrado : "null") +
 			   "]";
     }
 
@@ -724,13 +728,13 @@ public class Log {
 
         Element element = (Element) xmlNode;
 
-        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
-        ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
-        ret.setBorrado(element.getElementsByTagName("borrado").item(0).getTextContent());
-        ret.setData(element.getElementsByTagName("data").item(0).getTextContent());
-        ret.setLatitud(Double.decode(element.getElementsByTagName("latitud").item(0).getTextContent()));
         ret.setIdLog(Long.decode(element.getElementsByTagName("id_log").item(0).getTextContent()));
+        ret.setIdUsuario(Long.decode(element.getElementsByTagName("id_usuario").item(0).getTextContent()));
+        ret.setLatitud(Double.decode(element.getElementsByTagName("latitud").item(0).getTextContent()));
         ret.setLongitud(Double.decode(element.getElementsByTagName("longitud").item(0).getTextContent()));
+        ret.setData(element.getElementsByTagName("data").item(0).getTextContent());
+        ret.setFechaModificacion(element.getElementsByTagName("fecha_modificacion").item(0).getTextContent());
+        ret.setBorrado(element.getElementsByTagName("borrado").item(0).getTextContent());
 
         return ret;
     }
